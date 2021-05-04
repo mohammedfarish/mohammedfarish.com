@@ -1,0 +1,22 @@
+{
+  "name": "nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "GENERATE_SOURCEMAP=false next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "chance": "^1.1.7",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.7",
+    "next": "10.2.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "swr": "^0.5.6",
+    "xmlbuilder": "^15.1.1"
+  }
+}
