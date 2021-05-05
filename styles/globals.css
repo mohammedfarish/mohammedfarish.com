@@ -1,16 +1,44 @@
 html,
 body {
-  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+  touch-action: none;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 * {
   box-sizing: border-box;
+}
+
+img,
+svg {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+::selection {
+  color: #f9f9f9;
+  background: #363636;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff0000;
+}
+
+.pages {
+  padding: 15vh 5% 0 5%;
 }

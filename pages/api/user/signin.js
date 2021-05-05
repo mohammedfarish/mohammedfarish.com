@@ -39,7 +39,6 @@ export default async (req, res) => {
                 if (!correctPassword) return res.json({ success: false, reason: "Incorrect username/email or password." })
 
                 let ip = req.headers['x-forwarded-for'];
-                // if (!ip) ip = 'localhost'
                 if (!ip) return res.json({ success: false, reason: "Internal Server Error." })
                 if (ip.substr(0, 7) == "::ffff:") {
                     ip = ip.substr(7)

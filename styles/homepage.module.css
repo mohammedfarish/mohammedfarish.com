@@ -1,0 +1,60 @@
+.homepage {
+  display: flex;
+  min-height: 82vh;
+  flex-direction: column;
+}
+
+.homepageherosection {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  /* background: whitesmoke; */
+}
+
+.homepagesectionLHS {
+  padding: 0 2% 0 2%;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.homepagesectionLHS span {
+  font-size: 12px;
+}
+
+.homepagesectionRHS {
+  width: 50%;
+  height: 100%;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: flex-end; */
+}
+
+.homepageamnuzlink {
+  color: #363636;
+  font-weight: bold;
+}
+
+.homepagesection {
+  background: lightblue;
+  height: 100vh;
+}
+
+@media only screen and (max-width: 600px) {
+  .homepageherosection {
+    flex-direction: column-reverse;
+  }
+
+  .homepagesectionLHS {
+    width: 100%;
+    padding: 0;
+  }
+
+  .homepagesectionRHS {
+    padding: 0;
+    /* background: lightblue; */
+    width: 100%;
+  }
+}
