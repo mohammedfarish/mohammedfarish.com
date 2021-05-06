@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 
-import dbConnect from '../../../utils/dbConnect'
-import userSchema from '../../../database schemas/userSchema';
+import dbConnect from '../../../utils/database/dbConnect'
+import userSchema from '../../../utils/database/schema/userSchema';
 
 dbConnect();
 
@@ -14,6 +14,7 @@ export default async (req, res) => {
             if (!username || !email || !repeatEmail || !password || !displayName) return res.json({ success: false, reason: 'Incomplete fields.' });
 
             username = username.toLowerCase()
+            email = email.toLowerCase()
 
             if (email !== repeatEmail) return res.json({ success: false, reason: `Emails don't match.` });
 
@@ -25,11 +26,9 @@ export default async (req, res) => {
             const existingEmail = await userSchema.findOne({ email })
             if (existingEmail) return res.json({ success: false, reason: 'Email already in use.' });
 
-            // Password hash
             const salt = await bcrypt.genSalt();
             password = await bcrypt.hash(password, salt);
 
-            // Add to DB
             await userSchema.create({
                 username,
                 email,

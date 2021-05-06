@@ -1,7 +1,9 @@
-import dbConnect from '../../utils/dbConnect';
-import builder from 'xmlbuilder';
-import PagesSchema from '../../database schemas/pagesSchema';
 import Chance from 'chance'
+import builder from 'xmlbuilder';
+
+import dbConnect from '../../utils/database/dbConnect';
+import PagesSchema from '../../utils/database/schema/pagesSchema';
+
 import auth from '../../utils/middlewares/auth';
 
 dbConnect();
@@ -48,7 +50,7 @@ export default async (req, res) => {
             })
 
             const xml = builder.create('urlset', { encoding: 'UTF-8', version: '1.0', headless: false })
-                .attribute("xmlns", 'http://www.sitemaps.org/schemas/sitemap/0.9')
+                .attribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9')
                 .ele(array)
                 .end({ pretty: true })
 

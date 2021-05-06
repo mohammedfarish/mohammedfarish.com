@@ -1,4 +1,3 @@
-
 const auth = async (req) => {
 
     try {

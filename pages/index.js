@@ -20,6 +20,13 @@ export default class Home extends Component {
   componentDidMount() {
     this.fetchAge()
     this.fetchLocation()
+    this.interval = setInterval(() => {
+      this.fetchLocation()
+    }, 1000 * 30);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   fetchAge() {
@@ -68,6 +75,10 @@ export default class Home extends Component {
         </div>
         {/* <div className={styles.homepagesection}> */}
         {/* <h1>helloo</h1> */}
+        {/* <div className={styles.homepageUpdateSectionHeader}> */}
+        {/* <span>📍 Current Updates</span> */}
+        {/* <span>Current Updates</span> */}
+        {/* </div> */}
         {/* </div> */}
       </div>
     )

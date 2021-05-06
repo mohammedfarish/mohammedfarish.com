@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
-import sessionSchema from "../../database schemas/sessionSchema";
-import userSchema from '../../database schemas/userSchema';
+import sessionSchema from "../database/schema/sessionSchema";
+import userSchema from '../database/schema/userSchema';
 
 const auth = async (req) => {
 

@@ -1,9 +1,9 @@
 import Moment from 'moment-timezone'
 
-import dbConnect from '../../utils/dbConnect'
+import dbConnect from '../../utils/database/dbConnect'
 import deviceAuth from '../../utils/middlewares/deviceAuth'
 
-import deviceLocationHistory from '../../database schemas/deviceLocationHistory';
+import deviceLocationHistory from '../../utils/database/schema/deviceLocationHistory';
 
 dbConnect();
 

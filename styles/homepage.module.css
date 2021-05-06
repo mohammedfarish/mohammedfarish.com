@@ -38,8 +38,16 @@
 }
 
 .homepagesection {
-  background: lightblue;
+  /* background: lightblue; */
   height: 100vh;
+}
+
+.homepageUpdateSectionHeader {
+  /* background: lightcoral; */
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  /* font-weight: bold; */
 }
 
 @media only screen and (max-width: 600px) {

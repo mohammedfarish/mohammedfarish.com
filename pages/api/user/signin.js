@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-import dbConnect from '../../../utils/dbConnect'
+import dbConnect from '../../../utils/database/dbConnect'
 
-import sessionSchema from '../../../database schemas/sessionSchema'
-import userSchema from "../../../database schemas/userSchema"
+import sessionSchema from '../../../utils/database/schema/sessionSchema'
+import userSchema from "../../../utils/database/schema/userSchema"
 
 dbConnect();
 
@@ -16,11 +16,13 @@ export default async (req, res) => {
         case 'POST':
             try {
 
-                const { usernameOrEmail, password } = req.body
-                if (!usernameOrEmail) return res.json({ success: false, reason: "Username or Password not provided." })
+                let { usernameOrEmail, password } = req.body
+                if (!usernameOrEmail || !password) return res.json({ success: false, reason: "Username or Password not provided." })
 
-                const existingUsername = await userSchema.findOne({ username: usernameOrEmail });
+                usernameOrEmail = usernameOrEmail.toLowerCase()
+
                 const existingEmail = await userSchema.findOne({ email: usernameOrEmail });
+                const existingUsername = await userSchema.findOne({ username: usernameOrEmail });
 
                 if (!existingUsername && !existingEmail) return res.json({ success: false, reason: "Incorrect username/email or password." })
 
