@@ -17,7 +17,6 @@
   font-size: 12px;
   height: 10vh;
   background: white;
-  /* background: black; */
 }
 
 .stickyheader svg {
@@ -30,18 +29,15 @@
   cursor: pointer;
   height: 5vh;
   width: 9vh;
-  /* width: 100%; */
 }
 
 .headerlinks {
-  /* background: lightblue; */
   display: flex;
   align-items: center;
   width: auto;
 }
 
 .headerlink {
-  /* background: lightcoral; */
   margin: 0 12px 0 12px;
   transition-duration: 0.4s;
   color: #363636;

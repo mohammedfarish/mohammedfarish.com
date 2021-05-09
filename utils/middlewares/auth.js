@@ -19,12 +19,24 @@ const auth = async (req) => {
         const user = await userSchema.findOne({ _id: activeSession.userId, active: true, verified: true })
         if (!user) return false
 
-        req.user.id = activeSession.userId
-        req.user.role = user.role
+        let ip = req.headers['x-forwarded-for'];
+        if (!ip) return false
+        if (ip.substr(0, 7) == "::ffff:") {
+            ip = ip.substr(7)
+        }
+
+        req.user = {
+            id: activeSession.userId,
+            role: user.role,
+            ip
+        }
+
         return true
 
     } catch (error) {
+
         return false
+
     }
 }
 

@@ -1,11 +1,9 @@
 html,
 body {
   margin: 0;
-  font-family: "Roboto", sans-serif;
-  overflow-x: hidden;
-  touch-action: none;
-  overflow: scroll;
-  overflow-x: hidden;
+  font-family: "Roboto Mono", monospace;
+  touch-action: pan-y;
+  color: #363636;
 }
 
 a {
@@ -39,6 +37,15 @@ svg {
   background: #ff0000;
 }
 
+textarea {
+  outline: none;
+}
+
 .pages {
-  padding: 15vh 5% 0 5%;
+  padding: 20vh 5% 10vh 5%;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  overflow-x: hidden;
+  touch-action: pan-y;
 }

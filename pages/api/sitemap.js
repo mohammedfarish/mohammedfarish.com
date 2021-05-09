@@ -80,12 +80,12 @@ export default async (req, res) => {
                 }
                 res.status(200).json(true)
             } catch (error) {
-                return res.status(503).json("Unauthorised")
+                res.status(503).json("Internal Server Error.")
             }
             break;
 
         default:
-            res.status(503).json(false)
+            res.status(404).json(false)
             break;
 
     }

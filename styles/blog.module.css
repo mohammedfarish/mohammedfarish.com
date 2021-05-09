@@ -1,0 +1,69 @@
+.blogpage {
+  min-height: 77vh;
+  width: 100%;
+}
+
+.blogpageHeader {
+  margin-top: 50px;
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  border-bottom: 3px solid #363636;
+  min-height: 50px;
+  font-family: "Roboto Mono", monospace;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blogpageHeaderButton {
+  background: whitesmoke;
+  color: #363636;
+  border: none;
+  outline: none;
+  min-height: 20px;
+  font-family: "Roboto Mono", monospace;
+  cursor: pointer;
+  box-shadow: 2px 2px #888888;
+  border: 1px solid whitesmoke;
+  border-radius: 2px;
+}
+
+.blogpageHeaderButton:hover {
+  background: white;
+  border: 1px solid whitesmoke;
+}
+
+.latestBlogArticleLoading {
+  user-select: none;
+  font-family: "Roboto Mono", monospace;
+  text-align: center;
+}
+
+.blogItem {
+  font-family: "Roboto Mono", monospace;
+  width: 100%;
+  display: flex;
+  min-height: 50px;
+  padding: 8px 4px 4px 8px;
+  align-items: center;
+  overflow: hidden;
+  transition-duration: 0.2s;
+}
+
+.blogItem:hover {
+  background: whitesmoke;
+}
+
+.blogItemTitle {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.blogItemDate {
+  font-weight: 500;
+  font-size: 12px;
+  margin: 0 60px 0 0;
+  opacity: 0.4;
+  font-family: "Roboto Mono", monospace;
+}

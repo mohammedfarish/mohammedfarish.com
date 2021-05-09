@@ -104,12 +104,12 @@ export default async (req, res) => {
                 res.json(data)
 
             } catch (error) {
-                res.json(false)
+                res.status(503).json("Internal Server Error.")
             }
             break;
 
         default:
-            res.json(false)
+            res.status(404).json(false)
             break;
     }
 

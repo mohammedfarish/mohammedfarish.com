@@ -1,0 +1,88 @@
+.newblogpostpage {
+  min-height: 90vh;
+  width: 75%;
+}
+
+.newBlogPostErrorMessage {
+  color: red;
+}
+
+.newBlogPostPublishButtonSection {
+  margin-top: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 50px;
+}
+
+.newBlogPostPublishButton {
+  font-family: "Roboto Mono", monospace;
+  height: 80%;
+  width: 120px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 2px 2px #888888;
+  border: 1px solid whitesmoke;
+  border-radius: 2px;
+  background: whitesmoke;
+}
+
+.newBlogPostPublishButton:hover {
+  background: white;
+  border: 1px solid whitesmoke;
+}
+
+.newBlogPostField {
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 92px;
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 58px;
+  color: #363636;
+  font-family: "Roboto Mono", monospace;
+}
+
+.newBlogPostField::placeholder {
+  font-family: "Roboto Mono", monospace;
+  color: lightgrey;
+}
+
+.newBlogPostSlug {
+  font-size: 11px;
+  margin-top: -10px;
+  opacity: 0.5;
+}
+
+.newBlogPostSlug:hover {
+  text-decoration: underline;
+}
+
+.newBlogPostEditor {
+  margin-bottom: 50px;
+  padding: 12px 0 12px 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .newblogpostpage {
+    min-height: 90vh;
+    width: 90%;
+  }
+
+  .newBlogPostPublishButtonSection {
+    justify-content: flex-end;
+  }
+
+  .newBlogPostField {
+    font-size: 38px;
+    padding: 0 0 0 0;
+  }
+
+  .newBlogPostSlug {
+    font-size: 8px;
+    overflow-x: scroll;
+  }
+}
