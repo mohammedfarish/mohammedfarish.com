@@ -10,39 +10,45 @@ export default async (req, res) => {
 
     switch (method) {
         case 'POST':
-            let { username, email, repeatEmail, password, displayName } = req.body
-            if (!username || !email || !repeatEmail || !password || !displayName) return res.json({ success: false, reason: 'Incomplete fields.' });
+            try {
 
-            username = username.toLowerCase()
-            email = email.toLowerCase()
+                let { username, email, repeatEmail, password, displayName } = req.body
+                if (!username || !email || !repeatEmail || !password || !displayName) return res.json({ success: false, reason: 'Incomplete fields.' });
 
-            if (email !== repeatEmail) return res.json({ success: false, reason: `Emails don't match.` });
+                username = username.toLowerCase()
+                email = email.toLowerCase()
 
-            if (password.length < 8) return res.json({ success: false, reason: `Password is short. Requires a minimum of 8 characters.` });
+                if (email !== repeatEmail) return res.json({ success: false, reason: `Emails don't match.` });
 
-            const existingUsername = await userSchema.findOne({ username })
-            if (existingUsername) return res.json({ success: false, reason: 'Username already in use.' });
+                if (password.length < 8) return res.json({ success: false, reason: `Password is short. Requires a minimum of 8 characters.` });
 
-            const existingEmail = await userSchema.findOne({ email })
-            if (existingEmail) return res.json({ success: false, reason: 'Email already in use.' });
+                const existingUsername = await userSchema.findOne({ username })
+                if (existingUsername) return res.json({ success: false, reason: 'Username already in use.' });
 
-            const salt = await bcrypt.genSalt();
-            password = await bcrypt.hash(password, salt);
+                const existingEmail = await userSchema.findOne({ email })
+                if (existingEmail) return res.json({ success: false, reason: 'Email already in use.' });
 
-            await userSchema.create({
-                username,
-                email,
-                password,
-                verified: false,
-                active: false,
-                role: 'subscriber'
-            })
+                const salt = await bcrypt.genSalt();
+                password = await bcrypt.hash(password, salt);
 
-            res.json(true)
+                await userSchema.create({
+                    username,
+                    email,
+                    password,
+                    verified: false,
+                    active: false,
+                    role: 'subscriber'
+                })
+
+                res.json({ success: true })
+
+            } catch (error) {
+                res.status(503).json("Internal Server Error.")
+            }
             break;
 
         default:
-            res.json(false)
+            res.status(404).json(false)
             break
     }
 

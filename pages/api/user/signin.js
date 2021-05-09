@@ -82,7 +82,7 @@ export default async (req, res) => {
             break;
 
         default:
-            res.json(false)
+            res.status(404).json(false)
             break;
 
     }
