@@ -11,7 +11,7 @@ export default class Projects extends Component {
         this.fetchGithubData = this.fetchGithubData.bind(this)
         this.state = {
             location: 'loading',
-            locationLastUpdate: 'loading',
+            locationLastUpdate: 'never',
             githubRepo: 'loading',
             githubCommitMessage: 'loading'
         }
@@ -86,21 +86,20 @@ export default class Projects extends Component {
                     <span>Updates</span>
                 </div>
                 <div className={styles.projects}>
-                    <div title="Fetched from the phone's cordinates" className={styles.projectsItem}>
+                    <div title="Fetched from the phone's GPS cordinates" className={styles.projectsItem}>
                         <div className={styles.projectsItemHeader}>
                             <span className={styles.projectsItemHeaderLogo} >📍</span>
                             <span className={styles.projectsItemHeaderTypo}>Last Known Location</span>
                         </div>
                         <div className={styles.projectsItemResultSection}>
                             <span className={styles.projectsItemResult}>{this.state.location}</span>
-                            <span className={styles.projectsItemResultSmall}>Updated {this.state.locationLastUpdate}.</span>
+                            <span className={styles.projectsItemResultSmall}>Updated {this.state.locationLastUpdate}</span>
                         </div>
                     </div>
                     <div title="Fetched from Github" className={styles.projectsItem}>
                         <div className={styles.projectsItemHeader}>
-                            {/* <span className={styles.projectsItemHeaderLogo} >💾</span> */}
                             <span className={styles.projectsItemHeaderLogo} >👨‍💻</span>
-                            <span className={styles.projectsItemHeaderTypo}>Latest Code Activity</span>
+                            <span className={styles.projectsItemHeaderTypo}>Last Code Activity</span>
                         </div>
                         <div className={styles.projectsItemResultSection}>
                             <span className={styles.projectsItemResult}>{this.state.githubCommitMessage}</span>
@@ -114,7 +113,7 @@ export default class Projects extends Component {
                         </div>
                         <div className={styles.projectsItemResultSection}>
                             <span className={styles.projectsItemResult}>{this.state.location}</span>
-                            <span className={styles.projectsItemResultSmall}>Updated {this.state.locationLastUpdate}.</span>
+                            <span className={styles.projectsItemResultSmall}>Updated {this.state.locationLastUpdate}</span>
                         </div>
                     </div>
                 </div>

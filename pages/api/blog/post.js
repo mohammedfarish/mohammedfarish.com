@@ -14,42 +14,52 @@ export default async (req, res) => {
     switch (method) {
 
         case 'POST':
-            let { title, slug, date, content } = req.body
+            let { title, slug, content } = req.body
             if (!title || !content) return res.json(false)
+            try {
+                const authenticate = await auth(req)
+                if (!authenticate) return res.status(400).json('Unauthorised')
 
-            const authenticate = await auth(req)
-            if (!authenticate) return res.status(400).json('Unauthorised')
+                if (!slug)
+                    slug = title.toLowerCase().split(' ').join('-')
 
-            slug = title.toLowerCase().split(' ').join('-')
+                const author = {
+                    id: req.user.id,
+                    ip: req.user.ip
+                }
 
-            const author = {
-                id: req.user.id,
-                ip: req.user.ip
+                await blogSchema.create({
+                    title,
+                    slug,
+                    date: Moment().tz('Asia/Dubai').format(),
+                    content,
+                    author
+                })
+
+                res.json(true)
+            } catch (error) {
+                res.status(404).json(false)
             }
-
-            await blogSchema.create({
-                title,
-                slug,
-                date: Moment().tz('Asia/Dubai').format(),
-                content,
-                author
-            })
-
-            res.json(true)
             break;
 
         case 'GET':
             const { q } = req.query
-            const blog = await blogSchema.findOne({ slug: q })
-            if (!blog) return res.json(false)
+            try {
+                const blog = await blogSchema.findOne({ slug: q })
+                if (!blog) return res.json(false)
 
-            const data = {
-                title: blog.title,
-                content: blog.content,
-                date: blog.date
+                const moment = Moment(blog.date).tz('Asia/Dubai').format('dddd • MMMM DD YYYY')
+
+                const data = {
+                    title: blog.title,
+                    content: blog.content,
+                    date: moment
+                }
+
+                res.json(data)
+            } catch (error) {
+                res.status(404).json(false)
             }
-
-            res.json(data)
             break;
 
         default:

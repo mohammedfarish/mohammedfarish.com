@@ -1,5 +1,4 @@
 .projectsSection {
-  /* background: lightcoral; */
   min-height: 50px;
 }
 
@@ -16,7 +15,6 @@
 }
 
 .projects {
-  /* background: lightcoral; */
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -55,7 +53,6 @@
 
 .projectsItemHeaderTypo {
   font-weight: bold;
-  /* text-decoration: underline; */
 }
 
 .projectsItemResultSection {
@@ -67,15 +64,19 @@
 }
 
 .projectsItemResult {
+  text-align: center;
   width: 100%;
   font-size: 12px;
-  /* text-align: center; */
-  /* background: lightblue; */
+  overflow: scroll;
 }
 
 .projectsItemResultSmall {
+  overflow: hidden;
+  text-align: center;
   font-size: 8px;
   opacity: 0.75;
+  margin-top: 5px;
+  margin-bottom: 5px;
   user-select: none;
   width: 100%;
 }

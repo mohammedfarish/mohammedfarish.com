@@ -17,7 +17,8 @@ export default class BlogPost extends Component {
             existing: null,
             title: '',
             content: '',
-            theme: ''
+            theme: '',
+            date: ''
         }
     }
 
@@ -161,11 +162,12 @@ export default class BlogPost extends Component {
         axios.get('/api/blog/post?q=' + this.props.slug)
             .then(response => {
                 if (response.data) {
-                    const { title, content } = response.data
+                    const { title, content, date } = response.data
                     this.setState({
                         existing: true,
                         content,
-                        title
+                        title,
+                        date
                     })
                 } else {
                     this.setState({
@@ -208,6 +210,9 @@ export default class BlogPost extends Component {
                     <div className={styles.blogPostTitle}>
                         <span>{this.state.title}</span>
                     </div>
+                    <div className={styles.blogPostDate}>
+                        <span>{this.state.date}</span>
+                    </div>
                     <div className={styles.blogContent}>
                         <Editor
                             className={styles.blogPostEditor}
@@ -220,11 +225,8 @@ export default class BlogPost extends Component {
                 </div>
             )
         } else {
-            return (
-                <div className={styles.blogloadingpage}>
-                    <span>fetching blog content</span>
-                </div>
-            )
+            return <div className={styles.blogloadingpage}></div>
+
 
         }
     }

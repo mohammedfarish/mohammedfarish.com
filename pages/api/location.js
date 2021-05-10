@@ -44,61 +44,9 @@ export default async (req, res) => {
                     .limit(1)
                 const { location: locationInfo, time } = locationData[0]
 
-                const getMinutesDiffBetweenDates = (dateInitial, dateFinal) =>
-                    (dateFinal - dateInitial) / (1000 * 60);
-
-                const today = Moment().tz('Asia/Dubai')
-                const givenDate = Moment(time).tz('Asia/Dubai')
-
-
-                let timeDiff = getMinutesDiffBetweenDates(
-                    new Date(givenDate.format()),
-                    new Date(today.format())
-                );
-
-                timeDiff = Math.floor(timeDiff)
-
-                if (timeDiff >= 60) {
-                    timeDiff = Math.floor(timeDiff / 60)
-                    if (timeDiff < 0) timeDiff = timeDiff * -1
-                    if (timeDiff === 1) {
-                        timeDiff = timeDiff + " hour ago"
-                    } else if (timeDiff <= 24) {
-                        timeDiff = timeDiff + " hours ago"
-                    } else {
-                        timeDiff = Math.floor(timeDiff / 24)
-                        if (timeDiff < 0) timeDiff = timeDiff * -1
-                        if (timeDiff === 1) {
-                            timeDiff = timeDiff + " day ago"
-                        } else if (timeDiff <= 30) {
-                            timeDiff = timeDiff + " days ago"
-                        } else {
-                            timeDiff = Math.floor(timeDiff / 30)
-                            if (timeDiff < 0) timeDiff = timeDiff * -1
-                            if (timeDiff === 1) {
-                                timeDiff = timeDiff + " month ago"
-                            } else {
-                                timeDiff = timeDiff + " months ago"
-                            }
-                        }
-                    }
-                } else {
-                    if (timeDiff === 0) {
-                        timeDiff = "just now"
-                    } else {
-                        if (timeDiff === 1) {
-                            timeDiff = timeDiff + " minute ago"
-                        } else {
-                            if (timeDiff < 0) timeDiff = timeDiff * -1
-                            timeDiff = timeDiff + " minutes ago"
-                        }
-                    }
-
-                }
-
                 const data = {
                     location: locationInfo,
-                    lastUpdate: timeDiff,
+                    lastUpdate: Moment(time).tz('Asia/Dubai').fromNow()
                 }
 
                 res.json(data)
@@ -112,6 +60,5 @@ export default async (req, res) => {
             res.status(404).json(false)
             break;
     }
-
 
 }

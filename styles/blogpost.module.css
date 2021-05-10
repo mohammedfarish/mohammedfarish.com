@@ -22,7 +22,15 @@
   display: flex;
   align-items: column;
   width: 65vw;
-  margin-bottom: 15px;
+}
+
+.blogPostDate {
+  /* background: lightcoral; */
+  width: 100%;
+  font-size: 10px;
+  opacity: 0.5;
+  user-select: none;
+  margin-bottom: 30px;
 }
 
 .blogContent {

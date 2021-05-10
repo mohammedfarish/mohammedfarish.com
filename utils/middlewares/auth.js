@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import sessionSchema from "../database/schema/sessionSchema";
 import userSchema from '../database/schema/userSchema';
 
-const auth = async (req) => {
+export default async function auth(req) {
 
     try {
 
@@ -40,4 +40,3 @@ const auth = async (req) => {
     }
 }
 
-export default auth;
