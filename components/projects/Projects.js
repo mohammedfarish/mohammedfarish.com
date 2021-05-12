@@ -138,14 +138,20 @@ export default class Projects extends Component {
             .then(response => {
                 if (response.data) {
                     const { active } = response.data
-                    this.setState({
-                        activeAPIs: active
-                    })
+                    if (active === 1) {
+                        this.setState({
+                            activeAPIs: active + " Server"
+                        })
+                    } else {
+                        this.setState({
+                            activeAPIs: active + " Servers"
+                        })
+                    }
                 }
             })
             .catch(() => {
                 this.setState({
-                    activeAPIs: 0
+                    activeAPIs: 0 + " Servers"
                 })
             })
     }
@@ -185,14 +191,14 @@ export default class Projects extends Component {
                             <span className={styles.projectsItemResultSmall}>{this.state.githubRepo}</span>
                         </div>
                     </div>
-                    <div onClick={() => this.onClickReloadData(3)} title="Fetched from the phone's cordinates" className={styles.projectsItem}>
+                    <div onClick={() => this.onClickReloadData(3)} className={styles.projectsItem}>
                         <div className={styles.projectsItemHeader}>
                             <span className={styles.projectsItemHeaderLogo} >🌐</span>
                             <span className={styles.projectsItemHeaderTypo}>Public APIs</span>
                         </div>
                         <div className={styles.projectsItemResultSection}>
                             <span className={styles.projectsItemResult}>{this.state.activeAPIs}</span>
-                            <span className={styles.projectsItemResultSmall}>Serving Live Open Data</span>
+                            <span className={styles.projectsItemResultSmall}>Live and Serving Open Data</span>
                         </div>
                     </div>
                 </div>

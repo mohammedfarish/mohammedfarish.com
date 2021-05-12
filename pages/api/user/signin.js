@@ -5,6 +5,7 @@ import dbConnect from '../../../utils/database/dbConnect'
 
 import sessionSchema from '../../../utils/database/schema/sessionSchema'
 import userSchema from "../../../utils/database/schema/userSchema"
+import getIP from '../../../utils/middlewares/getIP'
 
 dbConnect();
 
@@ -40,11 +41,8 @@ export default async (req, res) => {
                 const correctPassword = await bcrypt.compare(password, passwordData)
                 if (!correctPassword) return res.json({ success: false, reason: "Incorrect username/email or password." })
 
-                let ip = req.headers['x-forwarded-for'];
+                const ip = await getIP(req)
                 if (!ip) return res.json({ success: false, reason: "Internal Server Error." })
-                if (ip.substr(0, 7) == "::ffff:") {
-                    ip = ip.substr(7)
-                }
 
                 const activeSessions = await sessionSchema.find({ userId: existingData._id, active: true })
                 if (activeSessions.length > 0) {
