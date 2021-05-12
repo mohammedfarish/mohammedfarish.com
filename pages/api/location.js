@@ -39,7 +39,7 @@ export default async (req, res) => {
         case 'GET':
             try {
 
-                const inRateLimit = await rateLimiter(req)
+                const inRateLimit = await rateLimiter(req, 60)
                 if (!inRateLimit) return res.status(429).json(false)
 
                 const locationData = await deviceLocationHistory.find()

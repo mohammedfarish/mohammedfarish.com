@@ -45,7 +45,9 @@
   padding: 0px 10px 0px 10px;
   font-size: 14px;
   margin: 10px 0 10px 0;
-  border: 1px solid darkgrey;
+  border: 1px solid lightgray;
+  border-bottom: 1px solid darkgrey;
+  border-right: 1px solid darkgrey;
   box-shadow: 2px 2px #888888;
   color: purple;
 }
@@ -74,7 +76,9 @@
   padding: 10px 10px 10px 10px;
   font-size: 14px;
   margin: 10px 0 10px 0;
-  border: 1px solid darkgrey;
+  border: 1px solid lightgray;
+  border-bottom: 1px solid darkgrey;
+  border-right: 1px solid darkgrey;
   box-shadow: 2px 2px #888888;
   color: purple;
   resize: none;
@@ -103,8 +107,10 @@
   padding: 0px 10px 0px 10px;
   font-size: 14px;
   margin: 10px 0 10px 0;
-  border: 1px solid darkgrey;
   box-shadow: 2px 2px #888888;
+  border: 1px solid lightgray;
+  border-bottom: 1px solid darkgrey;
+  border-right: 1px solid darkgrey;
   color: #363636;
   cursor: pointer;
 }
@@ -129,8 +135,6 @@
 .contactLinksSection {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: center; */
   min-height: 100%;
   width: 50%;
 }
@@ -148,15 +152,15 @@
   height: 75px;
   width: 75px;
   border: 1px solid lightgray;
+  border-bottom: 1px solid darkgrey;
+  border-right: 1px solid darkgrey;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border-radius: 20px; */
   margin: 25px 25px 25px 25px;
   fill: #363636;
   box-shadow: 2px 2px #888888;
   cursor: pointer;
-  /* transition-duration: 0.4s; */
 }
 
 .contactLinkitem:hover {

@@ -34,18 +34,18 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="https://mohammedfarish.com/favicon.ico" />
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="theme-color" content="#000000" />
-        <meta name="description" content="Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
+        <meta name="description" content="Originally from Kerala, India, Farish is now an innovative fullstack developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.mohammedfarish.com/" />
         <meta property="og:title" content="Mohammed Farish" />
-        <meta property="og:description" content="Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
+        <meta property="og:description" content="Originally from Kerala, India, Farish is now an innovative fullstack developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
         <meta property="og:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://www.mohammedfarish.com/" />
         <meta property="twitter:title" content="Mohammed Farish" />
-        <meta property="twitter:description" content="Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
+        <meta property="twitter:description" content="Originally from Kerala, India, Farish is now an innovative fullstack developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
         <meta property="twitter:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
       </Head>
       <Header />

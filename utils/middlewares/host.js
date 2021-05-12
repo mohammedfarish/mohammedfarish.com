@@ -8,7 +8,8 @@ export default async function host(req) {
         if (development) return true
 
         const hosts = [
-            'mohammedfarish.com'
+            'mohammedfarish.com',
+            'www.mohammedfarish.com',
         ]
 
         const host = hosts.includes(req.headers['host'])

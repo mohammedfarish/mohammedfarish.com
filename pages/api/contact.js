@@ -23,8 +23,8 @@ export default async function (req, res) {
                 const validHost = await host(req)
                 if (!validHost) return res.status(400).json(false)
 
-                const inLimit = await rateLimiter(req)
-                if (!inLimit) return res.status(429).json(false)
+                const inRateLimit = await rateLimiter(req)
+                if (!inRateLimit) return res.status(429).json(false)
 
                 const ip = await getIP(req)
                 if (!ip) return res.status(400).json(false)

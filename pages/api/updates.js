@@ -6,10 +6,11 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
+
                 const { q } = req.query
 
-                if (q === 'api') {
-                    axios.post('https://api.uptimerobot.com/v2/getMonitors?api_key=' + process.env.UPTIME_ROBOT_API_KEY)
+                if (q === 'api')
+                    return axios.post('https://api.uptimerobot.com/v2/getMonitors?api_key=' + process.env.UPTIME_ROBOT_API_KEY)
                         .then(response => {
                             const data = {
                                 active: response.data.monitors.length
@@ -22,7 +23,8 @@ export default async (req, res) => {
                             }
                             return res.json(data)
                         })
-                }
+
+                return res.status(404).json(false)
 
             } catch (error) {
                 res.status(503).json(false)

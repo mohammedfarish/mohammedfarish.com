@@ -4,12 +4,16 @@ import auth from '../../../utils/middlewares/auth';
 
 import dbConnect from '../../../utils/database/dbConnect';
 import blogSchema from '../../../utils/database/schema/blogSchema';
+import rateLimiter from '../../../utils/middlewares/rateLimiter';
 
 
 dbConnect();
 
 export default async (req, res) => {
     const { method } = req
+
+    const inRateLimit = await rateLimiter(req)
+    if (!inRateLimit) return res.status(429).json(false)
 
     switch (method) {
 

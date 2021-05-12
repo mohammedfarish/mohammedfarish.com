@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Head from 'next/head'
 
 import styles from '../styles/homepage.module.css'
+
 import LatestArticles from '../components/latest articles/LatestArticles'
-import Projects from '../components/projects/Projects'
 import GetInTouch from '../components/contact/GetInTouch'
+import Updates from '../components/updates/Updates'
 
 export default class Home extends Component {
   constructor(props) {
@@ -31,25 +31,6 @@ export default class Home extends Component {
   render() {
     return (
       <div className={styles.homepage}>
-        <Head>
-          <title>Mohammed Farish</title>
-          <link rel="icon" href="https://mohammedfarish.com/favicon.ico" />
-          <meta name="viewport" content="width=device-width, user-scalable=no" />
-          <meta name="theme-color" content="#000000" />
-          <meta name="description" content="Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
-
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://www.mohammedfarish.com/" />
-          <meta property="og:title" content="Mohammed Farish" />
-          <meta property="og:description" content="Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
-          <meta property="og:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
-
-          <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:url" content="https://www.mohammedfarish.com/" />
-          <meta property="twitter:title" content="Mohammed Farish" />
-          <meta property="twitter:description" content="Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
-          <meta property="twitter:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
-        </Head>
         <div className={styles.homepageherosection}>
           <div className={styles.homepagesectionLHS}>
             <h1>I'm Mohammed Farish.</h1>
@@ -57,7 +38,7 @@ export default class Home extends Component {
           </div>
         </div>
         <div className={styles.homepagesection}>
-          <Projects />
+          <Updates />
         </div>
         <div hidden className={styles.homepagesection}>
           <LatestArticles />

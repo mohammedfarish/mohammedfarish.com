@@ -6,7 +6,9 @@ const blogSchema = mongoose.Schema({
     slugRef: String,
     date: String,
     content: String,
-    author: Object
+    author: Object,
+    publish: Boolean,
+    listed: Boolean
 })
 
 module.exports = mongoose.models.blogpost || mongoose.model('blogpost', blogSchema);

@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken'
 
 import host from './host';
+import getIP from './getIP';
+import isDev from './isDev';
 
 import sessionSchema from "../database/schema/sessionSchema";
 import userSchema from '../database/schema/userSchema';
-import getIP from './getIP';
-import isDev from './isDev';
 
 export default async function auth(req) {
 

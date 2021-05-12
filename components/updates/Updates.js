@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 
 import styles from '../../styles/projects.module.css'
 
-export default class Projects extends Component {
+export default class Updates extends Component {
     constructor(props) {
         super(props)
 
