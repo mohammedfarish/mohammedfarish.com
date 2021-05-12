@@ -4,12 +4,14 @@ import host from './host';
 
 import sessionSchema from "../database/schema/sessionSchema";
 import userSchema from '../database/schema/userSchema';
+import getIP from './getIP';
+import isDev from './isDev';
 
 export default async function auth(req) {
 
     try {
 
-        const development = process.env.NODE_ENV === 'development'
+        const development = await isDev()
         if (development) {
             req.dev = true
             return true
@@ -30,11 +32,8 @@ export default async function auth(req) {
         const user = await userSchema.findOne({ _id: activeSession.userId, active: true, verified: true })
         if (!user) return false
 
-        let ip = req.headers['x-forwarded-for'];
+        const ip = await getIP(req)
         if (!ip) return false
-        if (ip.substr(0, 7) == "::ffff:") {
-            ip = ip.substr(7)
-        }
 
         req.user = {
             id: activeSession.userId,

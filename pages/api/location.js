@@ -4,6 +4,7 @@ import dbConnect from '../../utils/database/dbConnect'
 import deviceAuth from '../../utils/middlewares/deviceAuth'
 
 import deviceLocationHistory from '../../utils/database/schema/deviceLocationHistory';
+import rateLimiter from '../../utils/middlewares/rateLimiter';
 
 dbConnect();
 
@@ -37,6 +38,10 @@ export default async (req, res) => {
 
         case 'GET':
             try {
+
+                const inRateLimit = await rateLimiter(req)
+                if (!inRateLimit) return res.status(429).json(false)
+
                 const locationData = await deviceLocationHistory.find()
                     .sort({
                         time: -1

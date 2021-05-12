@@ -8,20 +8,22 @@ export default class Projects extends Component {
         super(props)
 
         this.fetchLocation = this.fetchLocation.bind(this)
-        this.onClickReloadData = this.onClickReloadData.bind(this)
         this.fetchGithubData = this.fetchGithubData.bind(this)
+        this.fetchActiveAPIs = this.fetchActiveAPIs.bind(this)
+        this.onClickReloadData = this.onClickReloadData.bind(this)
         this.state = {
             location: 'loading',
             locationLastUpdate: 'never',
             githubRepo: 'loading',
             githubCommitMessage: 'loading',
-            APICalls: 0
+            activeAPIs: 'loading'
         }
     }
 
     componentDidMount() {
         this.fetchGithubData()
         this.fetchLocation()
+        this.fetchActiveAPIs()
         this.timer = setInterval(() => {
             this.fetchLocation()
         }, 1000 * 30);
@@ -67,12 +69,6 @@ export default class Projects extends Component {
                     locationLastUpdate: 'never'
                 })
             })
-    }
-
-    onClickReloadData(type) {
-        if (type === 1) return this.fetchLocation(true)
-
-        if (type === 2) return this.fetchGithubData(true)
     }
 
     fetchGithubData(refresh) {
@@ -124,6 +120,44 @@ export default class Projects extends Component {
             })
     }
 
+    fetchActiveAPIs(refresh) {
+
+        if (this.state.APICalls >= 20) return;
+
+        this.setState({
+            APICalls: this.state.APICalls + 1
+        })
+
+        if (refresh) {
+            this.setState({
+                activeAPIs: 'updating',
+            })
+        }
+
+        axios.get('api/updates?q=api')
+            .then(response => {
+                if (response.data) {
+                    const { active } = response.data
+                    this.setState({
+                        activeAPIs: active
+                    })
+                }
+            })
+            .catch(() => {
+                this.setState({
+                    activeAPIs: 0
+                })
+            })
+    }
+
+    onClickReloadData(type) {
+        if (type === 1) return this.fetchLocation(true)
+
+        if (type === 2) return this.fetchGithubData(true)
+
+        if (type === 3) return this.fetchActiveAPIs(true)
+    }
+
     render() {
         return (
             <div className={styles.projectsSection} >
@@ -153,12 +187,12 @@ export default class Projects extends Component {
                     </div>
                     <div onClick={() => this.onClickReloadData(3)} title="Fetched from the phone's cordinates" className={styles.projectsItem}>
                         <div className={styles.projectsItemHeader}>
-                            <span className={styles.projectsItemHeaderLogo} >📍</span>
-                            <span className={styles.projectsItemHeaderTypo}>API Calls Served</span>
+                            <span className={styles.projectsItemHeaderLogo} >🌐</span>
+                            <span className={styles.projectsItemHeaderTypo}>Public APIs</span>
                         </div>
                         <div className={styles.projectsItemResultSection}>
-                            <span className={styles.projectsItemResult}>93,738</span>
-                            <span className={styles.projectsItemResultSmall}>via RapidAPI</span>
+                            <span className={styles.projectsItemResult}>{this.state.activeAPIs}</span>
+                            <span className={styles.projectsItemResultSmall}>Serving Live Open Data</span>
                         </div>
                     </div>
                 </div>

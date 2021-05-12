@@ -24,8 +24,11 @@
   justify-content: center;
 }
 
-.contactSection span {
+.sectionHeader {
+  width: 100%;
   margin: 2% 0 2% 0;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .contactForm {
@@ -43,8 +46,7 @@
   font-size: 14px;
   margin: 10px 0 10px 0;
   border: 1px solid darkgrey;
-  /* box-shadow: 2px 2px #888888; */
-  box-shadow: 2px 2px black;
+  box-shadow: 2px 2px #888888;
   color: purple;
 }
 
@@ -54,11 +56,13 @@
 
 .contactFormInput:focus {
   background: white;
-  box-shadow: 1.5px 1px #888888;
+  box-shadow: 1px 1px black;
 }
 
 .contactFormInput:disabled {
   opacity: 0.5;
+  background: white;
+  color: black;
 }
 
 .contactFormInputTextArea {
@@ -73,21 +77,120 @@
   border: 1px solid darkgrey;
   box-shadow: 2px 2px #888888;
   color: purple;
-  resize: vertical;
+  resize: none;
 }
 
 .contactFormInputTextArea::placeholder {
   color: #363636;
 }
 
+.contactFormInputTextArea:focus {
+  background: white;
+  box-shadow: 1px 1px black;
+}
+
+.contactFormInputTextArea:disabled {
+  opacity: 0.5;
+  background: white;
+  color: black;
+}
+
+.contactFormSubmitButton {
+  font-family: "Roboto Mono", monospace;
+  height: 45px;
+  outline: none;
+  width: 100%;
+  padding: 0px 10px 0px 10px;
+  font-size: 14px;
+  margin: 10px 0 10px 0;
+  border: 1px solid darkgrey;
+  box-shadow: 2px 2px #888888;
+  color: #363636;
+  cursor: pointer;
+}
+
+.contactFormSubmitButton:hover {
+  background: white;
+  box-shadow: 1px 1px black;
+}
+
+.contactFormSubmitButton:active {
+  background: white;
+  box-shadow: 0px 0px black;
+}
+
+.contactFormSubmitButton:disabled {
+  background: white;
+  box-shadow: 0px 0px black;
+  opacity: 0.5;
+  cursor: default;
+}
+
 .contactLinksSection {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
   min-height: 100%;
   width: 50%;
 }
 
+.contactLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-height: 100%;
+  flex-wrap: wrap;
+}
+
+.contactLinkitem {
+  height: 75px;
+  width: 75px;
+  border: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border-radius: 20px; */
+  margin: 25px 25px 25px 25px;
+  fill: #363636;
+  box-shadow: 2px 2px #888888;
+  cursor: pointer;
+  /* transition-duration: 0.4s; */
+}
+
+.contactLinkitem:hover {
+  box-shadow: 1px 1px #888888;
+  fill: black;
+}
+
+.contactLinkLogo {
+  height: 50%;
+}
+
+.emailLine {
+  width: 100%;
+  /* background: lightblue; */
+  text-align: center;
+  margin: 25px 0 25px 0;
+}
+
+.emailLineLink {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.emailLineLink:hover {
+  text-decoration: underline;
+}
+
 @media only screen and (max-width: 600px) {
   .contactOptions {
-    flex-direction: column-reverse;
+    flex-direction: column;
+  }
+
+  .sectionHeader {
+    border-bottom: 1px solid lightgray;
   }
 
   .contactSection {
@@ -110,6 +213,6 @@
 
   .contactLinksSection {
     width: 100%;
-    margin: 50px 0 0 0;
+    margin: 0px 0 50px 0;
   }
 }
