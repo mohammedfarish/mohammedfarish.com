@@ -1,11 +1,22 @@
 import jwt from 'jsonwebtoken'
 
+import host from './host';
+
 import sessionSchema from "../database/schema/sessionSchema";
 import userSchema from '../database/schema/userSchema';
 
 export default async function auth(req) {
 
     try {
+
+        const development = process.env.NODE_ENV === 'development'
+        if (development) {
+            req.dev = true
+            return true
+        }
+
+        const validHost = await host(req)
+        if (!validHost) return false
 
         const token = req.headers['x-auth-token'];
         if (!token) return false
@@ -38,5 +49,5 @@ export default async function auth(req) {
         return false
 
     }
-}
 
+}

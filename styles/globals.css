@@ -49,3 +49,9 @@ textarea {
   overflow-x: hidden;
   touch-action: pan-y;
 }
+
+input,
+button {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}

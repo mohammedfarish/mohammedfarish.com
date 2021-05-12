@@ -1,4 +1,4 @@
-const auth = async (req) => {
+export default async function deviceAuth(req) {
 
     try {
 
@@ -12,6 +12,5 @@ const auth = async (req) => {
     } catch (error) {
         return false
     }
-}
 
-export default auth;
+}

@@ -1,0 +1,115 @@
+.contactSectionHeaderSection {
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  border-bottom: 3px solid #363636;
+  min-height: 50px;
+  font-family: "Roboto Mono", monospace;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contactOptions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contactSection {
+  min-height: 100px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactSection span {
+  margin: 2% 0 2% 0;
+}
+
+.contactForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contactFormInput {
+  font-family: "Roboto Mono", monospace;
+  height: 45px;
+  outline: none;
+  width: 100%;
+  padding: 0px 10px 0px 10px;
+  font-size: 14px;
+  margin: 10px 0 10px 0;
+  border: 1px solid darkgrey;
+  /* box-shadow: 2px 2px #888888; */
+  box-shadow: 2px 2px black;
+  color: purple;
+}
+
+.contactFormInput::placeholder {
+  color: #363636;
+}
+
+.contactFormInput:focus {
+  background: white;
+  box-shadow: 1.5px 1px #888888;
+}
+
+.contactFormInput:disabled {
+  opacity: 0.5;
+}
+
+.contactFormInputTextArea {
+  font-family: "Roboto Mono", monospace;
+  min-height: 145px;
+  max-height: 345px;
+  outline: none;
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  margin: 10px 0 10px 0;
+  border: 1px solid darkgrey;
+  box-shadow: 2px 2px #888888;
+  color: purple;
+  resize: vertical;
+}
+
+.contactFormInputTextArea::placeholder {
+  color: #363636;
+}
+
+.contactLinksSection {
+  min-height: 100%;
+  width: 50%;
+}
+
+@media only screen and (max-width: 600px) {
+  .contactOptions {
+    flex-direction: column-reverse;
+  }
+
+  .contactSection {
+    width: 100%;
+    padding: 0 0 0 0;
+  }
+
+  .contactForm {
+    width: 100%;
+  }
+
+  .contactFormInput {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .contactFormInputTextArea {
+    width: 100%;
+  }
+
+  .contactLinksSection {
+    width: 100%;
+    margin: 50px 0 0 0;
+  }
+}

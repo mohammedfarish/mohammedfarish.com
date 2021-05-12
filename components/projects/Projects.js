@@ -8,12 +8,14 @@ export default class Projects extends Component {
         super(props)
 
         this.fetchLocation = this.fetchLocation.bind(this)
+        this.onClickReloadData = this.onClickReloadData.bind(this)
         this.fetchGithubData = this.fetchGithubData.bind(this)
         this.state = {
             location: 'loading',
             locationLastUpdate: 'never',
             githubRepo: 'loading',
-            githubCommitMessage: 'loading'
+            githubCommitMessage: 'loading',
+            APICalls: 0
         }
     }
 
@@ -29,7 +31,21 @@ export default class Projects extends Component {
         clearInterval(this.timer)
     }
 
-    fetchLocation() {
+    fetchLocation(refresh) {
+
+        if (this.state.APICalls >= 20) return;
+
+        this.setState({
+            APICalls: this.state.APICalls + 1
+        })
+
+        if (refresh) {
+            this.setState({
+                location: 'updating',
+                locationLastUpdate: 'never',
+            })
+        }
+
         axios.get('/api/location')
             .then(response => {
                 if (response.data) {
@@ -53,23 +69,52 @@ export default class Projects extends Component {
             })
     }
 
-    fetchGithubData() {
-        axios.get('/api/updates')
-            .then((response) => {
-                const { github } = response.data
-                if (github) {
-                    const { repo, message } = github
-                    this.setState({
-                        githubRepo: repo,
-                        githubCommitMessage: message
-                    })
-                } else {
-                    this.setState({
-                        githubRepo: 'Unknown',
-                        githubCommitMessage: ''
-                    })
+    onClickReloadData(type) {
+        if (type === 1) return this.fetchLocation(true)
 
-                }
+        if (type === 2) return this.fetchGithubData(true)
+    }
+
+    fetchGithubData(refresh) {
+
+        if (this.state.APICalls >= 20) return;
+
+        this.setState({
+            APICalls: this.state.APICalls + 1
+        })
+
+        if (refresh) {
+            this.setState({
+                githubRepo: 'updating',
+                githubCommitMessage: 'updating'
+            })
+        }
+
+        axios.get('https://api.github.com/users/mohammedfarish/events/public')
+            .then(response => {
+                const { data: github } = response
+
+                const githubData = []
+
+                github.forEach(data => {
+                    let { payload, type, repo } = data
+                    if (githubData.length >= 1) return;
+                    if (type === 'PushEvent') {
+                        data = {
+                            repo: repo.name,
+                            message: payload.commits[0].message
+                        }
+                        githubData.push(data)
+                    }
+                })
+
+                const { repo, message } = githubData[0]
+
+                this.setState({
+                    githubRepo: repo,
+                    githubCommitMessage: message
+                })
+
             })
             .catch(() => {
                 this.setState({
@@ -86,7 +131,7 @@ export default class Projects extends Component {
                     <span>Updates</span>
                 </div>
                 <div className={styles.projects}>
-                    <div title="Fetched from the phone's GPS cordinates" className={styles.projectsItem}>
+                    <div onClick={() => this.onClickReloadData(1)} title="Fetched from the phone's GPS cordinates" className={styles.projectsItem}>
                         <div className={styles.projectsItemHeader}>
                             <span className={styles.projectsItemHeaderLogo} >📍</span>
                             <span className={styles.projectsItemHeaderTypo}>Last Known Location</span>
@@ -96,24 +141,24 @@ export default class Projects extends Component {
                             <span className={styles.projectsItemResultSmall}>Updated {this.state.locationLastUpdate}</span>
                         </div>
                     </div>
-                    <div title="Fetched from Github" className={styles.projectsItem}>
+                    <div onClick={() => this.onClickReloadData(2)} title="Fetched from Github's Public Activity" className={styles.projectsItem}>
                         <div className={styles.projectsItemHeader}>
                             <span className={styles.projectsItemHeaderLogo} >👨‍💻</span>
-                            <span className={styles.projectsItemHeaderTypo}>Last Code Activity</span>
+                            <span className={styles.projectsItemHeaderTypo}>Latest Code Activity</span>
                         </div>
                         <div className={styles.projectsItemResultSection}>
                             <span className={styles.projectsItemResult}>{this.state.githubCommitMessage}</span>
                             <span className={styles.projectsItemResultSmall}>{this.state.githubRepo}</span>
                         </div>
                     </div>
-                    <div title="Fetched from the phone's cordinates" className={styles.projectsItem}>
+                    <div onClick={() => this.onClickReloadData(3)} title="Fetched from the phone's cordinates" className={styles.projectsItem}>
                         <div className={styles.projectsItemHeader}>
                             <span className={styles.projectsItemHeaderLogo} >📍</span>
-                            <span className={styles.projectsItemHeaderTypo}>Last Known Location</span>
+                            <span className={styles.projectsItemHeaderTypo}>API Calls Served</span>
                         </div>
                         <div className={styles.projectsItemResultSection}>
-                            <span className={styles.projectsItemResult}>{this.state.location}</span>
-                            <span className={styles.projectsItemResultSmall}>Updated {this.state.locationLastUpdate}</span>
+                            <span className={styles.projectsItemResult}>93,738</span>
+                            <span className={styles.projectsItemResultSmall}>via RapidAPI</span>
                         </div>
                     </div>
                 </div>
