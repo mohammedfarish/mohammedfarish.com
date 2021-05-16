@@ -18,14 +18,10 @@ export default async (req, res) => {
         case 'POST':
             try {
 
-                const inRateLimit = await rateLimiter(req, 10);
-                if (!inRateLimit) return res.json({ success: false, reason: "Too many requests." })
-
                 let { usernameOrEmail, password } = req.body
                 if (!usernameOrEmail || !password) return res.json({ success: false, reason: "Username or Password not provided." })
 
                 usernameOrEmail = usernameOrEmail.toLowerCase()
-
 
                 const existingEmail = await userSchema.findOne({ email: usernameOrEmail });
                 const existingUsername = await userSchema.findOne({ username: usernameOrEmail });

@@ -41,8 +41,8 @@
   margin: 0 12px 0 12px;
   transition-duration: 0.4s;
   color: #363636;
-  visibility: hidden;
 }
+
 .headerlink:hover {
   color: black;
 }

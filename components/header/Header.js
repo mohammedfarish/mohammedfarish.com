@@ -2,17 +2,20 @@ import Link from 'next/link'
 import React, { Component } from 'react'
 
 import styles from '../../styles/header.module.css'
-
+import verifyUser from '../../utils/functions/verify'
 export default class Header extends Component {
     constructor(props) {
         super(props)
 
+        this.checkLogin = this.checkLogin.bind(this)
         this.state = {
             login: false
         }
+
     }
 
     componentDidMount() {
+        this.checkLogin()
         const header = document.getElementById("header");
         if (header) {
             const sticky = header.offsetTop;
@@ -28,6 +31,28 @@ export default class Header extends Component {
             };
         }
     }
+
+    async checkLogin() {
+        const user = window.localStorage.getItem('user')
+        if (user) {
+            this.setState({
+                login: true
+            })
+            const verifiedUser = await verifyUser()
+            if (!verifiedUser) {
+                window.localStorage.removeItem('user')
+                this.setState({
+                    login: false
+                })
+                this.props.setLoggedIn(false)
+            }
+        } else {
+            this.setState({
+                login: false
+            })
+        }
+    }
+
     render() {
         if (this.state.login === true) {
             return (
@@ -42,11 +67,11 @@ export default class Header extends Component {
                         </a>
                     </Link>
                     <div className={styles.headerlinks}>
-                        <Link href="/">
-                            <a className={styles.headerlink}>Post</a>
+                        <Link href="/blog">
+                            <a className={styles.headerlink}>Articles</a>
                         </Link>
-                        <Link href="/">
-                            <a className={styles.headerlink}>Profile</a>
+                        <Link href="/logout">
+                            <a className={styles.headerlink}>Logout</a>
                         </Link>
                     </div>
                 </div>
@@ -64,16 +89,7 @@ export default class Header extends Component {
                         </a>
                     </Link>
                     <div className={styles.headerlinks}>
-                        <Link href="/">
-                            <a className={styles.headerlink}>Home</a>
-                        </Link>
-                        <Link href="/">
-                            <a className={styles.headerlink}>About</a>
-                        </Link>
-                        <Link href="/">
-                            <a className={styles.headerlink}>Projects</a>
-                        </Link>
-                        <Link href="/">
+                        <Link href="/login">
                             <a className={styles.headerlink}>Login</a>
                         </Link>
                     </div>

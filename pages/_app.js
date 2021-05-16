@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
-// import AnimatedCursor from "react-animated-cursor"
+import { useRouter } from "next/router";
 
 import '../styles/globals.css'
 import '../styles/fonts.css'
@@ -13,6 +13,9 @@ import isDev from '../utils/middlewares/isDev'
 function MyApp({ Component, pageProps }) {
 
   const [globalState, setGlobalState] = useState({})
+  const [loggedIn, setLoggedIn] = useState(null)
+
+  const router = useRouter()
 
   useEffect(() => {
 
@@ -35,6 +38,12 @@ function MyApp({ Component, pageProps }) {
     }
   }, [])
 
+  useEffect(() => {
+    if (loggedIn === null) return;
+    setLoggedIn(null)
+    router.reload()
+  }, [loggedIn])
+
   return (
     <div>
       <Head>
@@ -56,15 +65,7 @@ function MyApp({ Component, pageProps }) {
         <meta property="twitter:description" content="Originally from Kerala, India, Farish is now an innovative fullstack developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
         <meta property="twitter:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
       </Head>
-      {/* <AnimatedCursor
-      innerSize={8}
-      outerSize={8}
-      color='193, 11, 111'
-      outerAlpha={0.2}
-      innerScale={0.7}
-      outerScale={5}
-    /> */}
-      <Header />
+      <Header setLoggedIn={setLoggedIn} current={router.pathname} />
       <div className="pages">
         <Component {...pageProps} globalState={globalState} setGlobalState={setGlobalState} />
       </div>

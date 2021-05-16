@@ -14,10 +14,12 @@ export default async function verifyUser() {
             if (response.data === true) {
                 return true
             } else {
+                window.localStorage.removeItem('user')
                 return false
             }
         })
         .catch(() => {
+            window.localStorage.removeItem('user')
             return false
         })
 

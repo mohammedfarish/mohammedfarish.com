@@ -247,7 +247,7 @@ const NewArticle = () => {
 
         axios.post('/api/blog/post', data, {
             headers: {
-                "x-auth-token": window.sessionStorage.getItem('session')
+                "x-auth-token": window.localStorage.getItem('user')
             }
         })
             .then(response => {

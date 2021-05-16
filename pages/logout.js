@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 import Loading from '../components/loading/Loading'
 import logOutUser from '../utils/functions/logout'
@@ -10,23 +10,25 @@ const index = () => {
         logoutUser()
     }, [])
 
+    const Router = useRouter()
+
     const logoutUser = async () => {
         const user = window.localStorage.getItem('user')
         if (user) {
             try {
                 await logOutUser()
                 window.localStorage.removeItem('user')
-                return Router.push('/')
+                return Router.reload()
             } catch (error) {
                 window.localStorage.removeItem('user')
-                return Router.push('/')
+                return Router.reload()
             }
         }
         window.localStorage.removeItem('user')
         return Router.push('/')
     }
 
-    return <Loading message={'Logging out'} />
+    return <Loading message='Logging out' />
 
 }
 

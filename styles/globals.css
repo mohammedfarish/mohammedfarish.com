@@ -31,10 +31,11 @@ svg {
 ::-webkit-scrollbar {
   width: 0;
   background: transparent;
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff0000;
+  background: white;
 }
 
 textarea {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 import verify from '../utils/functions/verify'
 import Loading from '../components/loading/Loading'
@@ -16,9 +16,11 @@ const login = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [svgFill, setSVGFill] = useState('#363636')
 
+    const Router = useRouter()
+
     useEffect(async () => {
         const LoginStatus = await verify()
-        if (LoginStatus === true) return Router.push('/user')
+        if (LoginStatus === true) return Router.push({ pathname: '/user' })
         return setLoggedIn(false)
     }, [])
 
@@ -32,14 +34,19 @@ const login = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
         setDisableFields(true)
+
         if (!password || !username) return setDisableFields(false)
+
         setSVGFill('#edaa18')
         setErrorMessage('')
+
         const data = {
             usernameOrEmail: username,
             password
         }
+
         axios.post('/api/user/signin', data)
             .then(response => {
                 const { success } = response.data
@@ -50,7 +57,7 @@ const login = () => {
                     setErrorMessage('')
                     window.localStorage.setItem('user', token);
                     return setTimeout(() => {
-                        Router.push('/user')
+                        Router.push({ pathname: '/user' })
                     }, 1000);
                 }
 
@@ -60,7 +67,6 @@ const login = () => {
                 setSVGFill('tomato')
                 setPassword('')
                 setDisableFields(false)
-
             })
             .catch(() => {
                 setErrorMessage('Internal Server Error')

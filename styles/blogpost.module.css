@@ -1,5 +1,5 @@
 .blogPostPage {
-  min-height: 77vh;
+  min-height: 67vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +24,6 @@
   opacity: 0.5;
   user-select: none;
   margin-bottom: 30px;
-  margin-left: 5vw;
 }
 
 .blogContent {
@@ -45,6 +44,10 @@
 
   .blogPostTitle {
     width: 85vw;
+  }
+
+  .blogPostDate {
+    margin-left: 5vw;
   }
 
   .blogPostEditor {
