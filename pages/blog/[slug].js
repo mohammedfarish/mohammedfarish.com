@@ -191,22 +191,14 @@ export default class BlogPost extends Component {
                 <div className={styles.blogPostPage}>
                     <Head>
                         <title>{this.state.title} - Blog | Mohammed Farish</title>
-                        <link rel="icon" href="https://mohammedfarish.com/favicon.ico" />
-                        <meta name="viewport" content="width=device-width, user-scalable=no" />
-                        <meta name="theme-color" content="#000000" />
                         <meta name="description" content={this.state.content} />
-                        <meta property="og:type" content="website" />
-                        <meta property="og:url" content="https://www.mohammedfarish.com/" />
                         <meta property="og:title" content={this.state.title + " - Blog | Mohammed Farish"} />
                         <meta property="og:description" content={this.state.content} />
                         <meta property="og:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
-                        <meta property="twitter:card" content="summary_large_image" />
-                        <meta property="twitter:url" content="https://www.mohammedfarish.com/" />
                         <meta property="twitter:title" content={this.state.title + " - Blog | Mohammed Farish"} />
                         <meta property="twitter:description" content={this.state.content} />
                         <meta property="twitter:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
                     </Head>
-                    {/* <span>{}</span> */}
                     <div className={styles.blogPostTitle}>
                         <span>{this.state.title}</span>
                     </div>

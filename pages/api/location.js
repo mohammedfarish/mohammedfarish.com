@@ -1,15 +1,20 @@
 import Moment from 'moment-timezone'
 
 import dbConnect from '../../utils/database/dbConnect'
-import deviceAuth from '../../utils/middlewares/deviceAuth'
 
 import deviceLocationHistory from '../../utils/database/schema/deviceLocationHistory';
+
+import deviceAuth from '../../utils/middlewares/deviceAuth'
 import rateLimiter from '../../utils/middlewares/rateLimiter';
+import host from '../../utils/middlewares/host';
 
 dbConnect();
 
 export default async (req, res) => {
     const { method } = req
+
+    const validHost = await host(req)
+    if (!validHost) return res.status(400).json(false)
 
     switch (method) {
 
@@ -57,6 +62,7 @@ export default async (req, res) => {
                 res.json(data)
 
             } catch (error) {
+                console.log(error);
                 res.status(503).json("Internal Server Error.")
             }
             break;

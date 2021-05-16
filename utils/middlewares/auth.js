@@ -13,7 +13,12 @@ export default async function auth(req) {
 
         const development = await isDev()
         if (development) {
-            req.dev = true
+            req.user = {
+                id: process.env.USER || 'devID',
+                role: 'devRole',
+                ip: 'devIP',
+                dev: true
+            }
             return true
         }
 

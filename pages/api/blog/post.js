@@ -42,7 +42,7 @@ export default async (req, res) => {
 
                 res.json(true)
             } catch (error) {
-                res.status(404).json(false)
+                res.status(503).json(false)
             }
             break;
 

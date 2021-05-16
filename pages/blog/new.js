@@ -1,46 +1,41 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Editor from "rich-markdown-editor";
 import axios from 'axios';
+import Router from 'next/router'
 
 import styles from '../../styles/newblogpost.module.css'
 import verifyUser from '../../utils/functions/verify';
 
-export default class NewBlogPost extends Component {
-    constructor(props) {
-        super(props)
+const NewArticle = () => {
 
-        this.loadTheme = this.loadTheme.bind(this)
-        this.onLoadPage = this.onLoadPage.bind(this)
-        this.validateTitleContent = this.validateTitleContent.bind(this)
-        this.onChangeBlogTitle = this.onChangeBlogTitle.bind(this)
-        this.onChangeMarkdown = this.onChangeMarkdown.bind(this)
-        this.onFileUpload = this.onFileUpload.bind(this)
-        this.onClickPublish = this.onClickPublish.bind(this)
-        this.state = {
-            markDownValue: '',
-            blogTitle: '',
-            pageTitle: 'New Blog Post | Mohammed Farish',
-            slug: '',
-            markDownContent: '',
-            theme: '',
-            disablePublishButton: false,
-            errorMessage: '',
-        }
-    }
+    const [blogTitle, setBlogTitle] = useState('')
+    const [pageTitle, setPageTitle] = useState('New Blog Post | Mohammed Farish')
+    const [theme, setTheme] = useState('')
+    const [slug, setSlug] = useState('')
+    const [markdownValue, setMarkdownValue] = useState('')
+    const [markdownContent, setMarkdownContent] = useState('')
+    const [disablePublishButton, setDisablePublishButton] = useState(false)
+    const [errMessage, setErrMessage] = useState('')
 
-    async componentDidMount() {
+    useEffect(() => {
+        verifyOnLoad()
+    }, [])
+
+    const verifyOnLoad = async () => {
+
         const userVerified = await verifyUser()
         if (userVerified) {
-            this.onLoadPage()
-            this.loadTheme()
+            onLoadPage()
+            loadTheme()
         } else {
             window.localStorage.removeItem('user')
-            window.location = "/blog"
+            Router.push('/blog')
         }
+
     }
 
-    loadTheme() {
+    const loadTheme = () => {
         const colors = {
             almostBlack: "#181A1B",
             lightBlack: "#2F3336",
@@ -166,12 +161,10 @@ export default class NewBlogPost extends Component {
             scrollbarThumb: colors.lightBlack,
         };
 
-        this.setState({
-            theme: light
-        })
+        setTheme(light)
     }
 
-    onLoadPage() {
+    const onLoadPage = () => {
         let data = window.localStorage.getItem('content')
         if (data) {
 
@@ -180,73 +173,48 @@ export default class NewBlogPost extends Component {
             if (!content && !title) return;
 
             if (content) {
-                this.setState({
-                    markDownContent: content,
-                    markDownValue: content
-                })
+                setMarkdownValue(content)
+                setMarkdownContent(content)
             }
 
             if (title) {
-                this.setState({
-                    blogTitle: title,
-                    pageTitle: `${title} - New Post | Mohammed Farish`,
-                    slug: encodeURI(title.split(' ').join('-').toLowerCase())
-                })
+                setBlogTitle(title)
+                setPageTitle(`${title} - New Post | Mohammed Farish`)
+                setSlug(encodeURI(title.split(' ').join('-').toLowerCase()))
             }
         }
     }
 
-    validateTitleContent(data) {
-        const { content, title } = data
-        if (content && title) {
-            this.setState({
-                disablePublishButton: false
-            })
-        } else {
-            this.setState({
-                disablePublishButton: true
-            })
-        }
-    }
-
-    onChangeBlogTitle(e) {
-
-        this.setState({
-            blogTitle: e.target.value
-        })
+    const onChangeBlogTitle = (e) => {
+        setBlogTitle(e.target.value)
 
         if (e.target.value) {
-            this.setState({
-                pageTitle: `${e.target.value.trim()} - New Post | Mohammed Farish`,
-                slug: encodeURI(e.target.value.trim().split(' ').join('-').toLowerCase())
-            })
+            setPageTitle(`${e.target.value.trim()} - New Post | Mohammed Farish`)
+            setSlug(encodeURI(e.target.value.trim().split(' ').join('-').toLowerCase()))
         } else {
-            this.setState({
-                pageTitle: 'New Blog Post | Mohammed Farish',
-                slug: ''
-            })
+            setPageTitle('New Blog Post | Mohammed Farish')
+            setSlug('')
         }
 
         let data = {
-            content: this.state.markDownValue,
+            content: markdownValue,
             title: e.target.value.trim()
         }
         window.localStorage.setItem('content', JSON.stringify(data))
+
     }
 
-    onChangeMarkdown(e) {
-        this.setState({
-            markDownValue: e()
-        })
+    const onChangeMarkdown = (e) => {
+        setMarkdownValue(e())
 
         let data = {
             content: e(),
-            title: this.state.blogTitle
+            title: blogTitle
         }
         window.localStorage.setItem('content', JSON.stringify(data))
     }
 
-    onFileUpload(file) {
+    const onFileUpload = (file) => {
         let formData = new FormData();
         formData.append("file", file);
 
@@ -261,24 +229,18 @@ export default class NewBlogPost extends Component {
         console.log(formData)
     }
 
-    onClickPublish() {
-        const { markDownContent, blogTitle, markDownValue } = this.state
-        // if (!blogTitle) return;
-        if (markDownValue === '\\\n' ||
+    const onClickPublish = () => {
+        if (markdownValue === '\\\n' ||
             !blogTitle ||
-            !markDownValue) return this.setState({
-                errorMessage: 'Error! Cannot publish empty content.',
-            })
+            !markdownValue) return setErrMessage('Error! Cannot publish empty content.')
 
-        this.setState({
-            disablePublishButton: true
-        })
+        setDisablePublishButton(true)
 
-        let content = markDownContent,
+        let content = markdownContent,
             title = blogTitle
 
-        if (markDownContent !== markDownValue) {
-            content = markDownValue
+        if (markdownContent !== markdownValue) {
+            content = markdownValue
         }
 
         const data = { content, title }
@@ -291,65 +253,60 @@ export default class NewBlogPost extends Component {
             .then(response => {
                 if (response.data === true) {
                     window.localStorage.removeItem('content')
-                    window.location = "/blog"
+                    Router.push('/blog')
                 }
             })
             .catch((err) => {
-                console.log(err.response.status)
                 const status = err.response.status
                 if (status === 400) {
-                    this.setState({
-                        errorMessage: `Error! Please make sure that you're logged in with a valid account credential.`
-                    })
+                    setErrMessage(`Error! Please make sure that you're logged in with a valid account credential.`)
                 } else {
-                    this.setState({
-                        errorMessage: "Error! " + err.message
-                    })
+                    setErrMessage('Error! ' + err.message)
                 }
             })
     }
 
-    render() {
-        return (
-            <div className={styles.newblogpostpage}>
-                <Head>
-                    <title>{this.state.pageTitle}</title>
-                </Head>
-                <span className={styles.newBlogPostErrorMessage}>{this.state.errorMessage}</span>
-                <div className={styles.newBlogPostPublishButtonSection}>
-                    <button
-                        className={styles.newBlogPostPublishButton}
-                        disabled={this.state.disablePublishButton}
-                        onClick={this, this.onClickPublish}
-                    >PUBLISH</button>
-                </div>
-                <input
-                    className={styles.newBlogPostField}
-                    type="text"
-                    autoFocus
-                    placeholder="Add title"
-                    value={this.state.blogTitle}
-                    onChange={this.onChangeBlogTitle}
-                />
-                <div className={styles.newBlogPostSlug}>
-                    <span>Blog Post URL: https://www.mohammedfarish.com/blog/{this.state.slug}</span>
-                </div>
-                <div className={styles.newBlogPostEditor}>
-                    <Editor
-                        className={styles.newBlogPostEditor}
-                        value={this.state.markDownContent}
-                        onChange={this.onChangeMarkdown}
-                        dictionary
-                        onCancel={() => console.log('cancelled')}
-                        theme={this.state.theme}
-                        uploadImage={async (file) => {
-                            console.log(file)
-                            this.onFileUpload(file)
-                            return "https://cdn.discordapp.com/attachments/726328135393476609/832274177247150130/Logo_1.png"
-                        }}
-                    />
-                </div>
+    return (
+        <div className={styles.newblogpostpage}>
+            <Head>
+                <title>{pageTitle}</title>
+            </Head>
+            <span className={styles.newBlogPostErrorMessage}>{errMessage}</span>
+            <div className={styles.newBlogPostPublishButtonSection}>
+                <button
+                    className={styles.newBlogPostPublishButton}
+                    disabled={disablePublishButton}
+                    onClick={onClickPublish}
+                >PUBLISH</button>
             </div>
-        )
-    }
+            <input
+                className={styles.newBlogPostField}
+                type="text"
+                autoFocus
+                placeholder="Add title"
+                value={blogTitle}
+                onChange={onChangeBlogTitle}
+            />
+            <div className={styles.newBlogPostSlug}>
+                <span>Blog Post URL: https://www.mohammedfarish.com/blog/{slug}</span>
+            </div>
+            <div className={styles.newBlogPostEditor}>
+                <Editor
+                    className={styles.newBlogPostEditor}
+                    value={markdownContent}
+                    onChange={onChangeMarkdown}
+                    dictionary
+                    onCancel={() => console.log('cancelled')}
+                    theme={theme}
+                    uploadImage={async (file) => {
+                        console.log(file)
+                        onFileUpload(file)
+                        return "https://cdn.discordapp.com/attachments/726328135393476609/832274177247150130/Logo_1.png"
+                    }}
+                />
+            </div>
+        </div>
+    )
 }
+
+export default NewArticle

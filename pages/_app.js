@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
+// import AnimatedCursor from "react-animated-cursor"
 
 import '../styles/globals.css'
 import '../styles/fonts.css'
@@ -7,9 +8,16 @@ import '../styles/fonts.css'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 
+import isDev from '../utils/middlewares/isDev'
+
 function MyApp({ Component, pageProps }) {
 
+  const [globalState, setGlobalState] = useState({})
+
   useEffect(() => {
+
+    if (isDev()) return;
+
     if (document.addEventListener) {
       document.addEventListener('contextmenu', function (e) {
         e.preventDefault();
@@ -48,9 +56,17 @@ function MyApp({ Component, pageProps }) {
         <meta property="twitter:description" content="Originally from Kerala, India, Farish is now an innovative fullstack developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
         <meta property="twitter:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
       </Head>
+      {/* <AnimatedCursor
+      innerSize={8}
+      outerSize={8}
+      color='193, 11, 111'
+      outerAlpha={0.2}
+      innerScale={0.7}
+      outerScale={5}
+    /> */}
       <Header />
       <div className="pages">
-        <Component {...pageProps} />
+        <Component {...pageProps} globalState={globalState} setGlobalState={setGlobalState} />
       </div>
       <Footer />
     </div>
