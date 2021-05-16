@@ -6,6 +6,7 @@ import dbConnect from '../../../utils/database/dbConnect'
 import sessionSchema from '../../../utils/database/schema/sessionSchema'
 import userSchema from "../../../utils/database/schema/userSchema"
 import getIP from '../../../utils/middlewares/getIP'
+import rateLimiter from '../../../utils/middlewares/rateLimiter'
 
 dbConnect();
 
@@ -17,10 +18,14 @@ export default async (req, res) => {
         case 'POST':
             try {
 
+                const inRateLimit = await rateLimiter(req, 10);
+                if (!inRateLimit) return res.json({ success: false, reason: "Too many requests." })
+
                 let { usernameOrEmail, password } = req.body
                 if (!usernameOrEmail || !password) return res.json({ success: false, reason: "Username or Password not provided." })
 
                 usernameOrEmail = usernameOrEmail.toLowerCase()
+
 
                 const existingEmail = await userSchema.findOne({ email: usernameOrEmail });
                 const existingUsername = await userSchema.findOne({ username: usernameOrEmail });
@@ -77,6 +82,7 @@ export default async (req, res) => {
             } catch (error) {
                 res.status(503).json("Internal Server Error.")
             }
+
             break;
 
         default:

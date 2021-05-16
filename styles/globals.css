@@ -54,4 +54,6 @@ input,
 button {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
+  outline: none;
+  font-family: "Roboto Mono", monospace;
 }

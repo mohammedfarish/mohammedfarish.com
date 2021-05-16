@@ -19,7 +19,7 @@ export default async function auth(req) {
                 ip: 'devIP',
                 dev: true
             }
-            return true
+            // return true
         }
 
         const validHost = await host(req)
@@ -43,7 +43,8 @@ export default async function auth(req) {
         req.user = {
             id: activeSession.userId,
             role: user.role,
-            ip
+            ip,
+            sessionId: verify.sessionId
         }
 
         return true

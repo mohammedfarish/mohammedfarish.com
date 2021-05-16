@@ -14,15 +14,17 @@
   color: #363636;
   display: flex;
   align-items: column;
-  width: 65vw;
+  width: 100%;
 }
 
 .blogPostDate {
   width: 100%;
+  text-align: left;
   font-size: 10px;
   opacity: 0.5;
   user-select: none;
   margin-bottom: 30px;
+  margin-left: 5vw;
 }
 
 .blogContent {

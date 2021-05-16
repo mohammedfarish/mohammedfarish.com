@@ -1,5 +1,5 @@
 .errorpage {
-  height: 97vh;
+  height: 82vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +18,8 @@
 
 .errorbigmessage svg {
   fill: #363636;
-  scale: 3;
+  height: 12vh;
+  margin-bottom: -25px;
 }
 
 .errorbigmessage h1 {
@@ -55,4 +56,12 @@
   background: whitesmoke;
   outline: none;
   border: 1px solid #363636;
+}
+
+@media only screen and (max-width: 600px) {
+  .errorbigmessage svg {
+    /* fill: red; */
+    /* height: 90vh; */
+    height: 15vh;
+  }
 }

@@ -1,0 +1,89 @@
+.loginPage {
+  height: 67vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginPageHeader {
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.loginPageHeaderUserSymbol {
+  height: 120px;
+  transition-duration: 0.4s;
+  fill: yellowgreen;
+  /* border: 1px solid red; */
+  /* border-radius: 50%; */
+  /* padding: 5px 5px 5px 5px; */
+}
+
+.errorMessage {
+  color: tomato;
+  height: 30px;
+}
+
+.loginPageFormSection {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loginPageForm {
+  width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loginFormInput {
+  border: 1px solid lightgrey;
+  padding: 10px 20px 10px 20px;
+  margin: 10px 0 10px 0;
+  height: 45px;
+  width: 100%;
+  font-size: 16px;
+  transition-duration: 0.4s;
+}
+
+.loginFormInput:disabled {
+  opacity: 0.75;
+  background: white;
+}
+
+.loginFormSubmitButton {
+  background: whitesmoke;
+  border: 1px solid lightgrey;
+  padding: 10px 20px 10px 20px;
+  margin: 10px 0 10px 0;
+  height: 45px;
+  width: 100%;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.loginFormSubmitButton:hover {
+  background: white;
+}
+
+.loginFormSubmitButton:disabled {
+  background: white;
+}
+
+@media only screen and (max-width: 600px) {
+  .loginPageForm {
+    width: 80%;
+  }
+}
