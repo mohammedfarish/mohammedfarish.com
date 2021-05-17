@@ -24,7 +24,6 @@ function MyApp({ Component, pageProps }) {
 
     if (isDev()) return;
 
-
     if (document.addEventListener) {
       document.addEventListener('contextmenu', function (e) {
         e.preventDefault();
@@ -66,6 +65,8 @@ function MyApp({ Component, pageProps }) {
   }, [router.asPath])
 
   const analytics = () => {
+    const sessionUID = window.sessionStorage.getItem('uid')
+    if (sessionUID) return;
 
     const data = {
       uid: window.localStorage.getItem('uid') || null,
@@ -79,10 +80,11 @@ function MyApp({ Component, pageProps }) {
     return axios.post('/api/analytics', data)
       .then(response => {
         const { uid } = response.data
+        window.sessionStorage.setItem('uid', '9655412898773276531324564')
         if (uid) {
           return window.localStorage.setItem('uid', uid)
         }
-        return window.sessionStorage.setItem('uid', '9655412898773276531324564')
+        return;
       })
 
   }

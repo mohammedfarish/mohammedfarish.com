@@ -1,8 +1,13 @@
+import axios from 'axios'
 import Chance from 'chance'
 import Moment from 'moment-timezone'
 
-import analyticsSchema from '../../utils/database/schema/analyticsSchema'
+import dbConnect from '../../utils/database/dbConnect'
 import getIP from '../../utils/middlewares/getIP'
+
+import analyticsSchema from '../../utils/database/schema/analyticsSchema'
+
+dbConnect()
 
 export default async (req, res) => {
     const { method } = req
@@ -17,18 +22,22 @@ export default async (req, res) => {
             try {
 
                 let guid = null,
-                    response = true
+                    response = true,
+                    visitCount = 0
 
                 if (uid === null) {
                     const { userAgent, data: activityData } = req.body
+
                     guid = chance.guid({ version: 5 })
+
                     response = { uid: guid }
+
                     const data = {
                         _id: guid,
                         userAgent,
                         activityData: {
                             ...activityData,
-                            ip: await getIP(),
+                            ip: await getIP(req),
                             time: moment.format(),
                         }
                     }
@@ -39,6 +48,7 @@ export default async (req, res) => {
                         lastActivity: moment.format(),
                         visitCount: 1
                     })
+
                     return res.json(response)
                 }
 
@@ -48,43 +58,36 @@ export default async (req, res) => {
 
                     activityData = {
                         ...activityData,
-                        ip: await getIP(),
+                        ip: await getIP(req),
                         time: moment.format(),
                     }
 
-                    await analyticsSchema.findByIdAndUpdate(uid, {
-                        lastActivity: moment.format(),
-                        $addToSet: {
-                            activityData
-                        },
-                        $inc: {
-                            visitCount: 1
-                        }
-                    })
-                }
-
-                if (activityData.type === 'browse') {
+                    visitCount = 1
+                } else if (activityData.type === 'browse') {
 
                     activityData = {
                         ...activityData,
-                        ip: await getIP(),
+                        ip: await getIP(req),
                         time: moment.format(),
                     }
 
-                    await analyticsSchema.findByIdAndUpdate(uid, {
-                        lastActivity: moment.format(),
-                        $addToSet: {
-                            activityData
-                        },
-                        $inc: {
-                            visitCount: 0
-                        }
-                    })
+                } else {
+                    return res.json(false)
                 }
 
-                res.json(response)
+                await analyticsSchema.findByIdAndUpdate(uid, {
+                    lastActivity: moment.format(),
+                    $addToSet: {
+                        activityData
+                    },
+                    $inc: {
+                        visitCount
+                    }
+                })
+
+                return res.json(response)
             } catch (error) {
-                res.json(false)
+                res.status(503).json(false)
             }
             break;
 
