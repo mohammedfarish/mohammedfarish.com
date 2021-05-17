@@ -29,7 +29,7 @@ export default async function (req, res) {
                 const ip = await getIP(req)
                 if (!ip) return res.status(400).json(false)
 
-                const { message, subject, name, email } = req.body
+                const { message, subject, name, email, uid } = req.body
 
                 if (!message || !subject || !name) return res.json(false)
 
@@ -40,6 +40,7 @@ export default async function (req, res) {
                     message,
                     ip,
                     read: false,
+                    deviceId: uid,
                     date: Moment().tz('Asia/Dubai').format()
                 })
 

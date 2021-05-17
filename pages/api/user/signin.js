@@ -18,7 +18,7 @@ export default async (req, res) => {
         case 'POST':
             try {
 
-                let { usernameOrEmail, password } = req.body
+                let { usernameOrEmail, password, uid } = req.body
                 if (!usernameOrEmail || !password) return res.json({ success: false, reason: "Username or Password not provided." })
 
                 usernameOrEmail = usernameOrEmail.toLowerCase()
@@ -58,7 +58,8 @@ export default async (req, res) => {
                 const session = await sessionSchema.create({
                     userId: existingData._id,
                     deviceIP: ip,
-                    active: true
+                    active: true,
+                    deviceId: uid
                 })
 
                 await userSchema.findByIdAndUpdate(existingData._id, {

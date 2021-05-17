@@ -20,9 +20,9 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
 
-    analytics()
-
     if (isDev()) return;
+
+    analytics()
 
     if (document.addEventListener) {
       document.addEventListener('contextmenu', function (e) {
@@ -52,6 +52,8 @@ function MyApp({ Component, pageProps }) {
     const sessionUID = window.sessionStorage.getItem('uid')
     if (!uid) return;
     if (!sessionUID) return;
+
+    if (isDev()) return;
 
     const data = {
       uid: window.localStorage.getItem('uid'),

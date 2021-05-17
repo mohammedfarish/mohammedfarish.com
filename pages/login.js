@@ -44,8 +44,19 @@ const login = () => {
 
         const data = {
             usernameOrEmail: username,
-            password
+            password,
+            uid: window.localStorage.getItem('uid')
         }
+
+        const analyticsData = {
+            uid: window.localStorage.getItem('uid'),
+            data: {
+                type: "loginAttempt",
+                username
+            }
+        }
+        axios.post('/api/analytics', analyticsData)
+
 
         axios.post('/api/user/signin', data)
             .then(response => {

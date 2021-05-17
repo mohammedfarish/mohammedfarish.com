@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     userId: String,
     deviceIP: String,
-    active: Boolean
+    active: Boolean,
+    deviceId: String,
 }, {
     timestamps: true
 })

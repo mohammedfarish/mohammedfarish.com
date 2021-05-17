@@ -6,7 +6,8 @@ const analyticsSchema = mongoose.Schema({
     initialActivity: String,
     lastActivity: String,
     visitCount: Number,
-    activityData: Array
+    activityData: Array,
+    remarks: Array
 })
 
 module.exports = mongoose.models.analytic || mongoose.model('analytic', analyticsSchema);

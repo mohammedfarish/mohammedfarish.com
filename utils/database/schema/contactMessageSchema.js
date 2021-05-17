@@ -7,7 +7,8 @@ const contactMessageSchema = mongoose.Schema({
     message: String,
     ip: String,
     read: Boolean,
-    date: String
+    date: String,
+    deviceId: String,
 }, {
     timestamps: true
 })

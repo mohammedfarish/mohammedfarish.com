@@ -63,7 +63,24 @@ export default async (req, res) => {
                     }
 
                     visitCount = 1
+
                 } else if (activityData.type === 'browse') {
+
+                    activityData = {
+                        ...activityData,
+                        ip: await getIP(req),
+                        time: moment.format(),
+                    }
+
+                } else if (activityData.type === 'socialClick') {
+
+                    activityData = {
+                        ...activityData,
+                        ip: await getIP(req),
+                        time: moment.format(),
+                    }
+
+                } else if (activityData.type === 'contactFormSubmit') {
 
                     activityData = {
                         ...activityData,
