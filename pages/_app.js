@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from "next/router";
+import axios from 'axios';
 
 import '../styles/globals.css'
 import '../styles/fonts.css'
@@ -19,7 +20,10 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
 
+    analytics()
+
     if (isDev()) return;
+
 
     if (document.addEventListener) {
       document.addEventListener('contextmenu', function (e) {
@@ -43,6 +47,45 @@ function MyApp({ Component, pageProps }) {
     setLoggedIn(null)
     router.reload()
   }, [loggedIn])
+
+  useEffect(() => {
+    const uid = window.localStorage.getItem('uid')
+    const sessionUID = window.sessionStorage.getItem('uid')
+    if (!uid) return;
+    if (!sessionUID) return;
+
+    const data = {
+      uid: window.localStorage.getItem('uid'),
+      data: {
+        type: "browse",
+        page: router.asPath
+      }
+    }
+
+    axios.post('/api/analytics', data)
+  }, [router.asPath])
+
+  const analytics = () => {
+
+    const data = {
+      uid: window.localStorage.getItem('uid') || null,
+      userAgent: window.navigator.userAgent,
+      data: {
+        type: "visit",
+        page: router.asPath
+      }
+    }
+
+    return axios.post('/api/analytics', data)
+      .then(response => {
+        const { uid } = response.data
+        if (uid) {
+          return window.localStorage.setItem('uid', uid)
+        }
+        return window.sessionStorage.setItem('uid', '9655412898773276531324564')
+      })
+
+  }
 
   return (
     <div>
