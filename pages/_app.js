@@ -57,7 +57,9 @@ function MyApp({ Component, pageProps }) {
     if (!sessionUID) return;
 
     if (isDev()) return;
+
     const page = router.asPath
+
     const data = {
       uid: window.localStorage.getItem('uid'),
       data: {
@@ -106,6 +108,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   useEffect(() => {
+
     if (loader < 99)
       return setTimeout(() => {
         setLoaderOpaccty(1)
@@ -117,6 +120,7 @@ function MyApp({ Component, pageProps }) {
         setLoader(0)
       }, 1000);
     }, 500);
+
   }, [loader])
 
   return (
