@@ -18,7 +18,7 @@ export default async (req, res) => {
     switch (method) {
 
         case 'POST':
-            let { title, slug, content } = req.body
+            let { title, slug, content, listed, publish } = req.body
             if (!title || !content) return res.json(false)
             try {
                 const authenticate = await auth(req)
@@ -37,7 +37,9 @@ export default async (req, res) => {
                     slug,
                     date: Moment().tz('Asia/Dubai').format(),
                     content,
-                    author
+                    author,
+                    publish,
+                    listed
                 })
 
                 res.json(true)

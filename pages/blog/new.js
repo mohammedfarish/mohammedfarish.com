@@ -13,6 +13,10 @@ const NewArticle = () => {
     const [pageTitle, setPageTitle] = useState('New Blog Post | Mohammed Farish')
     const [theme, setTheme] = useState('')
     const [slug, setSlug] = useState('')
+    const [publish, setPublish] = useState(true)
+    const [publishButtonColor, setPublishButtonColor] = useState('lightgreen')
+    const [listed, setListed] = useState(true)
+    const [listedButtonColor, setListedButtonColor] = useState('lightgreen')
     const [markdownValue, setMarkdownValue] = useState('')
     const [markdownContent, setMarkdownContent] = useState('')
     const [disablePublishButton, setDisablePublishButton] = useState(false)
@@ -169,7 +173,18 @@ const NewArticle = () => {
         if (data) {
 
             data = JSON.parse(data)
-            const { content, title } = data
+            const { content, title, publish, listed } = data
+
+            if (!publish) {
+                setPublishButtonColor('transparent')
+                setPublish(false)
+            }
+
+            if (!listed) {
+                setListedButtonColor('transparent')
+                setListed(false)
+            }
+
             if (!content && !title) return;
 
             if (content) {
@@ -182,6 +197,13 @@ const NewArticle = () => {
                 setPageTitle(`${title} - New Post | Mohammed Farish`)
                 setSlug(encodeURI(title.split(' ').join('-').toLowerCase()))
             }
+        } else {
+            const data = {
+                listed,
+                publish
+            }
+            window.localStorage.setItem('content', JSON.stringify(data))
+
         }
     }
 
@@ -198,7 +220,9 @@ const NewArticle = () => {
 
         let data = {
             content: markdownValue,
-            title: e.target.value.trim()
+            title: e.target.value.trim(),
+            publish,
+            listed
         }
         window.localStorage.setItem('content', JSON.stringify(data))
 
@@ -209,7 +233,9 @@ const NewArticle = () => {
 
         let data = {
             content: e(),
-            title: blogTitle
+            title: blogTitle,
+            publish,
+            listed
         }
         window.localStorage.setItem('content', JSON.stringify(data))
     }
@@ -229,6 +255,63 @@ const NewArticle = () => {
         console.log(formData)
     }
 
+    const onChangeStatus = (status) => {
+        let data = window.localStorage.getItem('content')
+
+        if (status === 'listed') {
+            if (data) {
+                data = JSON.parse(data)
+                let { content, title, publish, listed } = data
+                if (listed) {
+                    listed = false
+                    setListedButtonColor('transparent')
+                    setListed(false)
+                } else {
+                    listed = true
+                    setListedButtonColor('lightgreen')
+                    setListed(true)
+                }
+                data = { content, title, publish, listed }
+            }
+
+            if (listed) {
+                setListedButtonColor('transparent')
+                setListed(false)
+            } else {
+                setListedButtonColor('lightgreen')
+                setListed(true)
+            }
+        }
+
+        if (status === 'publish') {
+            if (data) {
+                data = JSON.parse(data)
+                let { content, title, publish, listed } = data
+                if (publish) {
+                    publish = false
+                    setPublishButtonColor('transparent')
+                    setPublish(false)
+                } else {
+                    publish = true
+                    setPublishButtonColor('lightgreen')
+                    setPublish(true)
+                }
+
+                data = { content, title, publish, listed }
+            }
+            if (publish) {
+                setPublishButtonColor('transparent')
+                setPublish(false)
+            } else {
+                setPublishButtonColor('lightgreen')
+                setPublish(true)
+            }
+        }
+
+        window.localStorage.setItem('content', JSON.stringify(data))
+
+    }
+
     const onClickPublish = () => {
         if (markdownValue === '\\\n' ||
             !blogTitle ||
@@ -243,7 +326,7 @@ const NewArticle = () => {
             content = markdownValue
         }
 
-        const data = { content, title }
+        const data = { content, title, listed, publish }
 
         axios.post('/api/blog/post', data, {
             headers: {
@@ -259,8 +342,10 @@ const NewArticle = () => {
             .catch((err) => {
                 const status = err.response.status
                 if (status === 400) {
+                    setDisablePublishButton(false)
                     setErrMessage(`Error! Please make sure that you're logged in with a valid account credential.`)
                 } else {
+                    setDisablePublishButton(false)
                     setErrMessage('Error! ' + err.message)
                 }
             })
@@ -278,6 +363,10 @@ const NewArticle = () => {
                     disabled={disablePublishButton}
                     onClick={onClickPublish}
                 >PUBLISH</button>
+            </div>
+            <div className={styles.blogStatusSection}>
+                <span style={{ background: publishButtonColor }} onClick={() => onChangeStatus('publish')} className={styles.blogStatusSectionItem}>PUBLISH</span>
+                <span style={{ background: listedButtonColor }} onClick={() => onChangeStatus('listed')} className={styles.blogStatusSectionItem}>LISTED</span>
             </div>
             <input
                 className={styles.newBlogPostField}
