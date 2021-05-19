@@ -54,10 +54,32 @@ export default async (req, res) => {
 
                 const moment = Moment(blog.date).tz('Asia/Dubai').format('dddd • MMMM DD YYYY')
 
-                const data = {
-                    title: blog.title,
-                    content: blog.content,
-                    date: moment
+
+                const token = req.headers['x-auth-token'];
+                const authenticate = await auth(req)
+                if (token) await authenticate
+
+                let data
+                if (!authenticate) {
+                    const { title, content, publish } = blog
+
+                    data = {
+                        title,
+                        content,
+                        date: moment
+                    }
+
+                    if (!publish) data = false
+
+                } else {
+                    const { title, content } = blog
+
+                    data = {
+                        title,
+                        content,
+                        date: moment
+                    }
+
                 }
 
                 res.json(data)

@@ -34,13 +34,23 @@ export default class BlogPosts extends Component {
                 this.setState({
                     hideNewArticleButton: true
                 })
-                window.localStorage.removeItem('user');
+                return window.localStorage.removeItem('user');
+            } else {
+                return this.fetchPosts(true)
             }
+
         }
     }
 
-    fetchPosts() {
-        axios.get('/api/blog/list')
+    fetchPosts(login) {
+        let token = null
+        if (login) token = window.localStorage.getItem('user')
+
+        axios.get('/api/blog/list', {
+            headers: {
+                "x-auth-token": token
+            }
+        })
             .then(response => {
                 if (response.data) {
                     this.setState({
@@ -66,8 +76,13 @@ export default class BlogPosts extends Component {
                                 key={item.key} href={'/blog/' + item.slug}>
                                 <a>
                                     <div className={styles.blogItem}>
-                                        <span className={styles.blogItemDate}>{item.date}</span>
-                                        <span className={styles.blogItemTitle}>{item.title}</span>
+                                        <div className={styles.blogItemSection}>
+                                            <span className={styles.blogItemDate}>{item.date}</span>
+                                            <span className={styles.blogItemTitle}>{item.title}</span>
+                                        </div>
+                                        <div hidden={item.status.length === 0 ? true : false} className={styles.blogItemStatus} >
+                                            <span>{item.status}</span>
+                                        </div>
                                     </div>
                                 </a>
                             </Link>

@@ -8,11 +8,14 @@ import styles from '../../styles/blogpost.module.css'
 import ErrorPage from '../404'
 import Loading from '../../components/loading/Loading';
 
+import verifyUser from '../../utils/functions/verify';
+
 export default class BlogPost extends Component {
     constructor(props) {
         super(props)
 
         this.loadTheme = this.loadTheme.bind(this)
+        this.verifyLoggedIn = this.verifyLoggedIn.bind(this)
         this.fetchBlogData = this.fetchBlogData.bind(this)
         this.state = {
             existing: null,
@@ -23,8 +26,9 @@ export default class BlogPost extends Component {
         }
     }
 
-    componentDidMount() {
-        this.fetchBlogData()
+    async componentDidMount() {
+        const verify = await this.verifyLoggedIn()
+        if (!verify) this.fetchBlogData()
         this.loadTheme()
     }
 
@@ -159,8 +163,31 @@ export default class BlogPost extends Component {
         })
     }
 
-    fetchBlogData() {
-        axios.get('/api/blog/post?q=' + this.props.slug)
+    async verifyLoggedIn() {
+        const user = window.localStorage.getItem('user');
+        if (user) {
+            const verify = await verifyUser()
+            if (!verify) {
+                window.localStorage.removeItem('user');
+                return false
+            } else {
+                this.fetchBlogData(true)
+                return true
+            }
+        } else {
+            return false
+        }
+    }
+
+    fetchBlogData(login) {
+        let token = null
+        if (login) token = window.localStorage.getItem('user')
+
+        axios.get('/api/blog/post?q=' + this.props.slug, {
+            headers: {
+                "x-auth-token": token
+            }
+        })
             .then(response => {
                 if (response.data) {
                     const { title, content, date } = response.data
