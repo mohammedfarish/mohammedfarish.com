@@ -56,8 +56,6 @@ export default class Updates extends Component {
                         location,
                         locationLastUpdate: lastUpdate
                     })
-                    if (!refresh)
-                        this.props.setLoader(this.props.loader + 34)
 
                 } else {
                     this.setState({
@@ -67,8 +65,6 @@ export default class Updates extends Component {
                 }
             })
             .catch(() => {
-                if (!refresh)
-                    this.props.setLoader(this.props.loader + 34)
                 this.setState({
                     location: 'Unknown',
                     locationLastUpdate: 'never'
@@ -116,14 +112,8 @@ export default class Updates extends Component {
                     githubCommitMessage: message
                 })
 
-                if (!refresh)
-                    this.props.setLoader(this.props.loader + 34)
-
-
             })
             .catch(() => {
-                if (!refresh)
-                    this.props.setLoader(this.props.loader + 34)
                 this.setState({
                     githubRepo: 'Unknown',
                     githubCommitMessage: ''
@@ -160,13 +150,8 @@ export default class Updates extends Component {
                     }
                 }
 
-                if (!refresh)
-                    this.props.setLoader(this.props.loader + 34)
-
             })
             .catch(() => {
-                if (!refresh)
-                    this.props.setLoader(this.props.loader + 34)
                 this.setState({
                     activeAPIs: 0 + " Servers"
                 })

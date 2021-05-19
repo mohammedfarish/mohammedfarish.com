@@ -30,13 +30,13 @@ const Home = (props) => {
                 </div>
             </div>
             <div className={styles.homepagesection}>
-                <Updates loader={props.loader} setLoader={props.setLoader} />
+                <Updates />
             </div>
             <div hidden className={styles.homepagesection}>
                 <LatestArticles />
             </div>
             <div className={styles.homepagesection}>
-                <GetInTouch loader={props.loader} setLoader={props.setLoader} />
+                <GetInTouch />
             </div>
         </div>
     )
