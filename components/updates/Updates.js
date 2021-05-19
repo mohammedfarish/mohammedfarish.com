@@ -56,6 +56,9 @@ export default class Updates extends Component {
                         location,
                         locationLastUpdate: lastUpdate
                     })
+                    if (!refresh)
+                        this.props.setLoader(this.props.loader + 34)
+
                 } else {
                     this.setState({
                         location: 'Unknown',
@@ -64,6 +67,8 @@ export default class Updates extends Component {
                 }
             })
             .catch(() => {
+                if (!refresh)
+                    this.props.setLoader(this.props.loader + 34)
                 this.setState({
                     location: 'Unknown',
                     locationLastUpdate: 'never'
@@ -111,8 +116,14 @@ export default class Updates extends Component {
                     githubCommitMessage: message
                 })
 
+                if (!refresh)
+                    this.props.setLoader(this.props.loader + 34)
+
+
             })
             .catch(() => {
+                if (!refresh)
+                    this.props.setLoader(this.props.loader + 34)
                 this.setState({
                     githubRepo: 'Unknown',
                     githubCommitMessage: ''
@@ -148,8 +159,14 @@ export default class Updates extends Component {
                         })
                     }
                 }
+
+                if (!refresh)
+                    this.props.setLoader(this.props.loader + 34)
+
             })
             .catch(() => {
+                if (!refresh)
+                    this.props.setLoader(this.props.loader + 34)
                 this.setState({
                     activeAPIs: 0 + " Servers"
                 })
@@ -157,11 +174,14 @@ export default class Updates extends Component {
     }
 
     onClickReloadData(type) {
-        if (type === 1) return this.fetchLocation(true)
+        if (type === 1)
+            return this.fetchLocation(true)
 
-        if (type === 2) return this.fetchGithubData(true)
+        if (type === 2)
+            return this.fetchGithubData(true)
 
-        if (type === 3) return this.fetchActiveAPIs(true)
+        if (type === 3)
+            return this.fetchActiveAPIs(true)
     }
 
     render() {

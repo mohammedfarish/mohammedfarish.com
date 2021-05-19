@@ -7,7 +7,7 @@ import LatestArticles from '../components/latest articles/LatestArticles'
 import GetInTouch from '../components/contact/GetInTouch'
 import Updates from '../components/updates/Updates'
 
-const Home = () => {
+const Home = (props) => {
 
     const [age, setAge] = useState(0)
 
@@ -30,13 +30,13 @@ const Home = () => {
                 </div>
             </div>
             <div className={styles.homepagesection}>
-                <Updates />
+                <Updates loader={props.loader} setLoader={props.setLoader} />
             </div>
             <div hidden className={styles.homepagesection}>
                 <LatestArticles />
             </div>
             <div className={styles.homepagesection}>
-                <GetInTouch />
+                <GetInTouch loader={props.loader} setLoader={props.setLoader} />
             </div>
         </div>
     )

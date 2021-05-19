@@ -169,13 +169,17 @@ export default class GetInTouch extends Component {
             uid: window.localStorage.getItem('uid')
         }
 
+        this.props.setLoader(30)
+
         axios.post('/api/contact', data)
             .then(response => {
+                this.props.setLoader(100)
                 if (response.data === true) {
                     this.setState({
                         submitButtonText: 'Message Sent'
                     })
                     window.localStorage.removeItem('contact-message')
+
 
                     const data = {
                         uid: window.localStorage.getItem('uid'),
@@ -186,7 +190,6 @@ export default class GetInTouch extends Component {
 
                     axios.post('/api/analytics', data)
 
-
                 } else {
                     this.setState({
                         submitButtonText: 'Failed to send',
@@ -196,6 +199,7 @@ export default class GetInTouch extends Component {
                 }
             })
             .catch(() => {
+                this.props.setLoader(100)
                 this.setState({
                     submitButtonText: 'Failed to send',
                     disableSubmitButton: false,

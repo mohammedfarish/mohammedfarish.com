@@ -10,11 +10,14 @@ import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 
 import isDev from '../utils/middlewares/isDev'
+import LoadingBar from '../components/loading bar/LoadingBar';
 
 function MyApp({ Component, pageProps }) {
 
   const [globalState, setGlobalState] = useState({})
   const [loggedIn, setLoggedIn] = useState(null)
+  const [loader, setLoader] = useState(0)
+  const [loaderOpaccty, setLoaderOpaccty] = useState(1)
 
   const router = useRouter()
 
@@ -54,16 +57,27 @@ function MyApp({ Component, pageProps }) {
     if (!sessionUID) return;
 
     if (isDev()) return;
-
+    const page = router.asPath
     const data = {
       uid: window.localStorage.getItem('uid'),
       data: {
         type: "browse",
-        page: router.asPath
+        page
       }
     }
 
+    if (page !== '/')
+      setLoader(30)
+
     axios.post('/api/analytics', data)
+      .then(() => {
+        if (page !== '/')
+          setLoader(100)
+      })
+      .catch(() => {
+        if (page !== '/')
+          setLoader(100)
+      })
   }, [router.asPath])
 
   const analytics = () => {
@@ -91,6 +105,20 @@ function MyApp({ Component, pageProps }) {
 
   }
 
+  useEffect(() => {
+    if (loader < 99)
+      return setTimeout(() => {
+        setLoaderOpaccty(1)
+      }, 500);
+
+    setTimeout(() => {
+      setLoaderOpaccty(0)
+      setTimeout(() => {
+        setLoader(0)
+      }, 1000);
+    }, 500);
+  }, [loader])
+
   return (
     <div>
       <Head>
@@ -112,9 +140,10 @@ function MyApp({ Component, pageProps }) {
         <meta property="twitter:description" content="Originally from Kerala, India, Farish is now an innovative fullstack developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things." />
         <meta property="twitter:image" content="https://www.mohammedfarish.com/assets/seoimage.jpg" />
       </Head>
+      <LoadingBar loaderOpaccty={loaderOpaccty} loader={loader} />
       <Header setLoggedIn={setLoggedIn} current={router.pathname} />
       <div className="pages">
-        <Component {...pageProps} globalState={globalState} setGlobalState={setGlobalState} />
+        <Component {...pageProps} loader={loader} setLoader={setLoader} globalState={globalState} setGlobalState={setGlobalState} />
       </div>
       <Footer />
     </div>
