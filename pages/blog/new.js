@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import Head from 'next/head'
 import Editor from "rich-markdown-editor";
 import axios from 'axios';
 import Router from 'next/router'
 
+import CustomHead from '../../components/head/Head';
+
 import styles from '../../styles/newblogpost.module.css'
+
 import verifyUser from '../../utils/functions/verify';
 
 const NewArticle = () => {
@@ -353,9 +355,7 @@ const NewArticle = () => {
 
     return (
         <div className={styles.newblogpostpage}>
-            <Head>
-                <title>{pageTitle}</title>
-            </Head>
+            <CustomHead title={pageTitle} />
             <span className={styles.newBlogPostErrorMessage}>{errMessage}</span>
             <div className={styles.newBlogPostPublishButtonSection}>
                 <button

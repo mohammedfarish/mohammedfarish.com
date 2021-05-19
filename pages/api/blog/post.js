@@ -12,12 +12,14 @@ dbConnect();
 export default async (req, res) => {
     const { method } = req
 
-    const inRateLimit = await rateLimiter(req)
-    if (!inRateLimit) return res.status(429).json(false)
 
     switch (method) {
 
         case 'POST':
+
+            const inRateLimit = await rateLimiter(req)
+            if (!inRateLimit) return res.status(429).json(false)
+
             let { title, slug, content, listed, publish } = req.body
             if (!title || !content) return res.json(false)
             try {
@@ -55,7 +57,6 @@ export default async (req, res) => {
                 if (!blog) return res.json(false)
 
                 const moment = Moment(blog.date).tz('Asia/Dubai').format('dddd • MMMM DD YYYY')
-
 
                 const token = req.headers['x-auth-token'];
                 const authenticate = await auth(req)

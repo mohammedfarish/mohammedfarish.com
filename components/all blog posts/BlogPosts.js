@@ -20,25 +20,27 @@ export default class BlogPosts extends Component {
 
     componentDidMount() {
         this.verifyLoggedIn()
-        this.fetchPosts()
     }
 
     async verifyLoggedIn() {
         const user = window.localStorage.getItem('user');
         if (user) {
-            this.setState({
-                hideNewArticleButton: false
-            })
             const verify = await verifyUser()
             if (!verify) {
                 this.setState({
                     hideNewArticleButton: true
                 })
-                return window.localStorage.removeItem('user');
+                this.fetchPosts()
+                window.localStorage.removeItem('user');
+                return window.location.reload()
             } else {
+                this.setState({
+                    hideNewArticleButton: false
+                })
                 return this.fetchPosts(true)
             }
-
+        } else {
+            return this.fetchPosts()
         }
     }
 
