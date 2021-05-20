@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function verifyUser() {
+export default function verifyUser() {
   const user = window.localStorage.getItem("user");
   if (!user) return false;
 
@@ -8,16 +8,14 @@ export default async function verifyUser() {
     headers: {
       "x-auth-token": window.localStorage.getItem("user"),
     },
-  })
-    .then((response) => {
-      if (response.data === true) {
-        return true;
-      }
-      window.localStorage.removeItem("user");
-      return false;
-    })
-    .catch(() => {
-      window.localStorage.removeItem("user");
-      return false;
-    });
+  }).then((response) => {
+    if (response.data === true) {
+      return true;
+    }
+    window.localStorage.removeItem("user");
+    return false;
+  }).catch(() => {
+    window.localStorage.removeItem("user");
+    return false;
+  });
 }

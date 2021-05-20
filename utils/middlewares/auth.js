@@ -17,7 +17,7 @@ export default async function auth(req) {
         ip: "devIP",
         dev: true,
       };
-      // return true
+      return true;
     }
 
     const validHost = await host(req);
