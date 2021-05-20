@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const contactMessageSchema = mongoose.Schema({
-    name: String,
-    email: String,
-    subject: String,
-    message: String,
-    ip: String,
-    read: Boolean,
-    date: String,
-    deviceId: String,
+  name: String,
+  email: String,
+  subject: String,
+  message: String,
+  ip: String,
+  read: Boolean,
+  date: String,
+  deviceId: String,
 }, {
-    timestamps: true
-})
+  timestamps: true,
+});
 
-module.exports = mongoose.models.contactmessage || mongoose.model('contactmessage', contactMessageSchema);
+module.exports = mongoose.models.contactmessage || mongoose.model("contactmessage", contactMessageSchema);

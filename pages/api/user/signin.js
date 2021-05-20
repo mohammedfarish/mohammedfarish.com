@@ -1,91 +1,89 @@
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable prefer-const */
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-import dbConnect from '../../../utils/database/dbConnect'
+import dbConnect from "../../../utils/database/dbConnect";
 
-import sessionSchema from '../../../utils/database/schema/sessionSchema'
-import userSchema from "../../../utils/database/schema/userSchema"
-import getIP from '../../../utils/middlewares/getIP'
-import rateLimiter from '../../../utils/middlewares/rateLimiter'
+import sessionSchema from "../../../utils/database/schema/sessionSchema";
+import userSchema from "../../../utils/database/schema/userSchema";
+import getIP from "../../../utils/middlewares/getIP";
+// import rateLimiter from "../../../utils/middlewares/rateLimiter";
 
 dbConnect();
 
 export default async (req, res) => {
-    const { method } = req
+  const { method } = req;
 
-    switch (method) {
+  switch (method) {
+    case "POST":
+      try {
+        let { usernameOrEmail, password, uid } = req.body;
+        if (!usernameOrEmail || !password) return res.json({ success: false, reason: "Username or Password not provided." });
 
-        case 'POST':
-            try {
+        usernameOrEmail = usernameOrEmail.toLowerCase();
 
-                let { usernameOrEmail, password, uid } = req.body
-                if (!usernameOrEmail || !password) return res.json({ success: false, reason: "Username or Password not provided." })
+        const existingEmail = await userSchema.findOne({ email: usernameOrEmail });
+        const existingUsername = await userSchema.findOne({ username: usernameOrEmail });
 
-                usernameOrEmail = usernameOrEmail.toLowerCase()
+        if (!existingUsername && !existingEmail) return res.json({ success: false, reason: "Incorrect username/email or password." });
 
-                const existingEmail = await userSchema.findOne({ email: usernameOrEmail });
-                const existingUsername = await userSchema.findOne({ username: usernameOrEmail });
+        let existingData;
+        if (existingEmail) existingData = existingEmail;
+        if (existingUsername) existingData = existingUsername;
 
-                if (!existingUsername && !existingEmail) return res.json({ success: false, reason: "Incorrect username/email or password." })
+        if (!existingData.active) {
+          if (!existingData.verified) return res.json({ success: false, reason: "Account is not verified. Please contact admin." });
+          return res.json({ success: false, reason: "Account is inactive. Please contact admin." });
+        }
 
-                let existingData
-                if (existingEmail) existingData = existingEmail
-                if (existingUsername) existingData = existingUsername
+        const passwordData = existingData.password;
 
-                if (!existingData.active) {
-                    if (!existingData.verified) return res.json({ success: false, reason: "Account is not verified. Please contact admin." })
-                    return res.json({ success: false, reason: "Account is inactive. Please contact admin." })
-                }
+        const correctPassword = await bcrypt.compare(password, passwordData);
+        if (!correctPassword) return res.json({ success: false, reason: "Incorrect username/email or password." });
 
-                const passwordData = existingData.password
+        const ip = await getIP(req);
+        if (!ip) return res.json({ success: false, reason: "Internal Server Error." });
 
-                const correctPassword = await bcrypt.compare(password, passwordData)
-                if (!correctPassword) return res.json({ success: false, reason: "Incorrect username/email or password." })
+        const activeSessions = await sessionSchema.find({ userId: existingData._id, active: true });
+        if (activeSessions.length > 0) {
+          activeSessions.forEach(async (session) => {
+            const { _id } = session;
+            await sessionSchema.findByIdAndUpdate(_id, {
+              active: false,
+            });
+          });
+        }
 
-                const ip = await getIP(req)
-                if (!ip) return res.json({ success: false, reason: "Internal Server Error." })
+        const session = await sessionSchema.create({
+          userId: existingData._id,
+          deviceIP: ip,
+          active: true,
+          deviceId: uid,
+        });
 
-                const activeSessions = await sessionSchema.find({ userId: existingData._id, active: true })
-                if (activeSessions.length > 0) {
-                    activeSessions.forEach(async (session) => {
-                        const { _id } = session
-                        await sessionSchema.findByIdAndUpdate(_id, {
-                            active: false
-                        })
-                    })
-                }
+        await userSchema.findByIdAndUpdate(existingData._id, {
+          $addToSet: {
+            sessions: session._id,
+          },
+        });
 
-                const session = await sessionSchema.create({
-                    userId: existingData._id,
-                    deviceIP: ip,
-                    active: true,
-                    deviceId: uid
-                })
+        const tokenPayload = {
+          sessionId: session._id,
+        };
 
-                await userSchema.findByIdAndUpdate(existingData._id, {
-                    $addToSet: {
-                        sessions: session._id
-                    }
-                })
+        const token = await jwt.sign(tokenPayload, process.env.JWT_SECRET);
 
-                const tokenPayload = {
-                    sessionId: session._id
-                }
+        res.json({ success: true, token });
+      } catch (error) {
+        res.status(503).json("Internal Server Error.");
+      }
 
-                const token = await jwt.sign(tokenPayload, process.env.JWT_SECRET)
+      break;
 
-                res.json({ success: true, token })
-
-            } catch (error) {
-                res.status(503).json("Internal Server Error.")
-            }
-
-            break;
-
-        default:
-            res.status(404).json(false)
-            break;
-
-    }
-
-}
+    default:
+      res.status(404).json(false);
+      break;
+  }
+  return true;
+};

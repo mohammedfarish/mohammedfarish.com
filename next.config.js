@@ -1,4 +1,4 @@
 module.exports = {
-    productionBrowserSourceMaps: false,
-    reactStrictMode: true,
-}
+  productionBrowserSourceMaps: false,
+  reactStrictMode: true,
+};

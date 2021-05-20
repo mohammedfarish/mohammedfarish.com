@@ -1,61 +1,59 @@
-import axios from "axios"
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-plusplus */
+import axios from "axios";
 
 export default async (req, res) => {
-    const { method } = req
+  const { method } = req;
 
-    switch (method) {
-        case 'GET':
+  switch (method) {
+    case "GET":
 
-            let online = 0,
-                offline = 0
+      let online = 0;
+      let offline = 0;
 
-            axios.post('https://api.uptimerobot.com/v2/getMonitors', null, {
-                params: {
-                    api_key: process.env.UPTIME_ROBOT_API_KEY
-                }
-            })
-                .then(response => {
-                    const { monitors } = response.data
+      axios.post("https://api.uptimerobot.com/v2/getMonitors", null, {
+        params: {
+          api_key: process.env.UPTIME_ROBOT_API_KEY,
+        },
+      })
+        .then((response) => {
+          const { monitors } = response.data;
 
-                    monitors.forEach(monitor => {
-                        const { status } = monitor
-                        if (status === 2) return online++
-                        return offline++
-                    })
+          monitors.forEach((monitor) => {
+            const { status } = monitor;
+            if (status === 2) return online++;
+            return offline++;
+          });
 
-                    const result = {
-                        status: 'online',
-                        servers: {
-                            online,
-                            offline
-                        }
-                    }
+          const result = {
+            status: "online",
+            servers: {
+              online,
+              offline,
+            },
+          };
 
-                    res.json(result)
+          res.json(result);
+        })
+        .catch(() => {
+          online = null;
+          offline = null;
 
-                })
-                .catch(() => {
+          const response = {
+            status: "Something went wrong. Please check with the hosting provider.",
+            servers: {
+              online,
+              offline,
+            },
+          };
 
-                    online = null
-                    offline = null
+          res.json(response);
+        });
 
-                    const response = {
-                        status: 'Something went wrong. Please check with the hosting provider.',
-                        servers: {
-                            online,
-                            offline
-                        }
-                    }
+      break;
 
-                    res.json(response)
-
-                })
-
-            break;
-
-        default:
-            res.status(404).json(false)
-            break;
-    }
-
-}
+    default:
+      res.status(404).json(false);
+      break;
+  }
+};

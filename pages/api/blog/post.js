@@ -1,99 +1,98 @@
-import Moment from 'moment-timezone';
+/* eslint-disable no-shadow */
+/* eslint-disable prefer-const */
+/* eslint-disable no-case-declarations */
+import Moment from "moment-timezone";
 
-import auth from '../../../utils/middlewares/auth';
+import auth from "../../../utils/middlewares/auth";
 
-import dbConnect from '../../../utils/database/dbConnect';
-import blogSchema from '../../../utils/database/schema/blogSchema';
-import rateLimiter from '../../../utils/middlewares/rateLimiter';
-
+import dbConnect from "../../../utils/database/dbConnect";
+import blogSchema from "../../../utils/database/schema/blogSchema";
+import rateLimiter from "../../../utils/middlewares/rateLimiter";
 
 dbConnect();
 
 export default async (req, res) => {
-    const { method } = req
+  const { method } = req;
 
+  switch (method) {
+    case "POST":
 
-    switch (method) {
+      const inRateLimit = await rateLimiter(req);
+      if (!inRateLimit) return res.status(429).json(false);
 
-        case 'POST':
+      let {
+        title, slug, content, listed, publish,
+      } = req.body;
+      if (!title || !content) return res.json(false);
+      try {
+        const authenticate = await auth(req);
+        if (!authenticate) return res.status(400).json("Unauthorised");
 
-            const inRateLimit = await rateLimiter(req)
-            if (!inRateLimit) return res.status(429).json(false)
+        if (!slug) { slug = title.toLowerCase().split(" ").join("-"); }
 
-            let { title, slug, content, listed, publish } = req.body
-            if (!title || !content) return res.json(false)
-            try {
-                const authenticate = await auth(req)
-                if (!authenticate) return res.status(400).json('Unauthorised')
+        const author = {
+          id: req.user.id,
+          ip: req.user.ip,
+        };
 
-                if (!slug)
-                    slug = title.toLowerCase().split(' ').join('-')
+        await blogSchema.create({
+          title,
+          slug,
+          date: Moment().tz("Asia/Dubai").format(),
+          content,
+          author,
+          publish,
+          listed,
+        });
 
-                const author = {
-                    id: req.user.id,
-                    ip: req.user.ip
-                }
+        res.json(true);
+      } catch (error) {
+        res.status(503).json(false);
+      }
+      break;
 
-                await blogSchema.create({
-                    title,
-                    slug,
-                    date: Moment().tz('Asia/Dubai').format(),
-                    content,
-                    author,
-                    publish,
-                    listed
-                })
+    case "GET":
+      const { q } = req.query;
+      try {
+        const blog = await blogSchema.findOne({ slug: q });
+        if (!blog) return res.json(false);
 
-                res.json(true)
-            } catch (error) {
-                res.status(503).json(false)
-            }
-            break;
+        const moment = Moment(blog.date).tz("Asia/Dubai").format("dddd • MMMM DD YYYY");
 
-        case 'GET':
-            const { q } = req.query
-            try {
-                const blog = await blogSchema.findOne({ slug: q })
-                if (!blog) return res.json(false)
+        const token = req.headers["x-auth-token"];
+        const authenticate = await auth(req);
+        if (token) await authenticate;
 
-                const moment = Moment(blog.date).tz('Asia/Dubai').format('dddd • MMMM DD YYYY')
+        let data;
+        if (!authenticate) {
+          const { title, content, publish } = blog;
 
-                const token = req.headers['x-auth-token'];
-                const authenticate = await auth(req)
-                if (token) await authenticate
+          data = {
+            title,
+            content,
+            date: moment,
+          };
 
-                let data
-                if (!authenticate) {
-                    const { title, content, publish } = blog
+          if (!publish) data = false;
+        } else {
+          const { title, content } = blog;
 
-                    data = {
-                        title,
-                        content,
-                        date: moment
-                    }
+          data = {
+            title,
+            content,
+            date: moment,
+          };
+        }
 
-                    if (!publish) data = false
+        res.json(data);
+      } catch (error) {
+        res.status(404).json(false);
+      }
+      break;
 
-                } else {
-                    const { title, content } = blog
-
-                    data = {
-                        title,
-                        content,
-                        date: moment
-                    }
-
-                }
-
-                res.json(data)
-            } catch (error) {
-                res.status(404).json(false)
-            }
-            break;
-
-        default:
-            res.status(404).json(false)
-            break;
-
-    }
-}
+    default:
+      res.status(404).json(false);
+      break;
+  }
+  return true;
+};

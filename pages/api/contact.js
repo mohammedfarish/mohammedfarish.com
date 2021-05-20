@@ -1,71 +1,72 @@
-import Moment from 'moment-timezone'
+/* eslint-disable no-case-declarations */
+import Moment from "moment-timezone";
 
 import host from "../../utils/middlewares/host";
-import rateLimiter from '../../utils/middlewares/rateLimiter';
-import getIP from '../../utils/middlewares/getIP';
-import auth from '../../utils/middlewares/auth'
+import rateLimiter from "../../utils/middlewares/rateLimiter";
+import getIP from "../../utils/middlewares/getIP";
+import auth from "../../utils/middlewares/auth";
 
-import dbConnect from '../../utils/database/dbConnect'
+import dbConnect from "../../utils/database/dbConnect";
 
-import contactMessageSchema from '../../utils/database/schema/contactMessageSchema';
+import contactMessageSchema from "../../utils/database/schema/contactMessageSchema";
 
 dbConnect();
 
-export default async function (req, res) {
-    const { method } = req
+export default async (req, res) => {
+  const { method } = req;
 
-    switch (method) {
+  switch (method) {
+    case "POST":
 
-        case 'POST':
+      try {
+        const validHost = await host(req);
+        if (!validHost) return res.status(400).json(false);
 
-            try {
+        const inRateLimit = await rateLimiter(req);
+        if (!inRateLimit) return res.status(429).json(false);
 
-                const validHost = await host(req)
-                if (!validHost) return res.status(400).json(false)
+        const ip = await getIP(req);
+        if (!ip) return res.status(400).json(false);
 
-                const inRateLimit = await rateLimiter(req)
-                if (!inRateLimit) return res.status(429).json(false)
+        const {
+          message, subject, name, email, uid,
+        } = req.body;
 
-                const ip = await getIP(req)
-                if (!ip) return res.status(400).json(false)
+        if (!message || !subject || !name) return res.json(false);
 
-                const { message, subject, name, email, uid } = req.body
+        await contactMessageSchema.create({
+          name,
+          email,
+          subject,
+          message,
+          ip,
+          read: false,
+          deviceId: uid,
+          date: Moment().tz("Asia/Dubai").format(),
+        });
 
-                if (!message || !subject || !name) return res.json(false)
+        res.json(true);
+      } catch (error) {
+        res.json(false);
+      }
 
-                await contactMessageSchema.create({
-                    name,
-                    email,
-                    subject,
-                    message,
-                    ip,
-                    read: false,
-                    deviceId: uid,
-                    date: Moment().tz('Asia/Dubai').format()
-                })
+      break;
 
-                res.json(true)
+    case "GET":
+      const authenticate = await auth(req);
+      if (!authenticate) return res.status(400).json("Unauthorised");
 
-            } catch (error) {
-                res.json(false)
-            }
+      const data = await contactMessageSchema.find()
+        .sort({
+          date: -1,
+        });
 
-            break;
+      res.json(data);
+      break;
 
-        case 'GET':
-            const authenticate = await auth(req)
-            if (!authenticate) return res.status(400).json('Unauthorised')
-
-            const data = await contactMessageSchema.find()
-                .sort({
-                    date: -1
-                })
-
-            res.json(data)
-            break;
-
-        default:
-            res.status(404).json(false)
-            break;
-    }
-}
+    default:
+      res.status(404).json(false);
+      break;
+  }
+  return true;
+};

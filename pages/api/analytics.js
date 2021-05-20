@@ -1,117 +1,106 @@
-import axios from 'axios'
-import Chance from 'chance'
-import Moment from 'moment-timezone'
+/* eslint-disable no-case-declarations */
+import Chance from "chance";
+import Moment from "moment-timezone";
 
-import dbConnect from '../../utils/database/dbConnect'
-import getIP from '../../utils/middlewares/getIP'
+import dbConnect from "../../utils/database/dbConnect";
+import getIP from "../../utils/middlewares/getIP";
 
-import analyticsSchema from '../../utils/database/schema/analyticsSchema'
+import analyticsSchema from "../../utils/database/schema/analyticsSchema";
 
-dbConnect()
+dbConnect();
 
 export default async (req, res) => {
-    const { method } = req
+  const { method } = req;
 
-    const chance = new Chance()
-    const moment = Moment().tz('Asia/Dubai')
+  const chance = new Chance();
+  const moment = Moment().tz("Asia/Dubai");
 
-    switch (method) {
+  switch (method) {
+    case "POST":
+      const { uid } = req.body;
+      try {
+        let guid = null;
+        let response = true;
+        let visitCount = 0;
 
-        case 'POST':
-            const { uid } = req.body
-            try {
+        if (uid === null) {
+          const { userAgent, data: activityData } = req.body;
 
-                let guid = null,
-                    response = true,
-                    visitCount = 0
+          guid = chance.guid({ version: 5 });
 
-                if (uid === null) {
-                    const { userAgent, data: activityData } = req.body
+          response = { uid: guid };
 
-                    guid = chance.guid({ version: 5 })
+          const data = {
+            _id: guid,
+            userAgent,
+            activityData: {
+              ...activityData,
+              ip: await getIP(req),
+              time: moment.format(),
+            },
+          };
 
-                    response = { uid: guid }
+          await analyticsSchema.create({
+            ...data,
+            initialActivity: moment.format(),
+            lastActivity: moment.format(),
+            visitCount: 1,
+          });
 
-                    const data = {
-                        _id: guid,
-                        userAgent,
-                        activityData: {
-                            ...activityData,
-                            ip: await getIP(req),
-                            time: moment.format(),
-                        }
-                    }
+          return res.json(response);
+        }
 
-                    await analyticsSchema.create({
-                        ...data,
-                        initialActivity: moment.format(),
-                        lastActivity: moment.format(),
-                        visitCount: 1
-                    })
+        let { data: activityData } = req.body;
 
-                    return res.json(response)
-                }
+        if (activityData.type === "visit") {
+          activityData = {
+            ...activityData,
+            ip: await getIP(req),
+            time: moment.format(),
+          };
 
-                let { data: activityData } = req.body
+          visitCount = 1;
+        } else if (activityData.type === "browse") {
+          activityData = {
+            ...activityData,
+            ip: await getIP(req),
+            time: moment.format(),
+          };
+        } else if (activityData.type === "socialClick") {
+          activityData = {
+            ...activityData,
+            ip: await getIP(req),
+            time: moment.format(),
+          };
+        } else if (activityData.type === "contactFormSubmit") {
+          activityData = {
+            ...activityData,
+            ip: await getIP(req),
+            time: moment.format(),
+          };
+        } else {
+          return res.json(false);
+        }
 
-                if (activityData.type === 'visit') {
+        await analyticsSchema.findByIdAndUpdate(uid, {
+          lastActivity: moment.format(),
+          $addToSet: {
+            activityData,
+          },
+          $inc: {
+            visitCount,
+          },
+        });
 
-                    activityData = {
-                        ...activityData,
-                        ip: await getIP(req),
-                        time: moment.format(),
-                    }
+        return res.json(response);
+      } catch (error) {
+        res.status(503).json(false);
+      }
+      break;
 
-                    visitCount = 1
-
-                } else if (activityData.type === 'browse') {
-
-                    activityData = {
-                        ...activityData,
-                        ip: await getIP(req),
-                        time: moment.format(),
-                    }
-
-                } else if (activityData.type === 'socialClick') {
-
-                    activityData = {
-                        ...activityData,
-                        ip: await getIP(req),
-                        time: moment.format(),
-                    }
-
-                } else if (activityData.type === 'contactFormSubmit') {
-
-                    activityData = {
-                        ...activityData,
-                        ip: await getIP(req),
-                        time: moment.format(),
-                    }
-
-                } else {
-                    return res.json(false)
-                }
-
-                await analyticsSchema.findByIdAndUpdate(uid, {
-                    lastActivity: moment.format(),
-                    $addToSet: {
-                        activityData
-                    },
-                    $inc: {
-                        visitCount
-                    }
-                })
-
-                return res.json(response)
-            } catch (error) {
-                res.status(503).json(false)
-            }
-            break;
-
-        default:
-            res.status(404).json(false)
-            break;
-
-    }
-
-}
+    default:
+      res.status(404).json(false);
+      break;
+  }
+  return true;
+};
