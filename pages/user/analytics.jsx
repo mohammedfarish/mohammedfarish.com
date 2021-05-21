@@ -3,8 +3,9 @@ import axios from "axios";
 
 import Error404 from "../404";
 
-import styles from "../../styles/analytics.module.css";
 import verifyUser from "../../utils/functions/verify";
+
+import styles from "../../styles/analytics.module.css";
 
 const analytics = () => {
   const [parsedActivityData, setParsedActivityData] = useState([]);
