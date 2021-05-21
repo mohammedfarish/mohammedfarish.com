@@ -11,13 +11,14 @@ export default class Header extends Component {
     super(props);
 
     this.checkLogin = this.checkLogin.bind(this);
+    this.checkLogin2 = this.checkLogin2.bind(this);
     this.state = {
       login: false,
     };
   }
 
   componentDidMount() {
-    this.checkLogin();
+    this.checkLogin2();
     const header = document.getElementById("header");
     if (header) {
       const sticky = header.offsetTop;
@@ -35,25 +36,12 @@ export default class Header extends Component {
     return true;
   }
 
-  async checkLogin() {
-    const user = window.localStorage.getItem("user");
-    if (user) {
-      this.setState({
-        login: true,
-      });
-      const verifiedUser = await verifyUser();
-      if (!verifiedUser) {
-        window.localStorage.removeItem("user");
-        this.setState({
-          login: false,
-        });
-        this.props.setLoggedIn(false);
-      }
-    } else {
-      this.setState({
-        login: false,
-      });
-    }
+  async checkLogin2() {
+    const verify = await verifyUser();
+    if (!verify) return;
+    this.setState({
+      login: true,
+    });
   }
 
   render() {
@@ -73,6 +61,9 @@ export default class Header extends Component {
             <Link href="/blog">
               <a href="/blog" className={styles.headerlink}>Articles</a>
             </Link>
+            <Link href="/user">
+              <a href="/user" className={styles.headerlink}>User</a>
+            </Link>
             <Link href="/logout">
               <a href="/logout" className={styles.headerlink}>Logout</a>
             </Link>
@@ -80,6 +71,7 @@ export default class Header extends Component {
         </div>
       );
     }
+
     return (
       <div id="header" className={styles.header}>
         <Link href="/">

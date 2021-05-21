@@ -1,0 +1,17 @@
+.userpage {
+  /* background: lightblue; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 67vh;
+  width: 100%;
+}
+.userPageButton {
+  border: 1px solid black;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  justify-content: center;
+}

@@ -52,7 +52,9 @@ textarea {
 }
 
 input,
+textarea,
 button {
+  touch-action: pan-y;
   -webkit-appearance: none;
   -webkit-border-radius: 0;
   outline: none;

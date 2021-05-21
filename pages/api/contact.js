@@ -55,13 +55,53 @@ export default async (req, res) => {
     case "GET":
       const authenticate = await auth(req);
       if (!authenticate) return res.status(400).json("Unauthorised");
+      try {
+        const contectMessages = await contactMessageSchema.find()
+          .sort({
+            date: -1,
+          });
 
-      const data = await contactMessageSchema.find()
-        .sort({
-          date: -1,
+        const msgs = [];
+
+        contectMessages.forEach((item) => {
+          const {
+            name, email, subject, message, read, date, deviceId, _id,
+          } = item;
+
+          msgs.push({
+            id: _id,
+            name,
+            email,
+            message,
+            subject,
+            read,
+            date: Moment(date).tz("Asia/Dubai").format(),
+            dateFormatted: Moment(date).tz("Asia/Dubai").fromNow(),
+            deviceId,
+          });
         });
 
-      res.json(data);
+        res.json(msgs);
+      } catch (error) {
+        res.json(false);
+      }
+      break;
+
+    case "PUT":
+      try {
+        const checkAuth = await auth(req);
+        if (!checkAuth) return res.status(400).json(false);
+        const { id, read } = req.body;
+        if (!id || read !== false) return res.json(false);
+
+        await contactMessageSchema.findByIdAndUpdate(id, {
+          read: true,
+        });
+
+        res.json(true);
+      } catch (error) {
+        res.json(false);
+      }
       break;
 
     default:
