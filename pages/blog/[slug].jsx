@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import Editor from "rich-markdown-editor";
-import axios from "axios";
+import Moment from "moment-timezone";
 
 import styles from "../../styles/blogpost.module.css";
 
@@ -9,6 +9,9 @@ import CustomHead from "../../components/head/Head";
 import ErrorPage from "../404";
 
 import MarkdownTheme from "../../components/markdown/MarkdownTheme";
+
+import dbConnect from "../../utils/database/dbConnect";
+import blogSchema from "../../utils/database/schema/blogSchema";
 
 const BlogPost = ({
   content, title, date, success,
@@ -35,6 +38,7 @@ const BlogPost = ({
       </div>
     );
   }
+
   return <ErrorPage />;
 };
 
@@ -42,13 +46,21 @@ export default BlogPost;
 
 export async function getServerSideProps(context) {
   const { slug } = context.query;
+  if (!slug) return { props: false };
 
-  const fetch = await axios.get(`https://www.mohammedfarish.com/api/blog/post?q=${slug}`)
-    .then((response) => {
-      if (response.data) return { success: true, ...response.data };
-      return { success: false };
+  dbConnect();
+
+  const data = await blogSchema.findOne({ slug })
+    .then((blogData) => {
+      const { title, content, date } = blogData;
+
+      const moment = Moment(date).tz("Asia/Dubai").format("dddd • MMMM DD YYYY");
+
+      return {
+        success: true, title, content, date: moment,
+      };
     })
     .catch(() => ({ success: false }));
 
-  return { props: fetch };
+  return { props: data };
 }

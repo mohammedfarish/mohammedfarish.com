@@ -10,7 +10,6 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
 
-    this.checkLogin = this.checkLogin.bind(this);
     this.checkLogin2 = this.checkLogin2.bind(this);
     this.state = {
       login: false,

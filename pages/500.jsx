@@ -17,7 +17,6 @@ const Error500 = () => (
       <span>
         Not sure what went wrong but this should and has been addressed
         and the developer has been notified, as you read this.
-
       </span>
     </div>
     <div className={styles.errorpagebutton}>

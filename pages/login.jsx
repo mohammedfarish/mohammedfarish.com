@@ -19,7 +19,7 @@ const login = () => {
 
   useEffect(async () => {
     const LoginStatus = await verify();
-    if (LoginStatus === true) return Router.push({ pathname: "/user" });
+    if (LoginStatus) return Router.push("/user");
     return setLoggedIn(false);
   }, []);
 
@@ -66,7 +66,7 @@ const login = () => {
           setErrorMessage("");
           window.localStorage.setItem("user", token);
           return setTimeout(() => {
-            Router.push({ pathname: "/user" });
+            Router.reload();
           }, 1000);
         }
 

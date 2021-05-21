@@ -51,45 +51,6 @@ export default async (req, res) => {
       }
       break;
 
-    case "GET":
-      const { q } = req.query;
-      try {
-        const blog = await blogSchema.findOne({ slug: q });
-        if (!blog) return res.json(false);
-
-        const moment = Moment(blog.date).tz("Asia/Dubai").format("dddd • MMMM DD YYYY");
-
-        const token = req.headers["x-auth-token"];
-        const authenticate = await auth(req);
-        if (token) await authenticate;
-
-        let data;
-        if (!authenticate) {
-          const { title, content, publish } = blog;
-
-          data = {
-            title,
-            content,
-            date: moment,
-          };
-
-          if (!publish) data = false;
-        } else {
-          const { title, content } = blog;
-
-          data = {
-            title,
-            content,
-            date: moment,
-          };
-        }
-
-        res.json(data);
-      } catch (error) {
-        res.status(404).json(false);
-      }
-      break;
-
     default:
       res.status(404).json(false);
       break;
