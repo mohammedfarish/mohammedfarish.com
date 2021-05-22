@@ -7,7 +7,7 @@ import verifyUser from "../../utils/functions/verify";
 
 import styles from "../../styles/analytics.module.css";
 
-const analytics = () => {
+const analytics = ({ setSiteTitle }) => {
   const [parsedActivityData, setParsedActivityData] = useState([]);
   const [totalVisitsState, setTotalVisits] = useState(0);
   const [uniqueVisitorsCountState, setUniqueVisitorsCount] = useState(0);
@@ -115,6 +115,7 @@ const analytics = () => {
   };
 
   useEffect(async () => {
+    setSiteTitle("Analytics");
     const verify = await verifyUser();
     if (verify) {
       setLoggedin(true);

@@ -17,6 +17,7 @@ import CustomHead from "../components/head/Head";
 function MyApp({ Component, pageProps }) {
   const [globalState, setGlobalState] = useState({});
   const [loggedIn, setLoggedIn] = useState(null);
+  const [siteTitle, setSiteTitle] = useState("");
 
   const router = useRouter();
 
@@ -94,10 +95,15 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <div>
-      <CustomHead />
+      <CustomHead title={siteTitle} />
       <Header setLoggedIn={setLoggedIn} current={router.pathname} />
       <div className="pages">
-        <Component {...pageProps} globalState={globalState} setGlobalState={setGlobalState} />
+        <Component
+          {...pageProps}
+          setSiteTitle={setSiteTitle}
+          globalState={globalState}
+          setGlobalState={setGlobalState}
+        />
       </div>
       <Footer />
     </div>

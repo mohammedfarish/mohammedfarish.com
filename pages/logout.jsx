@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import Loading from "../components/loading/Loading";
@@ -6,10 +6,12 @@ import logOutUser from "../utils/functions/logout";
 
 const index = () => {
   const Router = useRouter();
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const logoutUser = async () => {
     const user = window.localStorage.getItem("user");
     if (user) {
+      setLoggedIn(true);
       try {
         await logOutUser();
         window.localStorage.removeItem("user");
@@ -19,7 +21,7 @@ const index = () => {
         return Router.reload();
       }
     }
-    window.localStorage.removeItem("user");
+    setLoggedIn(false);
     return Router.push("/");
   };
 
@@ -27,7 +29,11 @@ const index = () => {
     logoutUser();
   }, []);
 
-  return <Loading message="Logging out" />;
+  if (loggedIn) {
+    return <Loading message="Logging out" />;
+  }
+
+  return <Loading />;
 };
 
 export default index;

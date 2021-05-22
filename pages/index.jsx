@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import Moment from "moment-timezone";
@@ -8,7 +9,7 @@ import LatestArticles from "../components/latest articles/LatestArticles";
 import GetInTouch from "../components/contact/GetInTouch";
 import Updates from "../components/updates/Updates";
 
-const Home = () => {
+const Home = ({ setSiteTitle }) => {
   const [age, setAge] = useState(0);
 
   const calculatedAge = () => {
@@ -18,6 +19,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setSiteTitle("");
     calculatedAge();
   }, []);
 

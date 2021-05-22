@@ -8,7 +8,7 @@ import Error404 from "../404";
 
 import styles from "../../styles/userpage.module.css";
 
-const index = () => {
+const index = ({ setSiteTitle }) => {
   const [loggedIn, setLoggedIn] = useState(null);
 
   const checkLogin = async () => {
@@ -18,6 +18,7 @@ const index = () => {
   };
 
   useEffect(() => {
+    setSiteTitle("User");
     checkLogin();
   }, []);
 

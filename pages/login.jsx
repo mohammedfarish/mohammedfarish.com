@@ -7,7 +7,7 @@ import Loading from "../components/loading/Loading";
 
 import styles from "../styles/login.module.css";
 
-const login = () => {
+const login = ({ setSiteTitle }) => {
   const [loggedIn, setLoggedIn] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +18,7 @@ const login = () => {
   const Router = useRouter();
 
   useEffect(async () => {
+    setSiteTitle("Login");
     const LoginStatus = await verify();
     if (LoginStatus) return Router.push("/user");
     return setLoggedIn(false);

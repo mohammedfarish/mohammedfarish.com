@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useEffect } from "react";
 import Editor from "rich-markdown-editor";
 import Moment from "moment-timezone";
 
 import styles from "../../styles/blogpost.module.css";
 
-import CustomHead from "../../components/head/Head";
 import ErrorPage from "../404";
 
 import MarkdownTheme from "../../components/markdown/MarkdownTheme";
@@ -14,12 +13,15 @@ import dbConnect from "../../utils/database/dbConnect";
 import blogSchema from "../../utils/database/schema/blogSchema";
 
 const BlogPost = ({
-  content, title, date, success,
+  content, title, date, success, setSiteTitle,
 }) => {
   if (success === true) {
+    useEffect(() => {
+      setSiteTitle(`${title} - Blog`);
+    }, []);
     return (
       <div className={styles.blogPostPage}>
-        <CustomHead title={`${title} - Blog | Mohammed Farish`} />
+        {/* <CustomHead title={} /> */}
         <div className={styles.blogPostTitle}>
           <span>{title}</span>
         </div>

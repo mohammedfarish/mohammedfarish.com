@@ -5,12 +5,13 @@ import axios from "axios";
 import Link from "next/link";
 
 import styles from "../../styles/messages.module.css";
-import CustomHead from "../../components/head/Head";
+
 import verifyUser from "../../utils/functions/verify";
+
 import Loading from "../../components/loading/Loading";
 import Error404 from "../404";
 
-const messages = () => {
+const messages = ({ setSiteTitle }) => {
   const [msgs, setmsgs] = useState([]);
   const [disable, setDisable] = useState(false);
   const [loggedIn, setLoggedIn] = useState(null);
@@ -95,13 +96,13 @@ const messages = () => {
   };
 
   useEffect(() => {
+    setSiteTitle("Messages");
     onPageLoad();
   }, []);
 
   if (loggedIn === true) {
     return (
       <div className={styles.messagesPage}>
-        <CustomHead title="Messages | Mohammed Farish" />
         { msgs.map((item) => (
           <div
             onClick={(e) => onClickMessageItem({ ...e, id: item.id, read: item.read })}
