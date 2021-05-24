@@ -146,10 +146,10 @@ export default class Updates extends Component {
     axios.get("/api/location")
       .then((response) => {
         if (response.data) {
-          const { location, lastUpdate } = response.data;
+          const { location, last_update } = response.data;
           this.setState({
             location,
-            locationLastUpdate: lastUpdate,
+            locationLastUpdate: last_update,
           });
         } else {
           this.setState({

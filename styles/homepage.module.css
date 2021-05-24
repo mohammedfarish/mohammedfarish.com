@@ -30,8 +30,10 @@
   min-width: 50%;
   max-height: 50vh;
   display: flex;
+  /* background: lightblue; */
   justify-content: center;
   flex-direction: column;
+  /* overflow: hidden; */
 }
 
 .homepageamnuzlink {
@@ -52,7 +54,8 @@
 
 @media only screen and (max-width: 600px) {
   .homepageherosection {
-    flex-direction: column-reverse;
+    flex-direction: column;
+    /* height: 100vh; */
   }
 
   .homepagesectionLHS {
@@ -63,5 +66,6 @@
   .homepagesectionRHS {
     padding: 0;
     width: 100%;
+    margin: 50px 0;
   }
 }

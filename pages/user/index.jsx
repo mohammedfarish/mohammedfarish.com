@@ -17,12 +17,12 @@ const index = ({ setSiteTitle }) => {
     return setLoggedIn(false);
   };
 
-  useEffect(() => {
-    setSiteTitle("User");
-    checkLogin();
-  }, []);
-
   if (loggedIn === true) {
+    useEffect(() => {
+      setSiteTitle("User");
+      checkLogin();
+    }, []);
+
     return (
       <div className={styles.userpage}>
         <Link href="/user/messages">

@@ -2,15 +2,18 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import Moment from "moment-timezone";
+import { useRouter } from "next/router";
 
 import styles from "../styles/homepage.module.css";
 
 import LatestArticles from "../components/latest articles/LatestArticles";
 import GetInTouch from "../components/contact/GetInTouch";
 import Updates from "../components/updates/Updates";
+import Terminal from "../components/terminal/Terminal";
 
 const Home = ({ setSiteTitle }) => {
   const [age, setAge] = useState(0);
+  const router = useRouter();
 
   const calculatedAge = () => {
     const todayYear = Moment().tz("Asia/Dubai").year();
@@ -38,6 +41,9 @@ const Home = ({ setSiteTitle }) => {
             <a className={styles.homepageamnuzlink} href="https://www.amnuz.com" target="https://www.amnuz.com">Amnuz Technologies</a>
             , a company that's deeply focused on the most futuristic projects you can imagine.
           </span>
+        </div>
+        <div className={styles.homepagesectionRHS}>
+          <Terminal router={router} />
         </div>
       </div>
       <div className={styles.homepagesection}>

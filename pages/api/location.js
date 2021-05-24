@@ -60,7 +60,7 @@ export default async (req, res) => {
 
         const data = {
           location: locationInfo,
-          lastUpdate: Moment(time).tz("Asia/Dubai").fromNow(),
+          last_update: Moment(time).tz("Asia/Dubai").fromNow(),
         };
 
         res.json(data);
