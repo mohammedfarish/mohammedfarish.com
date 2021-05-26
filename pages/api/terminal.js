@@ -11,7 +11,7 @@ export default async (req, res) => {
         case "rockets":
           try {
             const { tz } = req.query;
-            const nextLaunch = await axios.get("https://fdo.rocketlaunch.live/json/launches/next/1")
+            const nextLaunch = await axios.get(`${process.env.R_API_URI}1`)
               .then((response) => {
                 const { result } = response.data;
                 if (result.length === 0) return "Unknown";
