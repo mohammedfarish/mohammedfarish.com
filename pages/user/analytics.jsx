@@ -138,43 +138,41 @@ const analytics = ({ setSiteTitle }) => {
           </div>
         </div>
         <div className={styles.analyticsResultsSection}>
-          {
-            parsedActivityData.map((data) => (
-              <div className={styles.analyticsItem} key={data.id}>
-                <div className={styles.analyticsItemItems}>
-                  <span className={styles.analyticsItemItemsHeader}>Device ID</span>
-                  <span className={styles.analyticsItemItemsContent}>{data.id}</span>
-                </div>
-                <div className={styles.analyticsItemItems}>
-                  <span className={styles.analyticsItemItemsHeader}>User Agent</span>
-                  <span className={styles.analyticsItemItemsContent}>{data.userAgent}</span>
-                </div>
-                <div className={styles.analyticsItemItems}>
-                  <span className={styles.analyticsItemItemsHeader}>Activity Count</span>
-                  <span className={styles.analyticsItemItemsContent}>
-                    {data.activityData.length}
-                  </span>
-                </div>
-                <div className={styles.analyticsItemItems}>
-                  <span className={styles.analyticsItemItemsHeader}>Visit Count</span>
-                  <span className={styles.analyticsItemItemsContent}>{data.visitCount}</span>
-                </div>
-                <div className={styles.analyticsItemItems}>
-                  <span className={styles.analyticsItemItemsHeader}>Last Known IP</span>
-                  <span
-                    className={styles.analyticsItemItemsContent}
-                  >
-                    {data.activityData[0].ip}
-                    {" "}
-                    (
-                    {data.ipData}
-                    )
-                  </span>
-                </div>
-                <span className={styles.analyticsItemItemsTime}>{`Last seen ${data.lastActivityFomatted}`}</span>
+          {parsedActivityData.map((data) => (
+            <div className={styles.analyticsItem} key={data.id}>
+              <div className={styles.analyticsItemItems}>
+                <span className={styles.analyticsItemItemsHeader}>Device ID</span>
+                <span className={styles.analyticsItemItemsContent}>{data.id}</span>
               </div>
-            ))
-        }
+              <div className={styles.analyticsItemItems}>
+                <span className={styles.analyticsItemItemsHeader}>User Agent</span>
+                <span className={styles.analyticsItemItemsContent}>{data.userAgent}</span>
+              </div>
+              <div className={styles.analyticsItemItems}>
+                <span className={styles.analyticsItemItemsHeader}>Activity Count</span>
+                <span className={styles.analyticsItemItemsContent}>
+                  {data.activityData.length}
+                </span>
+              </div>
+              <div className={styles.analyticsItemItems}>
+                <span className={styles.analyticsItemItemsHeader}>Visit Count</span>
+                <span className={styles.analyticsItemItemsContent}>{data.visitCount}</span>
+              </div>
+              <div className={styles.analyticsItemItems}>
+                <span className={styles.analyticsItemItemsHeader}>Last Known IP</span>
+                <span
+                  className={styles.analyticsItemItemsContent}
+                >
+                  {data.activityData[0].ip}
+                  {" "}
+                  (
+                  {data.ipData}
+                  )
+                </span>
+              </div>
+              <span className={styles.analyticsItemItemsTime}>{`Last seen ${data.lastActivityFomatted}`}</span>
+            </div>
+          ))}
         </div>
       </div>
     );
