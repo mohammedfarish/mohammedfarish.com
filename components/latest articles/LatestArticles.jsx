@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
 import Link from "next/link";
 
@@ -44,6 +43,7 @@ export default class LatestArticles extends Component {
   }
 
   render() {
+    const { hideLoadingText, loadingText, posts } = this.state;
     return (
       <section>
         <div className={styles.blogpageHeader}>
@@ -53,10 +53,10 @@ export default class LatestArticles extends Component {
           </Link>
         </div>
         <div>
-          <div hidden={this.state.hideLoadingText} className={styles.latestBlogArticleLoading}>
-            <span>{this.state.loadingText}</span>
+          <div hidden={hideLoadingText} className={styles.latestBlogArticleLoading}>
+            <span>{loadingText}</span>
           </div>
-          {this.state.posts.map((item) => (
+          {posts.map((item) => (
             <Link
               key={item.key}
               href={`/blog/${item.slug}`}

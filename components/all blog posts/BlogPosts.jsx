@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
 import Link from "next/link";
 import axios from "axios";
@@ -62,6 +61,7 @@ export default class BlogPosts extends Component {
   }
 
   render() {
+    const { hideNewArticleButton, posts } = this.state;
     return (
       <div>
         <div className={styles.blogpageHeader}>
@@ -69,7 +69,7 @@ export default class BlogPosts extends Component {
           <Link href="/blog/new">
             <button
               type="button"
-              hidden={this.state.hideNewArticleButton}
+              hidden={hideNewArticleButton}
               className={styles.blogpageHeaderButton}
             >
               New Article
@@ -77,7 +77,7 @@ export default class BlogPosts extends Component {
           </Link>
         </div>
         <div>
-          {this.state.posts.map((item) => (
+          {posts.map((item) => (
             <Link
               key={item.key}
               href={`/blog/${item.slug}`}

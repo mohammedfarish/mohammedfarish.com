@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import bcrypt from "bcryptjs";
 
 import dbConnect from "../../../utils/database/dbConnect";
@@ -13,8 +12,9 @@ export default async (req, res) => {
     case "POST":
       try {
         let {
-          username, email, repeatEmail, password, displayName,
+          username, email, password,
         } = req.body;
+        const { repeatEmail, displayName } = req.body;
         if (!username || !email || !repeatEmail || !password || !displayName) return res.json({ success: false, reason: "Incomplete fields." });
 
         username = username.toLowerCase();

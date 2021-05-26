@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import Moment from "moment-timezone";
 import { useRouter } from "next/router";

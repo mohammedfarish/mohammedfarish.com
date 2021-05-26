@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
 import Editor from "rich-markdown-editor";
 import Moment from "moment-timezone";

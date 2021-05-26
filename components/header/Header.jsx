@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import Link from "next/link";
 import React, { Component } from "react";
 
@@ -44,7 +42,9 @@ export default class Header extends Component {
   }
 
   render() {
-    if (this.state.login === true) {
+    const { login } = this.state;
+
+    if (login === true) {
       return (
         <div id="header" className={styles.header}>
           <Link href="/">

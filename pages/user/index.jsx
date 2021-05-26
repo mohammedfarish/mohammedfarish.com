@@ -13,16 +13,18 @@ const index = ({ setSiteTitle }) => {
 
   const checkLogin = async () => {
     const verifyUser = await verify();
-    if (verifyUser) return setLoggedIn(true);
+    if (verifyUser) {
+      setSiteTitle("User");
+      return setLoggedIn(true);
+    }
     return setLoggedIn(false);
   };
 
-  if (loggedIn === true) {
-    useEffect(() => {
-      setSiteTitle("User");
-      checkLogin();
-    }, []);
+  useEffect(() => {
+    checkLogin();
+  }, []);
 
+  if (loggedIn === true) {
     return (
       <div className={styles.userpage}>
         <Link href="/user/messages">

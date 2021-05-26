@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable class-methods-use-this */
 import React, { PureComponent } from "react";
 import Moment from "moment-timezone";
 import Cmd from "terminal-in-react";

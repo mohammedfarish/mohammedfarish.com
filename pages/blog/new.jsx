@@ -1,8 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable prefer-const */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from "react";
 import Editor from "rich-markdown-editor";
@@ -122,9 +117,9 @@ const NewArticle = ({ setSiteTitle }) => {
       if (data) {
         data = JSON.parse(data);
         const { content } = data;
-        let {
-          title, publish, listed,
-        } = data;
+        let { listed } = data;
+        const { title, publish } = data;
+
         if (listed) {
           listed = false;
           setListedButtonColor("transparent");
@@ -151,9 +146,9 @@ const NewArticle = ({ setSiteTitle }) => {
     if (status === "publish") {
       if (data) {
         data = JSON.parse(data);
-        let {
-          content, title, publish, listed,
-        } = data;
+        let { publish } = data;
+        const { content, title, listed } = data;
+
         if (publish) {
           publish = false;
           setPublishButtonColor("transparent");

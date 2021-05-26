@@ -1,6 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -34,7 +31,7 @@ function MyApp({ Component, pageProps }) {
       },
     };
 
-    return axios.post("/api/analytics", data)
+    axios.post("/api/analytics", data)
       .then((response) => {
         const { uid } = response.data;
         if (uid) {
@@ -99,6 +96,7 @@ function MyApp({ Component, pageProps }) {
       <Header setLoggedIn={setLoggedIn} current={router.pathname} />
       <div className="pages">
         <Component
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...pageProps}
           setSiteTitle={setSiteTitle}
           globalState={globalState}

@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-shadow */
 import axios from "axios";
 import React, { Component } from "react";
@@ -87,11 +85,13 @@ export default class GetInTouch extends Component {
       submitButtonText: "Send Message",
     });
 
+    const { name, subject, email } = this.state;
+
     if (e.target.value.length > 0) {
       const data = {
-        name: this.state.name.trim(),
-        subject: this.state.subject.trim(),
-        email: this.state.email.trim(),
+        name: name.trim(),
+        subject: subject.trim(),
+        email: email.trim(),
         message: e.target.value.trim(),
       };
 
@@ -211,6 +211,11 @@ export default class GetInTouch extends Component {
   }
 
   render() {
+    const {
+      name, disableFormField, email, subject, message,
+      disableSubmitButton, submitButtonText,
+    } = this.state;
+
     return (
       <div>
         <div className={styles.contactSectionHeaderSection}>
@@ -253,19 +258,19 @@ export default class GetInTouch extends Component {
                 className={styles.contactFormInput}
                 placeholder="Name*"
                 title="What's your name?"
-                value={this.state.name}
+                value={name}
                 onChange={this.onChangeName}
-                disabled={this.state.disableFormField}
+                disabled={disableFormField}
               />
               <input
                 type="text"
                 onChange={this.onChangeEmail}
-                value={this.state.email}
+                value={email}
                 onPaste={(e) => e.preventDefault()}
                 title="So that I can get back to you"
                 className={styles.contactFormInput}
                 placeholder="Email"
-                disabled={this.state.disableFormField}
+                disabled={disableFormField}
               />
               <input
                 type="text"
@@ -275,25 +280,25 @@ export default class GetInTouch extends Component {
                 title="Make sure your subect is catchy enough so that I notice."
                 className={styles.contactFormInput}
                 onChange={this.onChangeSubject}
-                value={this.state.subject}
+                value={subject}
                 placeholder="Subject*"
-                disabled={this.state.disableFormField}
+                disabled={disableFormField}
               />
               <textarea
-                value={this.state.message}
+                value={message}
                 onChange={this.onChangeMessage}
                 required
-                disabled={this.state.disableFormField}
+                disabled={disableFormField}
                 title="What do you want to talk to me about?"
                 className={styles.contactFormInputTextArea}
                 placeholder="Message*"
               />
               <input
                 type="submit"
-                disabled={this.state.disableSubmitButton}
+                disabled={disableSubmitButton}
                 className={styles.contactFormSubmitButton}
                 placeholder="Message*"
-                value={this.state.submitButtonText}
+                value={submitButtonText}
               />
             </form>
           </div>

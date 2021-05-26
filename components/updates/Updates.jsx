@@ -1,8 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-param-reassign */
-/* eslint-disable react/no-access-state-in-setstate */
-/* eslint-disable react/destructuring-assignment */
 import axios from "axios";
 import React, { Component } from "react";
 
@@ -22,6 +17,7 @@ export default class Updates extends Component {
       githubRepo: "loading",
       githubCommitMessage: "loading",
       activeAPIs: "loading",
+      APICalls: 0,
     };
   }
 
@@ -48,10 +44,12 @@ export default class Updates extends Component {
   }
 
   fetchActiveAPIs(refresh) {
-    if (this.state.APICalls >= 20) return;
+    const { APICalls } = this.state;
+
+    if (APICalls >= 20) return;
 
     this.setState({
-      APICalls: this.state.APICalls + 1,
+      APICalls: APICalls + 1,
     });
 
     if (refresh) {
@@ -83,10 +81,12 @@ export default class Updates extends Component {
   }
 
   fetchGithubData(refresh) {
-    if (this.state.APICalls >= 20) return;
+    const { APICalls } = this.state;
+
+    if (APICalls >= 20) return;
 
     this.setState({
-      APICalls: this.state.APICalls + 1,
+      APICalls: APICalls + 1,
     });
 
     if (refresh) {
@@ -106,11 +106,11 @@ export default class Updates extends Component {
           const { payload, type, repo } = data;
           if (githubData.length >= 1) return;
           if (type === "PushEvent") {
-            data = {
+            const parsedData = {
               repo: repo.name,
               message: payload.commits[0].message,
             };
-            githubData.push(data);
+            githubData.push(parsedData);
           }
         });
 
@@ -130,10 +130,12 @@ export default class Updates extends Component {
   }
 
   fetchLocation(refresh) {
-    if (this.state.APICalls >= 20) return;
+    const { APICalls } = this.state;
+
+    if (APICalls >= 20) return;
 
     this.setState({
-      APICalls: this.state.APICalls + 1,
+      APICalls: APICalls + 1,
     });
 
     if (refresh) {
@@ -146,10 +148,10 @@ export default class Updates extends Component {
     axios.get("/api/location")
       .then((response) => {
         if (response.data) {
-          const { location, last_update } = response.data;
+          const { location, last_update: lastUPdate } = response.data;
           this.setState({
             location,
-            locationLastUpdate: last_update,
+            locationLastUpdate: lastUPdate,
           });
         } else {
           this.setState({
@@ -167,6 +169,11 @@ export default class Updates extends Component {
   }
 
   render() {
+    const {
+      location, locationLastUpdate, githubCommitMessage,
+      githubRepo, activeAPIs,
+    } = this.state;
+
     return (
       <div className={styles.projectsSection}>
         <div className={styles.projectsSectionHeaderSection}>
@@ -179,11 +186,11 @@ export default class Updates extends Component {
               <span className={styles.projectsItemHeaderTypo}>Last Known Location</span>
             </div>
             <div className={styles.projectsItemResultSection}>
-              <span className={styles.projectsItemResult}>{this.state.location}</span>
+              <span className={styles.projectsItemResult}>{location}</span>
               <span className={styles.projectsItemResultSmall}>
                 Updated
                 {" "}
-                {this.state.locationLastUpdate}
+                {locationLastUpdate}
               </span>
             </div>
           </div>
@@ -193,8 +200,8 @@ export default class Updates extends Component {
               <span className={styles.projectsItemHeaderTypo}>Latest Code Activity</span>
             </div>
             <div className={styles.projectsItemResultSection}>
-              <span className={styles.projectsItemResult}>{this.state.githubCommitMessage}</span>
-              <span className={styles.projectsItemResultSmall}>{this.state.githubRepo}</span>
+              <span className={styles.projectsItemResult}>{githubCommitMessage}</span>
+              <span className={styles.projectsItemResultSmall}>{githubRepo}</span>
             </div>
           </div>
           <div onClick={() => this.onClickReloadData(3)} className={styles.projectsItem}>
@@ -203,7 +210,7 @@ export default class Updates extends Component {
               <span className={styles.projectsItemHeaderTypo}>Public APIs</span>
             </div>
             <div className={styles.projectsItemResultSection}>
-              <span className={styles.projectsItemResult}>{this.state.activeAPIs}</span>
+              <span className={styles.projectsItemResult}>{activeAPIs}</span>
               <span className={styles.projectsItemResultSmall}>Live and Serving Open Data</span>
             </div>
           </div>

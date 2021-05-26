@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable prefer-const */
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -18,7 +17,8 @@ export default async (req, res) => {
   switch (method) {
     case "POST":
       try {
-        let { usernameOrEmail, password, uid } = req.body;
+        let { usernameOrEmail } = req.body;
+        const { password, uid } = req.body;
         if (!usernameOrEmail || !password) return res.json({ success: false, reason: "Username or Password not provided." });
 
         usernameOrEmail = usernameOrEmail.toLowerCase();
