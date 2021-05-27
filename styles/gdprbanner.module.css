@@ -1,0 +1,38 @@
+.banner {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  /* background: #424242; */
+  background: white;
+  /* color: white; */
+  /* height: 50px; */
+  border-top: 6px solid #4c7d4c;
+  width: 100%;
+  padding: 20px 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  transition-duration: 0.4s;
+}
+
+.bannerAction {
+  font-weight: 900;
+  color: #4c7d4c;
+  cursor: pointer;
+  text-decoration: underline;
+  transition-duration: 0.4s;
+  user-select: none;
+}
+
+.bannerAction:hover {
+  color: #424242;
+  text-decoration: underline;
+}
+
+.bannerNegativeAction {
+  color: #4c7d4c;
+  cursor: pointer;
+}

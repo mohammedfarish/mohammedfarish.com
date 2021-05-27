@@ -167,6 +167,16 @@ export default async (req, res) => {
       }
       break;
 
+    case "DELETE":
+      try {
+        const token = req.headers["x-auth-token"];
+        await analyticsSchema.findOneAndDelete({ _id: token });
+        res.json(true);
+      } catch (error) {
+        res.json(true);
+      }
+      break;
+
     default:
       res.status(404).json(false);
       break;

@@ -6,8 +6,9 @@ import dbConnect from "../../../utils/database/dbConnect";
 
 import sessionSchema from "../../../utils/database/schema/sessionSchema";
 import userSchema from "../../../utils/database/schema/userSchema";
+
 import getIP from "../../../utils/middlewares/getIP";
-// import rateLimiter from "../../../utils/middlewares/rateLimiter";
+import rateLimiter from "../../../utils/middlewares/rateLimiter";
 
 dbConnect();
 
@@ -16,6 +17,10 @@ export default async (req, res) => {
 
   switch (method) {
     case "POST":
+
+      const inRateLimit = await rateLimiter(req, 10);
+      if (!inRateLimit) return res.json({ success: false, reason: "Too many requests. Try again later." });
+
       try {
         let { usernameOrEmail } = req.body;
         const { password, uid } = req.body;
@@ -85,5 +90,6 @@ export default async (req, res) => {
       res.status(404).json(false);
       break;
   }
+
   return true;
 };

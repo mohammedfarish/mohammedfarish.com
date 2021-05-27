@@ -10,6 +10,7 @@ import Footer from "../components/footer/Footer";
 
 import isDev from "../utils/middlewares/isDev";
 import CustomHead from "../components/head/Head";
+import GDPR from "../components/all blog posts/banner/GDPR";
 
 function MyApp({ Component, pageProps }) {
   const [globalState, setGlobalState] = useState({});
@@ -19,6 +20,9 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   const analytics = () => {
+    const notrack = window.localStorage.getItem("no-track");
+    if (notrack) return;
+
     const sessionUID = window.sessionStorage.getItem("uid");
     if (sessionUID) return;
 
@@ -70,6 +74,8 @@ function MyApp({ Component, pageProps }) {
   }, [loggedIn]);
 
   useEffect(() => {
+    const notrack = window.localStorage.getItem("no-track");
+    if (notrack) return;
     const uid = window.localStorage.getItem("uid");
     const sessionUID = window.sessionStorage.getItem("uid");
     if (!uid) return;
@@ -104,6 +110,7 @@ function MyApp({ Component, pageProps }) {
         />
       </div>
       <Footer />
+      <GDPR />
     </div>
   );
 }

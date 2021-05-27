@@ -14,6 +14,7 @@ export default async (req, res) => {
         let {
           username, email, password,
         } = req.body;
+
         const { repeatEmail, displayName } = req.body;
         if (!username || !email || !repeatEmail || !password || !displayName) return res.json({ success: false, reason: "Incomplete fields." });
 

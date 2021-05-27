@@ -160,6 +160,9 @@ export default class GetInTouch extends Component {
   }
 
   onClickSocialButton(social) {
+    const notrack = window.localStorage.getItem("no-track");
+    if (notrack) return;
+
     const data = {
       uid: window.localStorage.getItem("uid"),
       data: {
