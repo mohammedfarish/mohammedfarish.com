@@ -48,14 +48,17 @@ const login = ({ setSiteTitle }) => {
       uid: window.localStorage.getItem("uid"),
     };
 
-    const analyticsData = {
-      uid: window.localStorage.getItem("uid"),
-      data: {
-        type: "loginAttempt",
-        username,
-      },
-    };
-    axios.post("/api/analytics", analyticsData);
+    const notrack = window.localStorage.getItem("no-track");
+    if (!notrack) {
+      const analyticsData = {
+        uid: window.localStorage.getItem("uid"),
+        data: {
+          type: "loginAttempt",
+          username,
+        },
+      };
+      axios.post("/api/analytics", analyticsData);
+    }
 
     return axios.post("/api/user/signin", data)
       .then((response) => {
