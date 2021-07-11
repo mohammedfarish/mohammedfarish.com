@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }) {
         if (uid) {
           window.localStorage.setItem("uid", uid);
         }
-        window.sessionStorage.setItem("uid", "9655412898773276531324564");
+        window.sessionStorage.setItem("uid", true);
       });
   };
 

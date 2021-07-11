@@ -19,7 +19,6 @@
         "react"
     ],
     "rules": {
-        "no-console": "off",
         "no-case-declarations": "off",
         "react/prop-types": "off",
         "class-methods-use-this": "off",

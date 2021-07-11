@@ -21,8 +21,7 @@
     "react-dom": "17.0.2",
     "react-window-ui": "^2.2.0",
     "rich-markdown-editor": "^11.8.0",
-    "styled-components": "^5.3.0",
-    "terminal-in-react": "^3.5.2",
+    "terminal-in-react": "^4.3.1",
     "xmlbuilder": "^15.1.1"
   },
   "devDependencies": {

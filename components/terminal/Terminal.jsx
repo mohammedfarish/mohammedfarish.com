@@ -73,7 +73,7 @@ export default class Terminal extends PureComponent {
         break;
 
       default:
-        print(`bash: command not found: ${cmd.join(" ")}`);
+        print(`bash: command not found: ${cmd[0]}`);
         break;
     }
   }

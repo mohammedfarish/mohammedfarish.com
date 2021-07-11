@@ -58,5 +58,6 @@ button {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
   outline: none;
+  border: none;
   font-family: "Roboto Mono", monospace;
 }
