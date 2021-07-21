@@ -13,7 +13,7 @@ const Home = ({ setSiteTitle }) => {
   const [age, setAge] = useState(0);
   const router = useRouter();
 
-  const calculatedAge = () => {
+  const calculateAge = () => {
     const todayYear = Moment().tz("Asia/Dubai").year();
     const birthYear = 1997;
     setAge(todayYear - birthYear);
@@ -21,7 +21,7 @@ const Home = ({ setSiteTitle }) => {
 
   useEffect(() => {
     setSiteTitle("");
-    calculatedAge();
+    calculateAge();
   }, []);
 
   return (

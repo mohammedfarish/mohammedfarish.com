@@ -1138,6 +1138,11 @@
   "resolved" "https://registry.npmjs.org/domain-browser/-/domain-browser-4.19.0.tgz"
   "version" "4.19.0"
 
+"drive-db@^6.0.1":
+  "integrity" "sha512-0w5sY578y+m3g0UwH8vPUqOxj8pepQgheaksA2XGZLsWK7XxafRkUwAhipgiGtapDwMBU5FIZkke2fFztZbDpA=="
+  "resolved" "https://registry.npmjs.org/drive-db/-/drive-db-6.0.1.tgz"
+  "version" "6.0.1"
+
 "ecdsa-sig-formatter@1.0.11":
   "integrity" "sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ=="
   "resolved" "https://registry.npmjs.org/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.11.tgz"

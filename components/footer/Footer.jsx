@@ -6,7 +6,7 @@ import styles from "../../styles/footer.module.css";
 export default class Footer extends PureComponent {
   render() {
     return (
-      <div className={styles.footer}>
+      <div className={styles.footerCopyrightSection}>
         <Link href="/">
           <a href="/" className={styles.footertext}>
             ©

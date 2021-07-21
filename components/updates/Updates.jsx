@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 
 import styles from "../../styles/projects.module.css";
+import StatusUpdates from "./StatusUpdates";
 
 export default class Updates extends Component {
   constructor(props) {
@@ -75,7 +76,7 @@ export default class Updates extends Component {
       })
       .catch(() => {
         this.setState({
-          activeAPIs: `${0} Servers`,
+          activeAPIs: "0 Servers",
         });
       });
   }
@@ -91,7 +92,7 @@ export default class Updates extends Component {
 
     if (refresh) {
       this.setState({
-        githubRepo: "updating",
+        githubRepo: ["updating", "updating"],
         githubCommitMessage: "updating",
       });
     }
@@ -116,8 +117,10 @@ export default class Updates extends Component {
 
         const { repo, message } = githubData[0];
 
+        const repoArray = repo.split("/");
+
         this.setState({
-          githubRepo: repo,
+          githubRepo: repoArray,
           githubCommitMessage: message,
         });
       })
@@ -201,7 +204,10 @@ export default class Updates extends Component {
             </div>
             <div className={styles.projectsItemResultSection}>
               <span className={styles.projectsItemResult}>{githubCommitMessage}</span>
-              <span className={styles.projectsItemResultSmall}>{githubRepo}</span>
+              <div className={styles.projectsItemRepoSection}>
+                <span className={styles.projectsItemRepoResultSmall}>{githubRepo[0]}</span>
+                <span className={styles.projectsItemRepoResultSmall}>{githubRepo[1]}</span>
+              </div>
             </div>
           </div>
           <div onClick={() => this.onClickReloadData(3)} className={styles.projectsItem}>
@@ -215,6 +221,7 @@ export default class Updates extends Component {
             </div>
           </div>
         </div>
+        <StatusUpdates />
       </div>
     );
   }
