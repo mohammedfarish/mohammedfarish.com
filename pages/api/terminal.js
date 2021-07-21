@@ -26,18 +26,21 @@ export default async (req, res) => {
                   // eslint-disable-next-line prefer-destructuring
                   launchData = result[1];
                 }
-                const { location } = launchData.pad;
-
                 const moment = Moment(launchData.win_open).tz(tz).fromNow();
+
                 const mission = launchData.name;
+                const dateEstimate = launchData.date_str;
                 const launchCompany = launchData.provider.name;
                 const vehicleName = launchData.vehicle.name;
+                const locationName = launchData.pad.location.name;
+                const countryName = launchData.pad.location.country;
 
-                return `${launchCompany} is launching ${vehicleName} for ${mission} Mission, ${moment}, from ${location.name}.\n\nNote: The date is subjected to change.`;
+                return `${launchCompany} is launching ${vehicleName} for ${mission} Mission, ${moment === "Invalid date" ? `${Moment(dateEstimate, "MMM DD").tz(tz).fromNow()} (estimated)` : moment}, from ${locationName}, ${countryName}.\n\nNote: ${moment === "Invalid date" ? "The time will be available momentarily and may be subjected to change" : "The date may be subjected to change"}.`;
               });
-            res.json(nextLaunch);
+
+            res.json({ launchData: nextLaunch });
           } catch (error) {
-            res.json("Internal Server Error!");
+            res.status(503).json({ launchData: "Internal Server Error!" });
           }
           break;
 

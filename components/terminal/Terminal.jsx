@@ -59,7 +59,7 @@ export default class Terminal extends PureComponent {
           },
         })
           .then((response) => {
-            print(response.data);
+            print(response.data.launchData);
           })
           .catch(() => print("Internal Server Error"));
         break;
