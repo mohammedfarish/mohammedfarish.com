@@ -21,7 +21,11 @@ const login = ({ setSiteTitle }) => {
     setSiteTitle("Login");
     const LoginStatus = await verify();
     if (LoginStatus) return Router.push("/user");
-    return setLoggedIn(false);
+    setLoggedIn(false);
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   const onChangeUsername = (e) => {

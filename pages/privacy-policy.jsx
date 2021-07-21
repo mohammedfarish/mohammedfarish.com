@@ -10,6 +10,10 @@ const PrivacyPolicy = ({ setSiteTitle }) => {
     const uid = window.localStorage.getItem("uid");
     if (!uid) setHideTrackLine(true);
     setSiteTitle("Privacy Policy");
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   const onClickDisableTracking = () => {

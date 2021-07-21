@@ -7,7 +7,12 @@ import styles from "../../styles/blog.module.css";
 const index = ({ setSiteTitle }) => {
   useEffect(() => {
     setSiteTitle("Blog");
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
+
   return (
     <div className={styles.blogpage}>
       <BlogPosts />

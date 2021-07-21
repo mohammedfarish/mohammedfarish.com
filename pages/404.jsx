@@ -6,6 +6,10 @@ import styles from "../styles/error404.module.css";
 const Error404 = ({ setSiteTitle }) => {
   useEffect(() => {
     setSiteTitle("Page not Found");
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from "react";
 import Editor from "rich-markdown-editor";
@@ -227,8 +228,12 @@ const NewArticle = ({ setSiteTitle }) => {
   };
 
   useEffect(() => {
-    setSiteTitle("");
+    setSiteTitle(null);
     verifyOnLoad();
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   return (

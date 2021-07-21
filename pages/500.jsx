@@ -6,6 +6,10 @@ import styles from "../styles/error404.module.css";
 const Error500 = ({ setSiteTitle }) => {
   useEffect(() => {
     setSiteTitle("Internal Server Error");
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   return (

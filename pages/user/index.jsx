@@ -15,13 +15,18 @@ const index = ({ setSiteTitle }) => {
     const verifyUser = await verify();
     if (verifyUser) {
       setSiteTitle("User");
-      return setLoggedIn(true);
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
     }
-    return setLoggedIn(false);
   };
 
   useEffect(() => {
     checkLogin();
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   if (loggedIn === true) {

@@ -17,10 +17,13 @@ const BlogPost = ({
   if (success === true) {
     useEffect(() => {
       setSiteTitle(`${title} - Blog`);
+      return () => {
+        setSiteTitle(null);
+      };
     }, []);
+
     return (
       <div className={styles.blogPostPage}>
-        {/* <CustomHead title={} /> */}
         <div className={styles.blogPostTitle}>
           <span>{title}</span>
         </div>
@@ -31,9 +34,9 @@ const BlogPost = ({
           <Editor
             className={styles.blogPostEditor}
             defaultValue={content}
-            readOnly
-            readOnlyWriteCheckboxes
             theme={MarkdownTheme}
+            readOnlyWriteCheckboxes
+            readOnly
           />
         </div>
       </div>

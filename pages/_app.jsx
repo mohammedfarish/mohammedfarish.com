@@ -15,7 +15,7 @@ import GDPR from "../components/all blog posts/banner/GDPR";
 function MyApp({ Component, pageProps }) {
   const [globalState, setGlobalState] = useState({});
   const [loggedIn, setLoggedIn] = useState(null);
-  const [siteTitle, setSiteTitle] = useState("");
+  const [siteTitle, setSiteTitle] = useState(null);
 
   const router = useRouter();
 

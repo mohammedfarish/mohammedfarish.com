@@ -119,9 +119,14 @@ const analytics = ({ setSiteTitle }) => {
     const verify = await verifyUser();
     if (verify) {
       setLoggedin(true);
-      return fetchData();
+      fetchData();
+    } else {
+      setLoggedin(false);
     }
-    return setLoggedin(false);
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   if (loggedin === true) {

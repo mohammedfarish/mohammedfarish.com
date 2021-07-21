@@ -20,7 +20,7 @@ const Home = ({ setSiteTitle }) => {
   };
 
   useEffect(() => {
-    setSiteTitle("");
+    setSiteTitle(null);
     calculateAge();
   }, []);
 

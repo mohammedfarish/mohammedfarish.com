@@ -96,6 +96,10 @@ const messages = ({ setSiteTitle }) => {
   useEffect(() => {
     setSiteTitle("Messages");
     onPageLoad();
+
+    return () => {
+      setSiteTitle(null);
+    };
   }, []);
 
   if (loggedIn === true) {
