@@ -14,11 +14,10 @@ export default async (req, res) => {
           api_secret: process.env.CLOUDINARY_API_SECRET,
         });
 
-        if (req.file) return console.log(req.file);
+        if (req.file) return;
 
         res.json({ success: false, url: "This is a test route." });
       } catch (error) {
-        console.log(error);
         res.json(false);
       }
 
@@ -28,5 +27,4 @@ export default async (req, res) => {
       res.status(404).json(false);
       break;
   }
-  return true;
 };

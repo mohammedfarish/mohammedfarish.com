@@ -30,7 +30,7 @@ const Home = ({ setSiteTitle }) => {
         <div className={styles.homepagesectionLHS}>
           <h1>I'm Mohammed Farish.</h1>
           <span>
-            I'm a
+            I am a
             {" "}
             {age}
             -year old self-taught fullstack web and software developer,

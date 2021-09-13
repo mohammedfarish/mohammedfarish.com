@@ -4,9 +4,9 @@ export default async (req, res) => {
 
   switch (method) {
     case "PUT":
-      const { type } = req.query;
+      // const { type } = req.query;
 
-      console.log(type);
+      // console.log(type);
       res.json(true);
       break;
 

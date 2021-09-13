@@ -94,33 +94,4 @@ const light = {
   scrollbarThumb: colors.greyMid,
 };
 
-const dark = {
-  ...base,
-  background: colors.almostBlack,
-  text: colors.almostWhite,
-  code: colors.almostWhite,
-  cursor: colors.white,
-  divider: "#4E5C6E",
-  placeholder: "#52657A",
-
-  toolbarBackground: colors.white,
-  toolbarHoverBackground: colors.greyMid,
-  toolbarInput: colors.black10,
-  toolbarItem: colors.lightBlack,
-
-  tableDivider: colors.lightBlack,
-  tableSelected: colors.primary,
-  tableSelectedBackground: "#002333",
-
-  quote: colors.greyDark,
-  codeBackground: colors.black,
-  codeBorder: colors.lightBlack,
-  codeString: "#3d8fd1",
-  horizontalRule: colors.lightBlack,
-  imageErrorBackground: "rgba(0, 0, 0, 0.5)",
-
-  scrollbarBackground: colors.black,
-  scrollbarThumb: colors.lightBlack,
-};
-
 export default light;

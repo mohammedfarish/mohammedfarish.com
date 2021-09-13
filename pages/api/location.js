@@ -65,7 +65,6 @@ export default async (req, res) => {
 
         res.json(data);
       } catch (error) {
-        console.log(error);
         res.status(503).json("Internal Server Error.");
       }
       break;

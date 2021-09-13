@@ -104,11 +104,7 @@ const NewArticle = ({ setSiteTitle }) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    })
-      .then((response) => {
-        console.log(response.data);
-      });
-    console.log(formData);
+    });
   };
 
   const onChangeStatus = (status) => {
@@ -276,10 +272,8 @@ const NewArticle = ({ setSiteTitle }) => {
           value={markdownContent}
           onChange={onChangeMarkdown}
           dictionary
-          onCancel={() => console.log("cancelled")}
           theme={MarkdownTheme}
           uploadImage={async (file) => {
-            console.log(file);
             onFileUpload(file);
             return "https://cdn.discordapp.com/attachments/726328135393476609/832274177247150130/Logo_1.png";
           }}
