@@ -1,7 +1,6 @@
-import Drive from "drive-db";
 import Moment from "moment-timezone";
 
-import { sheetId, sheetTabs } from "../../utils/config/driveConfig";
+import { driveFetch, tabs } from "../../utils/config/driveConfig";
 
 export default async (req, res) => {
   const { method } = req;
@@ -10,10 +9,7 @@ export default async (req, res) => {
     case "GET":
       let lastUpdate = null;
       try {
-        const db = await Drive({
-          sheet: sheetId,
-          tab: sheetTabs.statusUpdate,
-        })
+        const db = await driveFetch(tabs.statusUpdate)
           .catch(() => null);
 
         if (db) {

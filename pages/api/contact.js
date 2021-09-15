@@ -9,6 +9,7 @@ import auth from "../../utils/middlewares/auth";
 import dbConnect from "../../utils/database/dbConnect";
 
 import contactMessageSchema from "../../utils/database/schema/contactMessageSchema";
+import mailConnect from "../../utils/config/mailConnect";
 
 dbConnect();
 
@@ -34,6 +35,8 @@ export default async (req, res) => {
 
         if (!message || !subject || !name) return res.json(false);
 
+        const transport = await mailConnect();
+
         await contactMessageSchema.create({
           name,
           email,
@@ -44,6 +47,43 @@ export default async (req, res) => {
           deviceId: uid,
           date: Moment().tz("Asia/Dubai").format(),
         });
+
+        if (email) {
+          await transport.sendMail({
+            from: {
+              name,
+              address: "no-reply@mohammedfarish.com",
+            },
+            to: "contact@mohammedfarish.com",
+            subject,
+            replyTo: email,
+            text: message,
+          }).then(() => {
+            transport.sendMail({
+              from: {
+                name: "no-reply@mohammedfarish.com",
+                address: "no-reply@mohammedfarish.com",
+              },
+              to: {
+                name,
+                address: email,
+              },
+              subject: "Message received!",
+              text: `Dear ${name},\n\nThis is an automated email to let you know that I have received your message and I will try to respond to you, immediately.\n\nRegards,\nMohammed Farish`,
+              replyTo: "contact@mohammedfarish.com",
+            });
+          });
+        } else {
+          await transport.sendMail({
+            from: {
+              name: "mohammedfarish.com",
+              address: "no-reply@mohammedfarish.com",
+            },
+            to: "contact@mohammedfarish.com",
+            subject: "New Contact Message!",
+            text: `Name: ${name}\n\nSubject: ${subject}\n\nMessage: ${message}`,
+          });
+        }
 
         res.json(true);
       } catch (error) {
