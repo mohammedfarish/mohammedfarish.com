@@ -4,9 +4,7 @@ const mongoCredential = process.env.MONGO_URI;
 
 module.exports = async () => {
   await mongoose.connect(mongoCredential, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
+    keepAlive: true
   });
   return mongoose;
 };

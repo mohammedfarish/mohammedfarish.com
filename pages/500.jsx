@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import styles from "../styles/error404.module.css";
 
-const Error500 = ({ setSiteTitle }) => {
+function Error500({ setSiteTitle }) {
   useEffect(() => {
     setSiteTitle("Internal Server Error");
 
@@ -32,6 +32,6 @@ const Error500 = ({ setSiteTitle }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Error500;

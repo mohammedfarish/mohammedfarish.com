@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import styles from "../styles/privacypage.module.css";
 
-const PrivacyPolicy = ({ setSiteTitle }) => {
+function PrivacyPolicy({ setSiteTitle }) {
   const [hideTrackLine, setHideTrackLine] = useState(false);
 
   useEffect(() => {
@@ -525,6 +525,6 @@ const PrivacyPolicy = ({ setSiteTitle }) => {
       </div>
     </div>
   );
-};
+}
 
 export default PrivacyPolicy;

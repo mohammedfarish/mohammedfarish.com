@@ -1,9 +1,9 @@
 import React, { PureComponent } from "react";
 import Moment from "moment-timezone";
+import axios from "axios";
 import Cmd from "terminal-in-react";
 import { MacTerminal } from "react-window-ui";
 
-import axios from "axios";
 import styles from "../../styles/terminal.module.css";
 
 export default class Terminal extends PureComponent {

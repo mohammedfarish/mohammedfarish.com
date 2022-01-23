@@ -9,7 +9,7 @@ import GetInTouch from "../components/contact/GetInTouch";
 import Updates from "../components/updates/Updates";
 import Terminal from "../components/terminal/Terminal";
 
-const Home = ({ setSiteTitle }) => {
+function Home({ setSiteTitle }) {
   const [age, setAge] = useState(0);
   const router = useRouter();
 
@@ -55,6 +55,6 @@ const Home = ({ setSiteTitle }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Home;

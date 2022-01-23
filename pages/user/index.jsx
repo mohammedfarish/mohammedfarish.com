@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import Link from "next/link";
+
 import verify from "../../utils/functions/verify";
 
 import Loading from "../../components/loading/Loading";

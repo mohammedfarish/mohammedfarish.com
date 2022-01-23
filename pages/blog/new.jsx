@@ -12,7 +12,7 @@ import styles from "../../styles/newblogpost.module.css";
 
 import verifyUser from "../../utils/functions/verify";
 
-const NewArticle = ({ setSiteTitle }) => {
+function NewArticle({ setSiteTitle }) {
   const [blogTitle, setBlogTitle] = useState("");
   const [pageTitle, setPageTitle] = useState("New Blog Post | Mohammed Farish");
   const [slug, setSlug] = useState("");
@@ -281,6 +281,6 @@ const NewArticle = ({ setSiteTitle }) => {
       </div>
     </div>
   );
-};
+}
 
 export default NewArticle;

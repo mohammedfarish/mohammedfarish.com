@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import styles from "../styles/error404.module.css";
 
-const Error404 = ({ setSiteTitle }) => {
+function Error404({ setSiteTitle }) {
   useEffect(() => {
     setSiteTitle("Page not Found");
 
@@ -29,6 +29,6 @@ const Error404 = ({ setSiteTitle }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Error404;

@@ -12,39 +12,34 @@ export default async (req, res) => {
           try {
             const { tz } = req.query;
 
-            const nextLaunch = await axios.get(`${process.env.R_API_URI}5`)
-              .then((response) => {
-                const { result } = response.data;
+            let nextLaunch = await axios.get(`${process.env.R_API_URI}/json/launches/next`, {
+              headers: {
+                Authorization: `Bearer ${process.env.R_API_TOKEN}`,
+              },
+            })
+              .then((response) => response.data.result)
+              .catch(() => null);
 
-                if (result.length === 0) return "Unknown";
-                let launchDataMessage;
-                result.forEach((launchData) => {
-                  const momenNnow = Moment().tz(tz).unix();
-                  const momenThen = Moment(launchData.win_open).tz(tz).unix();
+            if (!nextLaunch) {
+              nextLaunch = await axios.get(`${process.env.R_API_URI}/json/launches/next`)
+                .then((response) => response.data.result)
+                .catch(() => null);
+            }
 
-                  const difference = momenThen - momenNnow;
-                  const difference2 = Moment(launchData.date_str).tz(tz).unix() - momenNnow;
+            const launchData = nextLaunch[0];
+            const mission = launchData.name;
+            const launchCompany = launchData.provider.name;
+            const dateEstimate = launchData.date_str;
+            const vehicleName = launchData.vehicle.name;
+            const locationName = launchData.pad.location.name;
+            const countryName = launchData.pad.location.country;
+            const windowOpenDate = launchData.win_open;
 
-                  if (difference <= 0) return;
-                  if (launchDataMessage) return;
+            const moment = Moment(windowOpenDate).tz(tz).fromNow();
 
-                  const moment = Moment(launchData.win_open).tz(tz).fromNow();
-                  if (moment === "Invalid date" && difference2 <= 0) return;
+            const launchDataMessage = `${launchCompany} is launching ${vehicleName} for ${mission} Mission, ${moment === "Invalid date" ? `${Moment(dateEstimate, "MMM DD").tz(tz).fromNow()} (estimated)` : moment}, from ${locationName}, ${countryName}.\n\nNote: ${moment === "Invalid date" ? "The time will be available momentarily and may be subjected to change" : "The date may be subjected to change"}.`;
 
-                  const mission = launchData.name;
-                  const launchCompany = launchData.provider.name;
-                  const dateEstimate = launchData.date_str;
-                  const vehicleName = launchData.vehicle.name;
-                  const locationName = launchData.pad.location.name;
-                  const countryName = launchData.pad.location.country;
-
-                  launchDataMessage = `${launchCompany} is launching ${vehicleName} for ${mission} Mission, ${moment === "Invalid date" ? `${Moment(dateEstimate, "MMM DD").tz(tz).fromNow()} (estimated)` : moment}, from ${locationName}, ${countryName}.\n\nNote: ${moment === "Invalid date" ? "The time will be available momentarily and may be subjected to change" : "The date may be subjected to change"}.`;
-                });
-
-                return launchDataMessage;
-              });
-
-            res.json({ launchData: nextLaunch });
+            res.json({ launchData: launchDataMessage });
           } catch (error) {
             res.status(503).json({ launchData: "Internal Server Error!" });
           }
@@ -60,4 +55,6 @@ export default async (req, res) => {
       res.status(404).json(false);
       break;
   }
+
+  return true;
 };

@@ -11,9 +11,9 @@ import MarkdownTheme from "../../components/markdown/MarkdownTheme";
 import dbConnect from "../../utils/database/dbConnect";
 import blogSchema from "../../utils/database/schema/blogSchema";
 
-const BlogPost = ({
+function BlogPost({
   content, title, date, success, setSiteTitle,
-}) => {
+}) {
   if (success === true) {
     useEffect(() => {
       setSiteTitle(`${title} - Blog`);
@@ -44,7 +44,7 @@ const BlogPost = ({
   }
 
   return <ErrorPage />;
-};
+}
 
 export default BlogPost;
 

@@ -26,22 +26,15 @@ export default class Updates extends Component {
     this.fetchGithubData();
     this.fetchLocation();
     this.fetchActiveAPIs();
-    this.timer = setInterval(() => {
-      this.fetchLocation();
-    }, 1000 * 30);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
+    this.fetchLocation();
   }
 
   onClickReloadData(type) {
-    if (type === 1) { return this.fetchLocation(true); }
+    if (type === 1) return this.fetchLocation(true);
+    if (type === 2) return this.fetchGithubData(true);
+    if (type === 3) return this.fetchActiveAPIs(true);
 
-    if (type === 2) { return this.fetchGithubData(true); }
-
-    if (type === 3) { return this.fetchActiveAPIs(true); }
-    return true;
+    return false;
   }
 
   fetchActiveAPIs(refresh) {
