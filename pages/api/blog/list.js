@@ -1,72 +1,46 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable prefer-const */
-import { Chance } from "chance";
+import axios from "axios";
 import Moment from "moment-timezone";
-
-import dbConnect from "../../../utils/database/dbConnect";
-
-import blogSchema from "../../../utils/database/schema/blogSchema";
-import auth from "../../../utils/middlewares/auth";
-
-dbConnect();
 
 export default async (req, res) => {
   const { method } = req;
-
+  const latest = req.query.type === "latest";
   switch (method) {
     case "GET":
 
       try {
-        const posts = await blogSchema.find();
+        const githubData = await axios.get(`https://api.github.com/repos/${process.env.GITHUB_PRIVATE_ACCOUNT}/mohammedfarish.com-sitedata/contents/blog`, {
+          auth: {
+            username: "mohammedfarish",
+            password: process.env.GITHUB_TOKEN,
+          },
+        })
+          .then((response) => response.data)
+          .catch((error) => error);
 
-        const token = req.headers["x-auth-token"];
-        const authenticate = await auth(req);
-        if (token) await authenticate;
+        const metaDataFile = githubData.find((item) => item.name === "data.json");
 
-        const data = [];
-        await posts.reverse().forEach((post) => {
-          let {
-            title, slug, date, publish, listed,
-          } = post;
-          if (req.query.type === "latest") { if (data.length >= 4) return; }
+        const blogPosts = await axios.get(metaDataFile.download_url, {
+          auth: {
+            username: "mohammedfarish",
+            password: process.env.GITHUB_TOKEN,
+          },
+        })
+        // eslint-disable-next-line max-len
+          .then((response) => response.data.filter((item) => item.publish === true && item.public === true))
+          .catch((error) => error);
 
-          let status = [];
+        const formattedData = blogPosts.map((item) => ({
+          title: item.title,
+          slug: item.slug,
+          date: Moment(item.date, "DD-MM-YYYY").format(),
+          unix: Moment(item.date, "DD-MM-YYYY").unix(),
+        }));
 
-          if (!authenticate) {
-            if (publish === false) return;
-            if (listed === false) return;
-          } else {
-            if (publish === false) status.push("UNPUBLISHED");
-            if (listed === false) status.push("UNLISTED");
-
-            if (publish && listed) status.push("PUBLISHED");
-
-            if (status.length === 2) {
-              status = status.join(" & ");
-            } else {
-              status = status[0];
-            }
-          }
-
-          const moment = Moment(date).tz("Asia/Dubai");
-          const momentNow = Moment().tz("Asia/Dubai");
-
-          if (moment.year() === momentNow.year()) {
-            date = moment.format("MMM DD");
-          } else {
-            date = moment.format("MMM DD YYYY");
-          }
-
-          const key = new Chance().guid({ version: 2 });
-
-          const formatted = {
-            title, slug, date, key, status,
-          };
-
-          data.push(formatted);
-        });
-
-        res.json(data);
+        const sortedData = formattedData.sort((a, b) => a.unix - b.unix).reverse();
+        if (latest && sortedData > 4) { sortedData.splice(4); }
+        // console.log(sortedData);
+        res.json(sortedData);
+        // res.json([]);
       } catch (error) {
         res.status(503).json(false);
       }
@@ -74,7 +48,7 @@ export default async (req, res) => {
       break;
 
     default:
-      res.status(404).json(false);
+      res.status(404);
       break;
   }
 };

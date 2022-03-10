@@ -4,7 +4,7 @@ import axios from "axios";
 import Cmd from "terminal-in-react";
 import { MacTerminal } from "react-window-ui";
 
-import styles from "../../styles/terminal.module.css";
+import styles from "./terminal.module.css";
 
 export default class Terminal extends PureComponent {
   constructor(props) {

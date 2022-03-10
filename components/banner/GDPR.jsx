@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { PureComponent } from "react";
 
-import styles from "../../../styles/gdprbanner.module.css";
+import styles from "../../styles/gdprbanner.module.css";
 
 export default class GDPR extends PureComponent {
   constructor(props) {

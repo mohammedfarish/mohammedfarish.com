@@ -6,6 +6,8 @@ import axios from "axios";
 import dbConnect from "../../utils/database/dbConnect";
 import getIP from "../../utils/middlewares/getIP";
 
+import { decryptedData } from "../../utils/functions/encryption";
+
 import analyticsSchema from "../../utils/database/schema/analyticsSchema";
 import auth from "../../utils/middlewares/auth";
 
@@ -175,6 +177,17 @@ export default async (req, res) => {
       } catch (error) {
         res.json(true);
       }
+      break;
+
+    case "PUT":
+      const token = req.headers["x-auth-token"];
+      const internalKey = process.env.INTERNAL_KEY;
+      const { uid: UID } = req.body;
+      const validToken = decryptedData(token) === internalKey;
+      if (!validToken || !UID) return res.status(400).json(false);
+      const data = await analyticsSchema.findById(UID);
+
+      res.json(data);
       break;
 
     default:

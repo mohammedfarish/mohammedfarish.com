@@ -4,6 +4,7 @@ body {
   font-family: "Roboto Mono", monospace;
   touch-action: pan-y;
   color: #363636;
+  min-height: 100%;
   overflow-x: hidden;
 }
 
@@ -40,15 +41,6 @@ svg {
 
 textarea {
   outline: none;
-}
-
-.pages {
-  padding: 20vh 5% 10vh 5%;
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-  overflow-x: hidden;
-  touch-action: pan-y;
 }
 
 input,

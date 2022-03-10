@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
 
-import styles from "../../styles/projects.module.css";
 import StatusUpdates from "./StatusUpdates";
 
 export default class Updates extends Component {
@@ -171,46 +170,46 @@ export default class Updates extends Component {
     } = this.state;
 
     return (
-      <div className={styles.projectsSection}>
-        <div className={styles.projectsSectionHeaderSection}>
+      <div className="mf-section">
+        <div className="mf-section-header">
           <span>Updates</span>
         </div>
-        <div className={styles.projects}>
-          <div onClick={() => this.onClickReloadData(1)} title="Fetched from the phone's GPS cordinates" className={styles.projectsItem}>
-            <div className={styles.projectsItemHeader}>
-              <span className={styles.projectsItemHeaderLogo}>📍</span>
-              <span className={styles.projectsItemHeaderTypo}>Last Known Location</span>
+        <div className="flex items-center justify-evenly flex-wrap">
+          <div onClick={() => this.onClickReloadData(1)} title="Fetched from the phone's GPS cordinates" className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-40 h-40 p-1 m-4 select-none mf-btn-primary">
+            <div className="text-base text-center flex flex-col justify-around h-1/2">
+              <span className="text-xl h-5">📍</span>
+              <span className="font-bold">Last Known Location</span>
             </div>
-            <div className={styles.projectsItemResultSection}>
-              <span className={styles.projectsItemResult}>{location}</span>
-              <span className={styles.projectsItemResultSmall}>
+            <div className="flex flex-col items-center justify-evenly h-1/2">
+              <span className="text-center w-full text-xs">{location}</span>
+              <span className="text-center text-[8px] my-1 w-full">
                 Updated
                 {" "}
                 {locationLastUpdate}
               </span>
             </div>
           </div>
-          <div onClick={() => this.onClickReloadData(2)} title="Fetched from Github's Public Activity" className={styles.projectsItem}>
-            <div className={styles.projectsItemHeader}>
-              <span className={styles.projectsItemHeaderLogo}>👨‍💻</span>
-              <span className={styles.projectsItemHeaderTypo}>Latest Code Activity</span>
+          <div onClick={() => this.onClickReloadData(2)} title="Fetched from Github's Public Activity" className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-40 h-40 p-1 m-4 select-none mf-btn-primary">
+            <div className="text-base text-center flex flex-col justify-around h-1/2">
+              <span className="text-xl h-5">👨‍💻</span>
+              <span className="font-bold">Latest Code Activity</span>
             </div>
-            <div className={styles.projectsItemResultSection}>
-              <span className={styles.projectsItemResult}>{githubCommitMessage}</span>
-              <div className={styles.projectsItemRepoSection}>
-                <span className={styles.projectsItemRepoResultSmall}>{githubRepo[0]}</span>
-                <span className={styles.projectsItemRepoResultSmall}>{githubRepo[1]}</span>
+            <div className="flex flex-col items-center justify-evenly h-1/2">
+              <span className="text-center w-full text-xs">{githubCommitMessage}</span>
+              <div className="flex flex-col my-1">
+                <span className="text-center text-[8px] w-full">{githubRepo[0]}</span>
+                <span className="text-center text-[8px] w-full">{githubRepo[1]}</span>
               </div>
             </div>
           </div>
-          <div onClick={() => this.onClickReloadData(3)} className={styles.projectsItem}>
-            <div className={styles.projectsItemHeader}>
-              <span className={styles.projectsItemHeaderLogo}>🌐</span>
-              <span className={styles.projectsItemHeaderTypo}>Public APIs</span>
+          <div onClick={() => this.onClickReloadData(3)} className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-40 h-40 p-1 m-4 select-none mf-btn-primary">
+            <div className="text-base text-center flex flex-col justify-around h-1/2">
+              <span className="text-xl h-5">🌐</span>
+              <span className="font-bold">Public APIs</span>
             </div>
-            <div className={styles.projectsItemResultSection}>
-              <span className={styles.projectsItemResult}>{activeAPIs}</span>
-              <span className={styles.projectsItemResultSmall}>Live and Serving Open Data</span>
+            <div className="flex flex-col items-center justify-evenly h-1/2">
+              <span className="text-center w-full text-xs">{activeAPIs}</span>
+              <span className="text-center text-[8px] my-1 w-full">Live and Serving Open Data</span>
             </div>
           </div>
         </div>

@@ -4,13 +4,14 @@ import axios from "axios";
 
 import "../styles/globals.css";
 import "../styles/fonts.css";
+import "../styles/main.css";
 
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
 import isDev from "../utils/middlewares/isDev";
 import CustomHead from "../components/head/Head";
-import GDPR from "../components/all blog posts/banner/GDPR";
+import GDPR from "../components/banner/GDPR";
 
 function MyApp({ Component, pageProps }) {
   const [globalState, setGlobalState] = useState({});
@@ -97,10 +98,10 @@ function MyApp({ Component, pageProps }) {
   }, [router.asPath]);
 
   return (
-    <div>
+    <div className="min-h-screen w-screen touch-pan-y">
       <CustomHead title={siteTitle} />
       <Header setLoggedIn={setLoggedIn} current={router.pathname} />
-      <div className="pages">
+      <div className="min-h-[97vh] px-[5%] pt-[20vh] pb-[10vh] flex justify-center overflow-x-hidden touch-pan-y">
         <Component
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...pageProps}
