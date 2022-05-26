@@ -1,0 +1,130 @@
+.section {
+  /* background: lavender; */
+  margin: 50px 0 ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  border: 1px solid lightgray;
+
+}
+
+.header {
+  background: whitesmoke;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid lightgray;
+  padding: 10px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.listSection {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.listItem {
+  border-bottom: 1px solid lightgray;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
+  user-select: none;
+}
+
+.listItem:hover {
+    background: whitesmoke;
+}
+
+.listItemCount {
+    /* background: whitesmoke; */
+    min-height: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-right:1px solid lightgray ; */
+}
+
+.listItemName{
+    padding: 20px 0;
+    font-weight: bold;
+    font-size: 18px;
+    /* background: whitesmoke; */
+    height: 100%;
+    width: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.listItemName label{
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.daysAgo{
+    font-size: 14px;
+    opacity: .5;
+}
+
+.iconSecion{
+    /* padding: 10px; */
+height: 100%;
+width: 88px;
+display: flex;
+align-items: center;
+justify-content: center;
+
+/* width: 100%; */
+}
+
+.icon{
+    height: 25px;
+}
+
+.loadMoreSection{
+    margin-top: 5px;
+    height: 48px;
+    user-select: none;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 100%;
+cursor: pointer;
+border-top: 1px solid lightgray;
+box-shadow: 3px 3px 0px grey;
+font-weight: bold;
+}
+
+.loadMoreSection:hover{
+    background: whitesmoke;
+    box-shadow: 2px 2px 0px grey;
+}
+
+.loadMoreSectionPressed{
+    margin-top: 5px;
+    height: 48px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    background: whitesmoke;
+    box-shadow: 2px 2px 0px grey;
+    /* color: lightgray; */
+    opacity: .5;
+font-weight: bold;
+cursor: default;
+}

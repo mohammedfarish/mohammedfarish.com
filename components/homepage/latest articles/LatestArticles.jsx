@@ -36,7 +36,11 @@ function LatestArticles() {
             className="w-full flex items-center overflow-hidden min-h-[50px] px-2 py-1 justify-between hover:bg-mf-white"
           >
             <div className="flex items-center overflow-hidden">
-              <span className="font-medium text-xs min-w-[60px] opacity-40">{Moment(item.date).format("DD MMM")}</span>
+              <span className="font-medium text-xs min-w-[60px] opacity-40 line-clamp-2 mx-2 text-center">
+                {Moment(item.date).format("DD MMM")}
+                <br />
+                {Moment(item.date).format("YYYY") !== Moment().format("YYYY") ? Moment(item.date).format("YYYY") : ""}
+              </span>
               <span className="font-medium text-lg">{item.title}</span>
             </div>
           </a>

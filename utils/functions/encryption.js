@@ -4,8 +4,8 @@ const Moment = require("moment-timezone");
 const internalKey = process.env.INTERNAL_KEY;
 
 const generateDaySecretKey = () => {
-  const date = Moment().tz("Asia/Dubai").format("dddd-HH-DD-MMMM-YYYY");
-  const secretKey = SHA256(date + internalKey).toString();
+  const date = Moment().tz("Asia/Dubai").format("dddd-DD-MMMM-YYYY");
+  const secretKey = SHA256(internalKey + date + internalKey).toString();
   return secretKey;
 };
 
@@ -34,7 +34,4 @@ const decryptedData = (data) => {
   }
 };
 
-module.exports = {
-  encryptedData,
-  decryptedData,
-};
+module.exports = { encryptedData, decryptedData };

@@ -17,13 +17,13 @@ Seriously? Is that what most others say? 🤦
 
 Here are a few points to help you understand how important your data is, even in the grand scheme of things. The way I plan on doing it is to ask some questions that I would ask an advertisement company, such as Google, and then I'll explain it as if there was a 5th grader listening to me.
 
-Please note that the scope of all the below information is limited to the website [www.mohammedfarish.com](https://www.mohammedfarish.com) and nothing beyond that.
+Please note that the scope of all the below information is limited to the website [www.mohammedfarish.com](/) and nothing beyond that.
 
 ---
 
 1. ### Are you tracking me? 🙄
 
-   I find this question very challenging, because I'm trying to explain to you that I have no evil intentions while I am walking on the verge. The honest answer is, yes. But I respect your privacy very strongly, so there is a line I have drawn not to cross and invade. It is often my aim to create a positive experience here by imagining myself as if I were in your shoes. But you can acyually opt out of this by scrolling all the way down to Analytics Settings.
+   I find this question very challenging, because I'm trying to explain to you that I have no evil intentions while I am walking on the verge. The honest answer is, yes. But I respect your privacy very strongly, so there is a line I have drawn not to cross and invade. It is often my aim to create a positive experience here by imagining myself as if I were in your shoes. But you can actually opt out of this by scrolling all the way down to Analytics Settings.
 
 2. ### How can you track me? 🤔
 
@@ -48,11 +48,11 @@ Please note that the scope of all the below information is limited to the websit
 
    It is important to keep in mind that MOST OTHER WEBSITES use various tracking tools to get high precision data such as your gender and age. In general, I discourage my clients from using such tools since I am a strong advocate of privacy and consent.
 
-   But do you know what's one of the most creepiest practices I've seeen others do? They extract a fingerprint of your device, with the above list of parameters to identify you even if you are browsing in incognito mode. If you think all those VPNs could keep you "anonymous", think again, because theses guys are way far ahead of you. It's called **Browser Fingerprinting** and you can actually learn more about it at [Robin Linus' Ubercookie Website](https://ubercookie.robinlinus.com/).
+   But do you know what's one of the most creepiest practices I've seen others do? They extract a fingerprint of your device, with the above list of parameters to identify you even if you are browsing in incognito mode. If you think all those VPNs could keep you "anonymous", think again, because these guys are way far ahead of you. It's called **Browser Fingerprinting** and you can actually learn more about it at [Robin Linus' Ubercookie Website](https://ubercookie.robinlinus.com/).
 
 3. ### Do you Sell or Share my Data with someone else? 😟
 
-   Not in my lifetime. I live by this theory about how our data is treated as somebody else's monetary factor, essentially ignoring the hardships and struggles we've endured to become who we are today and to become data itself. The data is a product of our lives and no one other than us should set a price on it.
+   Not in my lifetime. I live by this theory about how our data is should never be somebody else's monetary factor that, in a sense, essentially ignores the hardships and struggles we've endured to become who we are today and to become data itself. The data is a product of our lives and no one other than us should set a price on it.
 
 4. ### What is the data retention period?
 
@@ -86,5 +86,4 @@ Please note that the scope of all the below information is limited to the websit
 
    Or you can just fill the contact form from the [homepage](/).
 
-
-Well, I think that covers the most important points. You are always welcome to contactint me from any of the above mentioned methods. Hit me up! Let's be friends! 🎉
+Well, I think that covers the most important points. You are always welcome to contact me through any of the above mentioned methods. Hit me up! Let's be friends! 🎉

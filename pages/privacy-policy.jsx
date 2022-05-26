@@ -1,36 +1,40 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import axios from "axios";
 
 import { encryptedData } from "../utils/functions/encryption";
 
-import styles from "../styles/privacypage.module.css";
+import CustomHead from "../components/head/Head";
 
 const Markdown = dynamic(() => import("../components/markdown/Markdown"), {
   ssr: false,
 });
 
-function PrivacyPolicy({ setSiteTitle, token }) {
+export default function PrivacyPolicy({ token }) {
   const [hideTrackLine, setHideTrackLine] = useState(false);
-  const [markdown, setMarkdown] = useState(null);
-
+  const loadingMessage = "#### <center>Loading the Latest Privacy Policy ...</center>";
+  const [markdown, setMarkdown] = useState(loadingMessage);
   const fetchUIDData = async (uid) => {
     const data = await axios.put("/api/analytics", { uid }, {
       headers: {
         "x-auth-token": token,
       },
     })
-      .then((response) => response.data);
-    return JSON.stringify(data, null, 4);
+      .then((response) => response.data)
+      .catch(() => null);
+    if (data) { return JSON.stringify(data, null, 4); }
+    return null;
   };
 
-  const fetchUSerData = async (input) => {
+  const fetchUserData = async (input) => {
     const uid = localStorage.getItem("uid");
-    let replaceText = "```\nno data found\n```";
+    let replaceText = "```bash\nError: 'User data not found'\n```";
+    let data;
     if (uid) {
-      const data = await fetchUIDData(uid);
-      if (data) replaceText = `\`\`\`\n${data}\n\`\`\``;
+      data = await fetchUIDData(uid);
+      if (data) replaceText = `\`\`\`json:userData.json\n${data}\n\`\`\``;
     }
+
     const text = input.replace("{{REPLACEWITHDATA}}", replaceText);
     return text;
   };
@@ -38,18 +42,14 @@ function PrivacyPolicy({ setSiteTitle, token }) {
   const fetchMarkdown = async (mdFile) => {
     const response = await fetch(mdFile);
     let text = await response.text();
-    text = await fetchUSerData(text);
+    text = await fetchUserData(text);
     setMarkdown(text);
   };
 
   useEffect(() => {
+    fetchMarkdown("/privacy-policy.md");
     const uid = window.localStorage.getItem("uid");
     if (!uid) setHideTrackLine(true);
-    setSiteTitle("Privacy Policy");
-    fetchMarkdown("/privacy-policy.md");
-    return () => {
-      setSiteTitle(null);
-    };
   }, []);
 
   const onClickDisableTracking = () => {
@@ -67,43 +67,49 @@ function PrivacyPolicy({ setSiteTitle, token }) {
       .catch(() => window.location.reload());
   };
 
-  if (!markdown) return <div hidden />;
-
   return (
-    <div className="w-full text-justify">
-      <Markdown text={markdown} />
-      <div className={styles.privacyActionSection}>
-        <div className={styles.privacyActionHeader}>
-          <h1>Analytics Settings</h1>
-        </div>
-        <div hidden={!!hideTrackLine}>
-          <span>
-            If you want to opt-out of this,
-            {" "}
-            <span
-              onClick={onClickDisableTracking}
-              className={styles.privacyAction}
-            >
-              click here
-            </span>
-            .
-          </span>
-        </div>
-        <div hidden={!hideTrackLine}>
-          <span className={styles.privacyTrackFalse}>You are not being tracked. </span>
+    <>
+      <CustomHead
+        title="Privacy Policy"
+        content="A short note on how I collect and use your data."
+      />
+      <div className="w-full text-justify prose-pre:max-h-[50vh] prose-pre:overflow-y-scroll">
+        <Markdown text={markdown} />
+        <div className="border-0 border-t-2 border-mf-black mt-12 py-6 border-solid">
+          <div className="underline mb-7 font-bold">
+            <h1>Analytics Settings</h1>
+          </div>
+          {markdown !== loadingMessage ? (
+            <>
+              <div hidden={!!hideTrackLine}>
+                <span>
+                  If you want to opt-out of this,
+                  {" "}
+                  <span
+                    onClick={onClickDisableTracking}
+                    className="font-black select-none cursor-pointer underline"
+                  >
+                    click here
+                  </span>
+                  .
+                </span>
+              </div>
+              <div hidden={!hideTrackLine}>
+                <span className="bg-[lightgreen] py-1 px-2 select-none">You are not being tracked. </span>
+              </div>
+            </>
+          ) : (
+            <div hidden />
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-export default PrivacyPolicy;
-
-export async function getServerSideProps() {
-  const internalKey = process.env.INTERNAL_KEY;
+export async function getStaticProps() {
   return {
-    props: {
-      token: encryptedData(internalKey),
-    },
+    props: { token: encryptedData(process.env.INTERNAL_KEY) },
+    revalidate: 3600,
   };
 }

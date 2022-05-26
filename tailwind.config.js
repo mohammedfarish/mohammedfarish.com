@@ -21,13 +21,18 @@ module.exports = {
         mf2: "2px 2px 1px #888888",
         mfhover: "1px 1px #888888",
       },
+      aspectRatio: {
+        "book-cover": "1.6 / 1",
+      },
     },
     screens: {
       ...defaultTheme.screens,
       xs: { max: "639px" },
+      xs2: { min: "639px" },
     },
   },
   plugins: [
     require("@tailwindcss/typography"),
+    require("@tailwindcss/line-clamp"),
   ],
 };

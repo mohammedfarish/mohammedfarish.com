@@ -248,7 +248,7 @@ export default class GetInTouch extends Component {
     ];
 
     return (
-      <div className="mf-section">
+      <div className="mf-section caret-[purple]">
         <div className="mf-section-header">
           <span>Get in Touch</span>
         </div>

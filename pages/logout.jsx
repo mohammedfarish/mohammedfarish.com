@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Loading from "../components/loading/Loading";
 import logOutUser from "../utils/functions/logout";
 
-const index = ({ setSiteTitle }) => {
+const index = () => {
   const Router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -26,7 +26,6 @@ const index = ({ setSiteTitle }) => {
   };
 
   useEffect(() => {
-    setSiteTitle(null);
     logoutUser();
   }, []);
 

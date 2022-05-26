@@ -8,7 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.3.1",
     "@tailwindcss/typography": "^0.5.2",
+    "accounting": "^0.4.1",
     "axios": "^0.26.0",
     "bcryptjs": "^2.4.3",
     "chance": "^1.1.8",
@@ -16,6 +18,7 @@
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "csvtojson": "^2.0.10",
+    "isdev": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "leaflet": "^1.7.1",
     "moment-timezone": "^0.5.34",
@@ -28,14 +31,18 @@
     "react-markdown": "^8.0.0",
     "react-syntax-highlighter": "^15.4.5",
     "react-window-ui": "^2.2.0",
+    "rehype-code-titles": "^1.0.3",
     "rehype-raw": "^6.1.1",
     "remark-frontmatter": "^4.0.1",
     "remark-gfm": "^3.0.1",
     "rich-markdown-editor": "^11.21.3",
     "terminal-in-react": "^4.3.1",
-    "xmlbuilder": "^15.1.1"
+    "xml2js": "^0.4.23",
+    "xmlbuilder": "^15.1.1",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.1.0",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.10.0",
     "eslint-config-airbnb": "^19.0.4",

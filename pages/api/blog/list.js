@@ -4,6 +4,7 @@ import Moment from "moment-timezone";
 export default async (req, res) => {
   const { method } = req;
   const latest = req.query.type === "latest";
+
   switch (method) {
     case "GET":
 
@@ -32,15 +33,13 @@ export default async (req, res) => {
         const formattedData = blogPosts.map((item) => ({
           title: item.title,
           slug: item.slug,
-          date: Moment(item.date, "DD-MM-YYYY").format(),
-          unix: Moment(item.date, "DD-MM-YYYY").unix(),
+          date: Moment(item.date).format(),
         }));
 
-        const sortedData = formattedData.sort((a, b) => a.unix - b.unix).reverse();
-        if (latest && sortedData > 4) { sortedData.splice(4); }
-        // console.log(sortedData);
-        res.json(sortedData);
-        // res.json([]);
+        formattedData.sort((a, b) => Moment(a.date).unix() - Moment(b.date).unix()).reverse();
+        if (latest && formattedData > 4) { formattedData.splice(4); }
+
+        res.json(formattedData);
       } catch (error) {
         res.status(503).json(false);
       }

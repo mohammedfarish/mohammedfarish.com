@@ -1,0 +1,10 @@
+{
+    "[css]":{
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true
+    },
+    "[markdown]":{
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true
+    }
+}

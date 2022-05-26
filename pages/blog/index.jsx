@@ -1,21 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "moment-timezone";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 import BlogPosts from "../../components/all blog posts/BlogPosts";
+import CustomHead from "../../components/head/Head";
 
-const index = ({ setSiteTitle, posts }) => {
+const index = ({ posts }) => {
+  const [formattedPosts, setFormattedPosts] = useState([]);
+
+  const location = useRouter();
+
   useEffect(() => {
-    setSiteTitle("Blog");
-    return () => {
-      setSiteTitle(null);
-    };
+    const years = [];
+
+    if (!posts || posts.length === 0) {
+      return location.push("/");
+    }
+
+    posts.forEach((post) => {
+      const year = Moment(post.date).format("YYYY");
+      if (!years.includes(year)) {
+        years.push(year);
+      }
+    });
+
+    const formatted = years.map((year) => {
+      const data = posts.filter((post) => Moment(post.date).format("YYYY") === year);
+      return {
+        year,
+        data,
+      };
+    });
+
+    return setFormattedPosts(formatted);
   }, []);
 
   return (
-    <div className="w-full">
-      <BlogPosts posts={posts} />
-    </div>
+    <>
+      <CustomHead title="Blog Articles" />
+      <div className="w-3/4 flex flex-col items-center">
+        <BlogPosts posts={formattedPosts} />
+      </div>
+    </>
   );
 };
 
@@ -46,15 +73,14 @@ export async function getServerSideProps() {
   const formattedData = blogPosts.map((item) => ({
     title: item.title,
     slug: item.slug,
-    date: Moment(item.date, "DD-MM-YYYY").format(),
-    unix: Moment(item.date, "DD-MM-YYYY").unix(),
+    date: Moment(item.date).format(),
   }));
 
-  const sortedData = formattedData.sort((a, b) => a.unix - b.unix).reverse();
+  formattedData.sort((a, b) => Moment(a.date).unix() - Moment(b.date).unix()).reverse();
 
   return {
     props: {
-      posts: sortedData,
+      posts: formattedData,
     },
   };
 }

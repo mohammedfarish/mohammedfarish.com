@@ -1,0 +1,52 @@
+{
+	"Head": {
+		"scope": "javascript,typescript,javascriptreact",
+		"prefix": "head",
+		"body": [
+			"<Head>",
+			"       <title>Mohammed Farish</title>",
+			"       <link rel=\"icon\" href=\"https://mohammedfarish.com/favicon.ico\" />",
+			"       <meta name=\"viewport\" content=\"width=device-width, user-scalable=no\" />",
+			"       <meta name=\"theme-color\" content=\"#000000\" />",
+			"       <meta name=\"description\" content=\"Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things.\" />",
+			"",
+			"       <meta property=\"og:type\" content=\"website\" />",
+			"       <meta property=\"og:url\" content=\"https://www.mohammedfarish.com/\" />",
+			"       <meta property=\"og:title\" content=\"Mohammed Farish\" />",
+			"       <meta property=\"og:description\" content=\"Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things.\" />",
+			"       <meta property=\"og:image\" content=\"https://www.mohammedfarish.com/assets/seoimage.jpg\" />",
+			"",
+			"       <meta property=\"twitter:card\" content=\"summary_large_image\" />",
+			"       <meta property=\"twitter:url\" content=\"https://www.mohammedfarish.com/\" />",
+			"       <meta property=\"twitter:title\" content=\"Mohammed Farish\" />",
+			"       <meta property=\"twitter:description\" content=\"Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. Starting with Smart Technology, Farish works on projects involving the internet of things.\" />",
+			"       <meta property=\"twitter:image\" content=\"https://www.mohammedfarish.com/assets/seoimage.jpg\" />",
+			"</Head>"
+		],
+		"description": "Creates a head element for the page."
+	},
+	"Authenticate": {
+		"scope": "javascript,typescript",
+		"prefix": "authenticate",
+		"body": [
+			"const authenticate = await auth(req)",
+			"if (!authenticate) return res.status(400).json('Unauthorised')"
+		],
+		"description": "Authenticate a user with a middleware."
+	},
+	"Analytics": {
+		"scope": "javascript,typescript",
+		"prefix": "analytics",
+		"body": [
+			"const data = {",
+			"    uid: window.localStorage.getItem('uid'),",
+			"    data: {",
+			"        type: \"something\",",
+			"    }",
+			"}",
+			"",
+			"axios.post('/api/analytics', data)",
+		],
+		"description": "Analytics Code snippet"
+	}
+}

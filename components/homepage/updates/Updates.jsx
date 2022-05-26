@@ -175,10 +175,10 @@ export default class Updates extends Component {
           <span>Updates</span>
         </div>
         <div className="flex items-center justify-evenly flex-wrap">
-          <div onClick={() => this.onClickReloadData(1)} title="Fetched from the phone's GPS cordinates" className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-40 h-40 p-1 m-4 select-none mf-btn-primary">
+          <div onClick={() => this.onClickReloadData(1)} title="Fetched from the phone's GPS cordinates" className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-44 h-44 p-1 m-4 select-none mf-btn-primary">
             <div className="text-base text-center flex flex-col justify-around h-1/2">
               <span className="text-xl h-5">📍</span>
-              <span className="font-bold">Last Known Location</span>
+              <span className="font-bold text-sm">Last Known Location</span>
             </div>
             <div className="flex flex-col items-center justify-evenly h-1/2">
               <span className="text-center w-full text-xs">{location}</span>
@@ -189,23 +189,23 @@ export default class Updates extends Component {
               </span>
             </div>
           </div>
-          <div onClick={() => this.onClickReloadData(2)} title="Fetched from Github's Public Activity" className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-40 h-40 p-1 m-4 select-none mf-btn-primary">
+          <div onClick={() => this.onClickReloadData(2)} title="Fetched from Github's Public Activity" className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-44 h-44 p-1 m-4 select-none mf-btn-primary">
             <div className="text-base text-center flex flex-col justify-around h-1/2">
               <span className="text-xl h-5">👨‍💻</span>
-              <span className="font-bold">Latest Code Activity</span>
+              <span className="font-bold text-sm">Latest Code Activity</span>
             </div>
             <div className="flex flex-col items-center justify-evenly h-1/2">
-              <span className="text-center w-full text-xs">{githubCommitMessage}</span>
+              <span className="text-center w-full text-xs line-clamp-2">{githubCommitMessage}</span>
               <div className="flex flex-col my-1">
-                <span className="text-center text-[8px] w-full">{githubRepo[0]}</span>
-                <span className="text-center text-[8px] w-full">{githubRepo[1]}</span>
+                <span className="text-center text-[8px] w-full line-clamp-1">{githubRepo[0]}</span>
+                <span className="text-center text-[8px] w-full line-clamp-1">{githubRepo[1]}</span>
               </div>
             </div>
           </div>
-          <div onClick={() => this.onClickReloadData(3)} className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-40 h-40 p-1 m-4 select-none mf-btn-primary">
+          <div onClick={() => this.onClickReloadData(3)} className="xs:w-3/4 cursor-pointer mf-bevel drop-shadow-mf bg-mf-white w-44 h-44 p-1 m-4 select-none mf-btn-primary">
             <div className="text-base text-center flex flex-col justify-around h-1/2">
               <span className="text-xl h-5">🌐</span>
-              <span className="font-bold">Public APIs</span>
+              <span className="font-bold text-sm">Public APIs</span>
             </div>
             <div className="flex flex-col items-center justify-evenly h-1/2">
               <span className="text-center w-full text-xs">{activeAPIs}</span>

@@ -5,26 +5,28 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import remarkFrontmatter from "remark-frontmatter";
+import { vscDarkPlus as dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import remarkFrontMatter from "remark-frontmatter";
+import rehypeCodeTitles from "rehype-code-titles";
 
 function Markdown({ text }) {
   return (
     <div className="
     flex
     prose
-    prose-img:xs:w-full
     max-w-prose
     min-w-full
     xs:w-full
     leading-relaxed
     prose-blockquote:border-0
-    text-base
-    prose-code:selection:bg-mf-white
-    prose-code:selection:text-mf-black
-    prose-pre:bg-mf-black
+    text-current
     prose-pre:drop-shadow-sm
     prose-pre:rounded-lg
+    prose-pre:p-0
+    prose-pre:m-0
+    prose-code:selection:bg-mf-white
+    prose-code:selection:text-mf-black
+    prose-pre:bg-[#1e1e1e]
     prose-headings:text-mf-black
     "
     >
@@ -32,9 +34,12 @@ function Markdown({ text }) {
         className="min-w-full"
         remarkPlugins={[
           remarkGfm,
-          remarkFrontmatter,
+          remarkFrontMatter,
         ]}
-        rehypePlugins={[rehypeRaw]}
+        rehypePlugins={[
+          rehypeRaw,
+          rehypeCodeTitles,
+        ]}
         components={{
           code({
             node, inline, className,

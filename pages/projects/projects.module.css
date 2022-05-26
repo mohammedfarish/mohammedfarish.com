@@ -1,0 +1,16 @@
+.page{
+    width: 100%;
+    min-height: 67vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.hero{
+    width: 100%;
+    min-height: 20vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+/* background: lavender; */
+}

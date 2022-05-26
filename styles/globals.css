@@ -16,6 +16,7 @@ a {
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 img,
@@ -39,6 +40,16 @@ svg {
   background: white;
 }
 
+*::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+  display: none;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: white;
+}
+
 textarea {
   outline: none;
 }
@@ -52,4 +63,16 @@ button {
   outline: none;
   border: none;
   font-family: "Roboto Mono", monospace;
+}
+
+.rehype-code-title {
+  background: black;
+  color: whitesmoke;
+  margin: 0 0 -5px 0;
+  padding: 5px 10px 10px 10px;
+  /* padding: 0; */
+  /* height: 100%; */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  text-align: center;
 }

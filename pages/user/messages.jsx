@@ -8,8 +8,9 @@ import verifyUser from "../../utils/functions/verify";
 
 import Loading from "../../components/loading/Loading";
 import Error404 from "../404";
+import CustomHead from "../../components/head/Head";
 
-const messages = ({ setSiteTitle }) => {
+const messages = () => {
   const [msgs, setmsgs] = useState([]);
   const [disable, setDisable] = useState(false);
   const [loggedIn, setLoggedIn] = useState(null);
@@ -94,48 +95,46 @@ const messages = ({ setSiteTitle }) => {
   };
 
   useEffect(() => {
-    setSiteTitle("Messages");
     onPageLoad();
-
-    return () => {
-      setSiteTitle(null);
-    };
   }, []);
 
   if (loggedIn === true) {
     return (
-      <div className={styles.messagesPage}>
-        { msgs.map((item) => (
-          <div
-            onClick={(e) => onClickMessageItem({ ...e, id: item.id, read: item.read })}
-            style={{ background: item.read ? "transparent" : "whitesmoke" }}
-            className={styles.messageItem}
-            key={item.id}
-          >
-            <div className={styles.messageItemName}>
-              <span>{item.name}</span>
+      <>
+        <CustomHead title="Messages" />
+        <div className={styles.messagesPage}>
+          { msgs.map((item) => (
+            <div
+              onClick={(e) => onClickMessageItem({ ...e, id: item.id, read: item.read })}
+              style={{ background: item.read ? "transparent" : "whitesmoke" }}
+              className={styles.messageItem}
+              key={item.id}
+            >
+              <div className={styles.messageItemName}>
+                <span>{item.name}</span>
+              </div>
+              <div className={styles.messageItemEmail}>
+                <Link href={`mailto:${item.email}`}>
+                  <a href={`mailto:${item.email}`}>
+                    <span>{item.email}</span>
+                  </a>
+                </Link>
+              </div>
+              <div className={styles.messageItemSubject}>
+                <span>{item.subject}</span>
+              </div>
+              <textarea
+                value={item.message}
+                className={styles.messageItemMessage}
+                readOnly
+              />
+              <div className={styles.messageItemTime}>
+                <span>{`Sent ${item.dateFormatted}`}</span>
+              </div>
             </div>
-            <div className={styles.messageItemEmail}>
-              <Link href={`mailto:${item.email}`}>
-                <a href={`mailto:${item.email}`}>
-                  <span>{item.email}</span>
-                </a>
-              </Link>
-            </div>
-            <div className={styles.messageItemSubject}>
-              <span>{item.subject}</span>
-            </div>
-            <textarea
-              value={item.message}
-              className={styles.messageItemMessage}
-              readOnly
-            />
-            <div className={styles.messageItemTime}>
-              <span>{`Sent ${item.dateFormatted}`}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </>
     );
   }
 

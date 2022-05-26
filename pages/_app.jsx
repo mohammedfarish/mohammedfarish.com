@@ -10,13 +10,11 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
 import isDev from "../utils/middlewares/isDev";
-import CustomHead from "../components/head/Head";
 import GDPR from "../components/banner/GDPR";
 
 function MyApp({ Component, pageProps }) {
   const [globalState, setGlobalState] = useState({});
   const [loggedIn, setLoggedIn] = useState(null);
-  const [siteTitle, setSiteTitle] = useState(null);
 
   const router = useRouter();
 
@@ -98,14 +96,12 @@ function MyApp({ Component, pageProps }) {
   }, [router.asPath]);
 
   return (
-    <div className="min-h-screen w-screen touch-pan-y">
-      <CustomHead title={siteTitle} />
+    <div className="min-h-screen w-screen touch-pan-y scroll-smooth">
       <Header setLoggedIn={setLoggedIn} current={router.pathname} />
-      <div className="min-h-[97vh] px-[5%] pt-[20vh] pb-[10vh] flex justify-center overflow-x-hidden touch-pan-y">
+      <div className="min-h-[97vh] px-[5%] pt-[20vh] xs:pt-[15vh] pb-[10vh] flex justify-center overflow-x-hidden touch-pan-y">
         <Component
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...pageProps}
-          setSiteTitle={setSiteTitle}
           globalState={globalState}
           setGlobalState={setGlobalState}
         />

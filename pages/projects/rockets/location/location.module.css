@@ -1,0 +1,10 @@
+.page{
+    /* background: lightblue; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 167vh;
+    /* padding: 50px 0; */
+    /* overflow-y:scroll ; */
+}

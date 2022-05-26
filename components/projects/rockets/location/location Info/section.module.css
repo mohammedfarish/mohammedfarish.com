@@ -1,0 +1,110 @@
+.section{
+    /* background: lavender; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    flex-direction: column;
+    /* height: 30%; */
+}
+
+.locationName{
+    /* background: whitesmoke; */
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    letter-spacing: -0.02rem;
+    font-size: 48px;
+    padding: 10px 0;
+}
+
+.locationInfoSection{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 60px 0;
+}
+
+.locationInfoItem{
+    user-select: none;
+    padding: 20px;
+    background: whitesmoke;
+  border-top: 2px solid lightgray;
+  border-left: 2px solid lightgray;
+  border-bottom: 2px solid darkgray;
+  border-right: 2px solid darkgray;
+  box-shadow: 4px 4px 0px grey;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+margin: 0 20px;
+font-size: 24px;
+font-weight: bold;
+}
+
+.locationInfoItem label{
+    font-weight: bold;
+    opacity: .5;
+    margin-bottom: 5px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.locationInfoPadSection{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+    padding: 25px 10px;
+    /* background: lightblue; */
+    border: 1px solid darkgray;
+    background: whitesmoke;
+}
+
+.locationInfoPadSectionHeader{
+    font-weight: bold;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.locationInfoPadItemsSection{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.locationInfoPadItem{
+    display: flex;
+    user-select: none;
+    align-items: center;
+    /* justify-content: center; */
+    /* flex-direction: column; */
+    margin: 10px;
+    padding: 15px ;
+    text-align: center;
+        background: whit;
+  border-top: 2px solid lightgray;
+  border-left: 2px solid lightgray;
+  border-bottom: 2px solid darkgray;
+  border-right: 2px solid darkgray;
+box-shadow: 2px 2px 0px grey;
+  /* width: 180px; */
+  height: 60px;
+}
+
+.locationInfoPadItemIcon{
+    height: 24px;
+    width: 24px;
+    margin-right: 15px;
+}
+
+.locationInfoPadItemName{
+    font-weight: bold;
+    font-size: 18px;
+    /* background: lavender; */
+}

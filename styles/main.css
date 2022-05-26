@@ -12,9 +12,9 @@
   }
 
   .mf-section-header {
-    @apply text-3xl xs:text-2xl xs:font-black xs:border-b-[2px] mb-5 font-medium border-b-[3px] border-mf-black min-h-[50px] flex items-center justify-between;
-  
+    @apply text-3xl xs:text-2xl xs:font-black xs:border-b-[2px] mb-5 font-bold border-b-[3px] border-mf-black min-h-[50px] flex items-center justify-between;
   }
+
   .mf-bevel {
     @apply border-2 border-b-mf-button-bottom-section border-r-mf-button-bottom-section border-l-mf-button-top-section border-t-mf-button-top-section border-solid;
   }
@@ -34,6 +34,4 @@
   .mf-input:disabled {
     @apply bg-mf-white drop-shadow-mfhover;
   }
-
-
 }

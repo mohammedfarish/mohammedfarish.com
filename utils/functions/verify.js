@@ -9,9 +9,7 @@ export default function verifyUser() {
       "x-auth-token": window.localStorage.getItem("user"),
     },
   }).then((response) => {
-    if (response.data === true) {
-      return true;
-    }
+    if (response.data === true) return true;
     window.localStorage.removeItem("user");
     return false;
   }).catch(() => {

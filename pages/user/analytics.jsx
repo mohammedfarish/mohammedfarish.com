@@ -6,8 +6,9 @@ import Error404 from "../404";
 import verifyUser from "../../utils/functions/verify";
 
 import styles from "../../styles/analytics.module.css";
+import CustomHead from "../../components/head/Head";
 
-const analytics = ({ setSiteTitle }) => {
+const analytics = () => {
   const [parsedActivityData, setParsedActivityData] = useState([]);
   const [totalVisitsState, setTotalVisits] = useState(0);
   const [uniqueVisitorsCountState, setUniqueVisitorsCount] = useState(0);
@@ -114,8 +115,7 @@ const analytics = ({ setSiteTitle }) => {
       .catch(() => setLoggedin(false));
   };
 
-  useEffect(async () => {
-    setSiteTitle("Analytics");
+  const checkLogin = async () => {
     const verify = await verifyUser();
     if (verify) {
       setLoggedin(true);
@@ -123,63 +123,68 @@ const analytics = ({ setSiteTitle }) => {
     } else {
       setLoggedin(false);
     }
+  };
 
-    return () => {
-      setSiteTitle(null);
-    };
+  useEffect(() => {
+    checkLogin();
   }, []);
 
   if (loggedin === true) {
     return (
-      <div className={styles.analyticsPage}>
-        <div className={styles.analyticsMainNumbersSection}>
-          <div className={styles.analyticsMainNumbers}>
-            <span className={styles.analyticsMainNumbersHeader}>Total Visits</span>
-            <span className={styles.analyticsMainNumbersCount}>{totalVisitsState}</span>
-          </div>
-          <div className={styles.analyticsMainNumbers}>
-            <span className={styles.analyticsMainNumbersHeader}>Unique Visitors</span>
-            <span className={styles.analyticsMainNumbersCount}>{uniqueVisitorsCountState}</span>
-          </div>
-        </div>
-        <div className={styles.analyticsResultsSection}>
-          {parsedActivityData.map((data) => (
-            <div className={styles.analyticsItem} key={data.id}>
-              <div className={styles.analyticsItemItems}>
-                <span className={styles.analyticsItemItemsHeader}>Device ID</span>
-                <span className={styles.analyticsItemItemsContent}>{data.id}</span>
-              </div>
-              <div className={styles.analyticsItemItems}>
-                <span className={styles.analyticsItemItemsHeader}>User Agent</span>
-                <span className={styles.analyticsItemItemsContent}>{data.userAgent}</span>
-              </div>
-              <div className={styles.analyticsItemItems}>
-                <span className={styles.analyticsItemItemsHeader}>Activity Count</span>
-                <span className={styles.analyticsItemItemsContent}>
-                  {data.activityData.length}
-                </span>
-              </div>
-              <div className={styles.analyticsItemItems}>
-                <span className={styles.analyticsItemItemsHeader}>Visit Count</span>
-                <span className={styles.analyticsItemItemsContent}>{data.visitCount}</span>
-              </div>
-              <div className={styles.analyticsItemItems}>
-                <span className={styles.analyticsItemItemsHeader}>Last Known IP</span>
-                <span
-                  className={styles.analyticsItemItemsContent}
-                >
-                  {data.activityData[0].ip}
-                  {" "}
-                  (
-                  {data.ipData}
-                  )
-                </span>
-              </div>
-              <span className={styles.analyticsItemItemsTime}>{`Last seen ${data.lastActivityFomatted}`}</span>
+      <>
+        <CustomHead
+          title="Analytics"
+        />
+        <div className={styles.analyticsPage}>
+          <div className={styles.analyticsMainNumbersSection}>
+            <div className={styles.analyticsMainNumbers}>
+              <span className={styles.analyticsMainNumbersHeader}>Total Visits</span>
+              <span className={styles.analyticsMainNumbersCount}>{totalVisitsState}</span>
             </div>
-          ))}
+            <div className={styles.analyticsMainNumbers}>
+              <span className={styles.analyticsMainNumbersHeader}>Unique Visitors</span>
+              <span className={styles.analyticsMainNumbersCount}>{uniqueVisitorsCountState}</span>
+            </div>
+          </div>
+          <div className={styles.analyticsResultsSection}>
+            {parsedActivityData.map((data) => (
+              <div className={styles.analyticsItem} key={data.id}>
+                <div className={styles.analyticsItemItems}>
+                  <span className={styles.analyticsItemItemsHeader}>Device ID</span>
+                  <span className={styles.analyticsItemItemsContent}>{data.id}</span>
+                </div>
+                <div className={styles.analyticsItemItems}>
+                  <span className={styles.analyticsItemItemsHeader}>User Agent</span>
+                  <span className={styles.analyticsItemItemsContent}>{data.userAgent}</span>
+                </div>
+                <div className={styles.analyticsItemItems}>
+                  <span className={styles.analyticsItemItemsHeader}>Activity Count</span>
+                  <span className={styles.analyticsItemItemsContent}>
+                    {data.activityData.length}
+                  </span>
+                </div>
+                <div className={styles.analyticsItemItems}>
+                  <span className={styles.analyticsItemItemsHeader}>Visit Count</span>
+                  <span className={styles.analyticsItemItemsContent}>{data.visitCount}</span>
+                </div>
+                <div className={styles.analyticsItemItems}>
+                  <span className={styles.analyticsItemItemsHeader}>Last Known IP</span>
+                  <span
+                    className={styles.analyticsItemItemsContent}
+                  >
+                    {data.activityData[0].ip}
+                    {" "}
+                    (
+                    {data.ipData}
+                    )
+                  </span>
+                </div>
+                <span className={styles.analyticsItemItemsTime}>{`Last seen ${data.lastActivityFomatted}`}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 

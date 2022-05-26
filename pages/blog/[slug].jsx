@@ -1,44 +1,53 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import Moment from "moment-timezone";
-import Head from "next/head";
 
 import Error404 from "../404";
+import CustomHead from "../../components/head/Head";
 
 const Markdown = dynamic(() => import("../../components/markdown/Markdown"), { ssr: false });
 
-function BlogPost({ data, metaData, setSiteTitle }) {
+function BlogPost({ data, metaData }) {
   if (!data) {
-    return <Error404 setSiteTitle={setSiteTitle} />;
+    return <Error404 />;
   }
-
-  useEffect(() => {
-    setSiteTitle(metaData.title);
-    return () => {
-      setSiteTitle(null);
-    };
-  }, []);
 
   return (
     <>
-      <Head>
-        <title>{metaData.title ? `${metaData.title} - Mohammed Farish` : "Mohammed Farish"}</title>
-        <meta name="description" content={metaData.description || "Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. "} />
-        <meta property="og:title" content={metaData.title ? `${metaData.title} - Mohammed Farish` : "Mohammed Farish"} />
-        <meta property="og:description" content={metaData.description || "Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. "} />
-        <meta property="twitter:title" content={metaData.title ? `${metaData.title} - Mohammed Farish` : "Mohammed Farish"} />
-        <meta property="twitter:description" content={metaData.description || "Originally from Kerala, India, Farish is now an innovative backend developer working on futuristic projects. "} />
-      </Head>
-      <div className="w-full min-h-[67vh] flex flex-col items-center">
+      <CustomHead
+        title={metaData.title}
+        content={metaData.description}
+        image={metaData.image}
+        siteData={{
+          type: "blog",
+          pubDate: metaData.date,
+          modDate: metaData.updatedAt,
+          tags: metaData.tags,
+        }}
+      />
+      <div className="w-full min-h-[67vh] xs:mt-[5vh] flex flex-col items-center">
         {!metaData.public ? (
-          <span className="text-xs mb-5 px-3 py-1 bg-mf-black text-white select-none font-bold">Private Post</span>
+          <div className="mb-5 flex flex-col justify-center items-center select-none">
+            <span className="text-xs px-3 py-1 bg-mf-black text-white font-bold">Private Post</span>
+            <span className="text-xs mt-2">This post is not visible to the public.</span>
+          </div>
         ) : (
           <div hidden />
         )}
-        <span className="font-extrabold text-6xl xs:text-4xl">{metaData.title}</span>
-        <span className="text-sm my-4">{Moment(metaData.date).format("dddd • MMMM DD YYYY")}</span>
-        <div className="lg:w-1/2 sm:w-full lg:text-justify text-left">
+        <h1 className="font-extrabold text-6xl xs:text-4xl text-center">{metaData.title}</h1>
+        <span className="text-sm mt-4">{Moment(metaData.date).format("dddd • MMMM DD YYYY")}</span>
+        {metaData.updatedAt !== metaData.date ? (
+          <span className="text-xs mb-4 opacity-50">
+            {" "}
+            Last updated
+            {" "}
+            {Moment(metaData.updatedAt).fromNow()}
+          </span>
+        ) : (
+          <div hidden />
+        )}
+        <div className="lg:w-1/2 sm:w-full lg:text-justify text-left w-full">
           <Markdown text={data} />
         </div>
       </div>
@@ -98,13 +107,17 @@ export async function getStaticProps(ctx) {
     return str.replace(/[^a-zA-Z0-9 ]/g, "");
   }
 
+  const content = data.split("---")[2];
+
   return {
     props: {
       metaData: {
         title: metaData.title,
-        date: Moment(metaData.date, "DD-MM-YYYY").format(),
+        date: Moment(metaData.date).format(),
+        updatedAt: Moment(metaData.updatedAt).format(),
         public: metaData.public || false,
-        description: metaData.description || removeSpecialCharacters(data.split("\n\n")[0]),
+        description: metaData.description || removeSpecialCharacters(content),
+        image: metaData.image || null,
       },
       data,
     },
