@@ -28,6 +28,8 @@
         "react-hooks/rules-of-hooks": "off",
         "react-hooks/exhaustive-deps": "off",
         "react/no-access-state-in-setstate": "off",
+        "@next/next/no-img-element": "off",
+        "@next/next/no-html-link-for-pages": "off",
         "jsx-a11y/click-events-have-key-events": "off",
         "jsx-a11y/label-has-associated-control": "off",
         "jsx-a11y/no-static-element-interactions": "off",

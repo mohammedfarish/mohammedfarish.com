@@ -1,34 +1,42 @@
 import React from "react";
 import axios from "axios";
-import Moment from "moment-timezone";
+// import Moment from "moment-timezone";
 import isDev from "isdev";
 
-import Comments from "../../../components/books/page/comments/Comments";
+// import Comments from "../../../components/books/page/comments/Comments";
 import CustomHead from "../../../components/head/Head";
 import Error404 from "../../404/index";
 import Error500 from "../../500/index";
-import Hero from "../../../components/books/page/hero/Hero";
+// import Hero from "../../../components/books/page/hero/Hero";
 
 import fetchGoodReadsData from "../../../utils/functions/fetchGoodReadsData";
 
 const index = ({ data, error }) => {
   if (error) return <Error500 error={error} />;
-  if (data) return <Error404 />;
-
-  const { popularReviews } = data;
-
-  popularReviews.sort((a, b) => Moment(b.date.replace(",", "")).unix() - Moment(a.date.replace(",", "")).unix());
+  if (!data) return <Error404 />;
 
   return (
     <>
       <CustomHead
-        title={`${data.openLibraryData.title.split(":")[0]} by ${data.author.name}`}
-        content={`${data.openLibraryData.description.substring(0, 151)} ...`}
+        title={`${data.openLibraryData.title.split(":")[0]}`}
+        content={data.openLibraryData.description && `${data.openLibraryData.description.substring(0, 151)} ...`}
         image={data.imageURL}
       />
       <div className="w-full md:w-2/3 flex flex-col items-center">
-        <Hero data={data} />
-        <Comments data={popularReviews} />
+
+        {/* {data.openLibraryData.additional.isbn[0] && (
+          <img
+            src={`https://covers.openlibrary.org/b/isbn/${data.openLibraryData.additional.isbn[0]}-L.jpg`}
+            alt="test"
+          />
+        )} */}
+        {data.openLibraryData.additional.isbn.map((item) => (
+          <img
+            key={item}
+            src={`https://covers.openlibrary.org/b/isbn/${item}-L.jpg`}
+            alt="test"
+          />
+        ))}
       </div>
     </>
   );
@@ -45,6 +53,8 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(ctx) {
   const { id } = ctx.params;
+
+  const base4Decode = (str) => Buffer.from(str, "base64").toString("utf8");
 
   const testData = {
     id: 5472,
@@ -412,12 +422,18 @@ export async function getStaticProps(ctx) {
   };
 
   if (isDev) {
-    const result = await axios.get(`https://openlibrary.org/search.json?q=${testData.title}`)
+    const result = await axios.get(`https://openlibrary.org/search.json?q=${base4Decode(id)}`)
       .then((res) => res.data);
     const result2 = await axios.get(`https://openlibrary.org/${result.docs[0].key}.json`)
-      .then((res) => res.data);
+      .then((res) => ({
+        key: result.docs[0].key,
+        ...res.data,
+        additional: result.docs[0],
+      }));
 
-    return { props: { data: { ...testData, openLibraryData: result2 } } };
+    // console.log(result2);
+
+    return { props: { data: { testData, openLibraryData: result2 } } };
   }
 
   const list = await fetchGoodReadsData();

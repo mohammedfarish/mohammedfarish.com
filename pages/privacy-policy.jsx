@@ -73,7 +73,7 @@ export default function PrivacyPolicy({ token }) {
         title="Privacy Policy"
         content="A short note on how I collect and use your data."
       />
-      <div className="w-full text-justify prose-pre:max-h-[50vh] prose-pre:overflow-y-scroll">
+      <div className="w-2/3 xs:w-full text-justify prose-pre:max-h-[50vh] prose-pre:overflow-y-scroll">
         <Markdown text={markdown} />
         <div className="border-0 border-t-2 border-mf-black mt-12 py-6 border-solid">
           <div className="underline mb-7 font-bold">

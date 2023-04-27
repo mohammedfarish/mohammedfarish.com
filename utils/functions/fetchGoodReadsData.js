@@ -6,8 +6,11 @@ const fetchGoodReadsData = async (shelf = "%23ALL%23") => {
   const data = await parseXML(`https://www.goodreads.com/review/list_rss/148878929?shelf=${shelf}&sort=title&order=asc`)
     .then((result) => result.rss.channel[0]);
 
+  const base4Encode = (str) => Buffer.from(str).toString("base64");
+
   const formattedBookData = data.item.map((item) => ({
     id: item.book_id[0],
+    encodedTitle: base4Encode(item.title[0]),
     shelf: item.user_shelves[0],
     title: item.title[0],
     author: item.author_name[0],

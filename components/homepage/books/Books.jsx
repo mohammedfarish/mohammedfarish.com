@@ -6,12 +6,14 @@ import isDev from "isdev";
 
 function BookCard({ book, type }) {
   return (
-    <Link href={`/books/${book.id}`}>
+    <Link href={`/books/${book.encodedTitle}`}>
       <a
-        href={`/books/${book.id}`}
+        href={`/books/${book.encodedTitle}`}
+        // href={`/books/${book.id}`}
         className="mf-btn-primary py-4 h-96 w-60  mx-3 xs:my-6 hover:no-underline flex flex-col items-center "
         title={book.title}
       >
+        {/* <Link href={`/books/${book.id}`}> */}
         <img
           className="h-4/5 xs:h-3/4 top-0 mf-bevel drop-shadow-mf rounded-md"
           src={book.images.large}

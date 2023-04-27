@@ -1,0 +1,90 @@
+{
+    "introduction": {
+        "name": "Mohammed Farish",
+        "about": "Software and full-stack web developer",
+        "birthPlace": "Abu Dhabi, UAE",
+        "broughtUp": "Abu Dhabi UAE",
+        "nationality": "Indian"
+    },
+    "personalBackground": {
+        "education": [
+            {
+                "degree": "Mechanical Engineering",
+                "institution": "RR Institute of Technology",
+                "location": "Bangalore, Karnataka, India",
+                "graduationYear": "2018"
+            },
+            {
+                "degree": "High School",
+                "institution": "Apex Public Schoold",
+                "location": "Kozhikode, Kerala, India",
+                "graduationYear": "2015"
+            },
+            {
+                "degree": "Middle School",
+                "institution": "Indian Islahi Islamic School",
+                "location": "Abu Dhabi, UAE",
+                "graduationYear": "2013"
+            }
+        ],
+        "interests": [
+            "Photography",
+            "Traveling",
+            "Coding",
+            "Podcasts"
+        ]
+    },
+    "professionalExperience": [
+        {
+            "positions": [
+                "Co-Founder",
+                "Head Engineer"
+            ],
+            "company": "Amnuz Technologies",
+            "duration": "2019 - Present",
+            "website": "https://www.amnuz.com",
+            "companyGoal": "Build and manage tools that simplify business workflows."
+        },
+        {
+            "positions": [
+                "IT Engineer"
+            ],
+            "company": "Telkom Communications",
+            "duration": "2022 - Present",
+            "website": "https://www.telkomcommunications.com",
+            "companyGoal": "Develop and manage industry grade Communications Infrastructure"
+        }
+    ],
+    "skills": {
+        "primary": [
+            "Python",
+            "Go",
+            "JavaScript"
+        ],
+        "secondary": [
+            "Vector Databases",
+            "Adobe Creative Suite",
+            "Git"
+        ],
+        "tools": [
+            "Visual Studio Code",
+            "Insomnia",
+            "Slack"
+        ]
+    },
+    "missionStatement": "Develop and deploy software that improves the lives of millions of people around the world.",
+    "links": {
+        "connect": {
+            "email": "contact@mohammedfarish.com",
+            "socialMedia": {
+                "twitter": "https://twitter.com/faaaaaarish",
+                "linkedin": "https://www.linkedin.com/in/mohammedfarish/",
+                "instagram": "https://www.instagram.com/mohammed_farish/",
+                "facebook": "https://www.facebook.com/weezy978/"
+            },
+            "contactForm": "/"
+        },
+        "blog": "/blog"
+    },
+    "closingRemarks": "Thank you for taking the time to learn more about me. I look forward to the opportunity to collaborate and create something amazing together!"
+}
