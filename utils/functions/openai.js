@@ -20,7 +20,8 @@ const openaiCompletions = async (options) => {
 
     const postData = {
       prompt: options.prompt,
-      model: options.model || "text-davinci-003",
+      // model: options.model || "text-davinci-003",
+      model: options.model || "gpt-4",
       temperature: options.temperature || 0.7,
       max_tokens: options.maxTokens || 256,
       frequency_penalty: options.frequencyPenalty || 0,
@@ -37,7 +38,7 @@ const openaiCompletions = async (options) => {
 
     return response.choices[0].text;
   } catch (error) {
-    return error;
+    return null;
   }
 };
 

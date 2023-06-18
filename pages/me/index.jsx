@@ -22,10 +22,8 @@ const index = ({ aboutMe }) => (
       content="Get to know more about me."
     />
     <div className="xs:w-full w-1/2 text-justify hover:prose-a:text-mf-black">
-      {/* {markdown && <Markdown text={markdown} />} */}
-      {/* {markdown && <Markdown text={aboutMe.text} />} */}
       <Markdown text={aboutMe.text} />
-      <GeneratedByOpenAI date={aboutMe.generatedAt} />
+      <GeneratedByOpenAI date={aboutMe.generatedAt} nextDate={aboutMe.nextGeneration} />
     </div>
   </>
 );
@@ -33,6 +31,7 @@ const index = ({ aboutMe }) => (
 export default index;
 
 export async function getStaticProps() {
+  let days = 7;
   const formattedAboutMeObj = JSON.stringify({
     age: calculateAge(),
     ...AboutMe,
@@ -60,7 +59,11 @@ Thank you for taking the time to learn more about me. I look forward to the oppo
     aboutMeText = await openaiCompletions({
       prompt,
       maxTokens: 1200,
-    });
+    })
+      .catch(() => {
+        days = 1;
+        return aboutMeText;
+      });
   }
 
   return {
@@ -68,8 +71,9 @@ Thank you for taking the time to learn more about me. I look forward to the oppo
       aboutMe: {
         text: aboutMeText,
         generatedAt: Moment().format(),
+        nextGeneration: Moment().add(days, "day").format(),
       },
     },
-    revalidate: 60 * 60 * 24 * 7,
+    revalidate: 60 * 60 * 24 * days,
   };
 }

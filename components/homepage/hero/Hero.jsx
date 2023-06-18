@@ -39,7 +39,7 @@ function Hero({ shortAbouMe }) {
         <div className="prose-p:text-sm text-justify px-[2%] w-1/2 flex flex-col justify-center xs:px-0 xs:w-full xs:mb-20">
           <h1 className="font-bold text-2xl mb-2">I'm Mohammed Farish.</h1>
           <Markdown text={shortAbouMe.text} />
-          <GeneratedByOpenAI date={shortAbouMe.generatedAt} />
+          <GeneratedByOpenAI date={shortAbouMe.generatedAt} nextDate={shortAbouMe.nextGeneration} />
 
           <Link href="/me">
             <a href="/me" className="w-40 inline-flex items-center p-0 text-mf-black active:text-mf-black ">

@@ -38,7 +38,13 @@ const calculateAge = () => {
 };
 
 export async function getStaticProps() {
-  const booksReading = await fetchGoodReadsData();
+  let days = 7;
+
+  const booksReading = await fetchGoodReadsData()
+    .catch(() => {
+      days = 3;
+      return [];
+    });
 
   const formattedAboutMeObj = {
     profession: AboutMe.professionalExperience[0],
@@ -51,9 +57,6 @@ export async function getStaticProps() {
     ...formattedAboutMeObj,
   };
 
-  // const formatted = Object.entries(infoAboutMe).map(([key, value]) => `${key}: ${value}`)
-  // .join("\n");
-
   const formatted = JSON.stringify(infoAboutMe);
 
   const prompt = `Write a creative, interesting and highly convincing "about me" with the informations provided below. 200 - 280 characters long. in markdown format. Hyperlinks. Filter out unneccessary information.
@@ -64,7 +67,10 @@ export async function getStaticProps() {
 
   if (!isdev) {
     shortAbouMe = await openaiCompletions({ prompt })
-      .catch(() => shortAbouMe);
+      .catch(() => {
+        days = 1;
+        return shortAbouMe;
+      });
   }
 
   return {
@@ -73,8 +79,9 @@ export async function getStaticProps() {
       shortAbouMe: {
         text: shortAbouMe,
         generatedAt: Moment().format(),
+        nextGeneration: Moment().add(days, "day").format(),
       },
     },
-    revalidate: 60 * 60 * 24 * 7,
+    revalidate: 60 * 60 * 24 * days,
   };
 }
