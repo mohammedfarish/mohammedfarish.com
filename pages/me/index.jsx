@@ -1,9 +1,12 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import Moment from "moment-timezone";
+import isDev from "isdev";
 
+import AboutMe from "../AboutMe.json";
 import CustomHead from "../../components/head/Head";
 import GeneratedByOpenAI from "../../components/commons/GeneratedByOpenAI";
+import { openaiCompletions } from "../../utils/functions/openai";
 
 const Markdown = dynamic(() => import("../../components/markdown/Markdown"), { ssr: false });
 
@@ -27,10 +30,17 @@ const index = ({ aboutMe }) => (
 
 export default index;
 
+const calculateAge = () => {
+  const birthDate = Moment("1997-06-07", "YYYY-MM-DD");
+  const todayDate = Moment().tz("Asia/Dubai");
+  const years = todayDate.diff(birthDate, "years");
+  return years;
+};
+
 export async function getStaticProps() {
   const days = 7;
 
-  const aboutMeText = `## About Me
+  let aboutMeText = `## About Me
 
 I am **Mohammed Farish**, a fusion of Abu Dhabi's modernity and India's rich heritage. Born amidst the skyscrapers of Abu Dhabi and holding the vibrant essence of India, I've always navigated between these two contrasting worlds, drawing inspiration from both.
 
@@ -46,6 +56,23 @@ Let's embark on a journey together. Whether it's a collaboration, a brainstormin
 
 Thank you for pausing here. I'm eager to craft the future, one line of code at a time, and I hope you'll join me on this exhilarating journey!
 `;
+
+  const infoAboutMe = {
+    age: calculateAge(),
+    learned: "self-taught",
+    ...AboutMe,
+  };
+
+  const formatted = JSON.stringify(infoAboutMe);
+
+  const prompt = `Write a creative, interesting and highly convincing "about me" with the informations provided below. around 2000 - 3000 characters long. in markdown format. Hyperlinks. Filter out unneccessary information.
+  
+  ${formatted}`;
+
+  if (isDev) {
+    aboutMeText = await openaiCompletions({ prompt })
+      .catch(() => null);
+  }
 
   let revalidate = 60 * 60 * 24 * days;
   if (!aboutMeText) revalidate = 60;

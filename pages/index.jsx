@@ -65,7 +65,7 @@ export async function getStaticProps() {
 
   let shortAbouMe = `I'm a ${calculateAge()} year old software and full-stack web developer, self-taught and passionate about the craft. I'm the Co-Founder and Head Engineer of [Amnuz Technologies](https://www.amnuz.com) and our goal is to build and manage tools that simplify business workflows. I'm always striving to make a positive impact and bring the best out of technology.`;
 
-  if (!isdev) {
+  if (isdev) {
     shortAbouMe = await openaiCompletions({ prompt })
       .catch(() => {
         days = 1;
