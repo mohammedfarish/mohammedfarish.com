@@ -1,19 +1,11 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import Moment from "moment-timezone";
-import isdev from "isdev";
 
 import CustomHead from "../../components/head/Head";
 import GeneratedByOpenAI from "../../components/commons/GeneratedByOpenAI";
-import { openaiCompletions } from "../../utils/functions/openai";
-import AboutMe from "../AboutMe.json";
 
 const Markdown = dynamic(() => import("../../components/markdown/Markdown"), { ssr: false });
-
-const calculateAge = () => {
-  const birthDate = Moment("1997-06-07");
-  return Moment().diff(birthDate, "years");
-};
 
 const index = ({ aboutMe }) => (
   <>
@@ -23,7 +15,12 @@ const index = ({ aboutMe }) => (
     />
     <div className="xs:w-full w-1/2 text-justify hover:prose-a:text-mf-black">
       <Markdown text={aboutMe.text} />
-      <GeneratedByOpenAI date={aboutMe.generatedAt} nextDate={aboutMe.nextGeneration} />
+      {aboutMe.text && (
+        <GeneratedByOpenAI
+          date={aboutMe.generatedAt}
+          nextDate={aboutMe.nextGeneration}
+        />
+      )}
     </div>
   </>
 );
@@ -31,40 +28,27 @@ const index = ({ aboutMe }) => (
 export default index;
 
 export async function getStaticProps() {
-  let days = 7;
-  const formattedAboutMeObj = JSON.stringify({
-    age: calculateAge(),
-    ...AboutMe,
-  });
+  const days = 7;
 
-  const prompt = `Write a creative, exciting and fun "about me" with the informations provided below. 3 or 4 paragraphs long. in markdown format. Hyperlinks. Filter out unneccessary information.
-  
-  ${formattedAboutMeObj}`;
+  const aboutMeText = `## About Me
 
-  let aboutMeText = `# About Mohammed Farish
+I am **Mohammed Farish**, a fusion of Abu Dhabi's modernity and India's rich heritage. Born amidst the skyscrapers of Abu Dhabi and holding the vibrant essence of India, I've always navigated between these two contrasting worlds, drawing inspiration from both.
 
-I'm a 25 year old Software and full-stack web developer from Abu Dhabi, UAE. I have a Mechanical Engineering degree from RR Institute of Technology, Bangalore, India and have previously studied High School in Apex Public School, Kozhikode, Kerala, India and Indian Islahi Islamic School, Abu Dhabi, UAE.
+My academic journey might surprise you. I delved deep into the intricacies of Mechanical Engineering at the esteemed **RR Institute of Technology** in Bangalore, graduating in 2018. This foundation, combined with my earlier educational experiences from **Apex Public School** in Kozhikode and **Indian Islahi Islamic School** in Abu Dhabi, has shaped my analytical thinking and problem-solving prowess.
 
-My professional experience includes co-founding and working as Head Engineer at [Amnuz Technologies](https://www.amnuz.com), a company that builds and manage tools that simplify business workflows. My skillset includes HTML, CSS, JavaScript, React, UI/UX Design, Adobe Creative Suite, Visual Studio Code, Figma and Slack.
+In 2019, I took a leap of faith and co-founded [Amnuz Technologies](https://www.amnuz.com). As its Lead Engineer, I've been at the forefront, innovating and crafting tools that revolutionize business workflows. My professional horizon expanded in 2022 when I joined the visionary team at [Telkom Communications](https://www.telkomcommunications.com) as an IT Engineer. Here, we're on a mission to redefine the future of Communications Infrastructure.
 
-I have worked on several projects such as [DEF Fashion](https://def-fashion.com), an e-commerce website, and [GHI Photography](https://ghi-photography.com), a portfolio website. I have received testimonials from clients such as Jane Smith, who said that my work "exceeded her expectations" and that I am "an incredibly talented developer and a pleasure to work with".
+Technically speaking, I wield expertise in **Python**, **Go**, and **JavaScript**, crafting solutions that resonate with the end-users. My toolkit is diverse, ranging from **Vector Databases** to the **Adobe Creative Suite**, and the ever-reliable **Git**. And when it comes to development environments, **Visual Studio Code**, **Insomnia**, and **Slack** are my trusted allies.
 
-My mission is to create visually stunning, highly functional, and user-friendly websites that help businesses grow and connect with their audiences.
+Beyond the codes and algorithms, I find solace in the art of **Photography**, the thrill of **Traveling**, the magic of **Coding**, and the wisdom of **Podcasts**. My guiding star? A mission to "_Develop software that doesn't just work, but changes lives._"
 
-If you would like to learn more about me, you can connect with me through [email](john.doe@example.com), [Twitter](https://twitter.com/johndoe) or [LinkedIn](https://linkedin.com/in/johndoe). You can also explore my [blog](https://example.com/blog) and [subscribe](https://example.com/subscribe) to my newsletter.
+Let's embark on a journey together. Whether it's a collaboration, a brainstorming session, or just a casual chat, [drop me an email](mailto:contact@mohammedfarish.com). You can also catch glimpses of my life and work on [Twitter](https://twitter.com/faaaaaarish), [LinkedIn](https://www.linkedin.com/in/mohammedfarish/), [Instagram](https://www.instagram.com/mohammed_farish/), and [Facebook](https://www.facebook.com/weezy978/).
 
-Thank you for taking the time to learn more about me. I look forward to the opportunity to collaborate and create something amazing together!`;
+Thank you for pausing here. I'm eager to craft the future, one line of code at a time, and I hope you'll join me on this exhilarating journey!
+`;
 
-  if (!isdev) {
-    aboutMeText = await openaiCompletions({
-      prompt,
-      maxTokens: 1200,
-    })
-      .catch(() => {
-        days = 1;
-        return aboutMeText;
-      });
-  }
+  let revalidate = 60 * 60 * 24 * days;
+  if (!aboutMeText) revalidate = 60;
 
   return {
     props: {
@@ -74,6 +58,6 @@ Thank you for taking the time to learn more about me. I look forward to the oppo
         nextGeneration: Moment().add(days, "day").format(),
       },
     },
-    revalidate: 60 * 60 * 24 * days,
+    revalidate,
   };
 }

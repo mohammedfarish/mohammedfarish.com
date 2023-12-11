@@ -19,11 +19,11 @@ function GeneratedByOpenAI({ date, nextDate }) {
         {" "}
         <a
           className="hover:underline"
-          href="https://platform.openai.com/docs/models/gpt-4"
+          href="https://platform.openai.com/docs/models/gpt-3-5"
           target="_blank"
           rel="noreferrer"
         >
-          OpenAI's GTP-4
+          OpenAI's GPT-3.5
         </a>
         .
       </span>
