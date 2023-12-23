@@ -26,6 +26,16 @@ function GeneratedByOpenAI({ date, nextDate }) {
           OpenAI's GPT-3.5
         </a>
         .
+        {" "}
+        <a
+          className="hover:underline"
+          href="https://github.com/mohammedfarish/mohammedfarish.com/tree/master#gpt-35-integration"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Learn more
+        </a>
+        .
       </span>
     </div>
   );

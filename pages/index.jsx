@@ -13,12 +13,12 @@ import AboutMe from "./AboutMe.json";
 import fetchGoodReadsData from "../utils/functions/fetchGoodReadsData";
 import { openaiCompletions } from "../utils/functions/openai";
 
-function Home({ bookData, shortAbouMe }) {
+function Home({ bookData, shortAboutMe }) {
   return (
     <>
       <CustomHead />
       <div className="w-full flex flex-col">
-        <Hero shortAbouMe={shortAbouMe} />
+        <Hero shortAboutMe={shortAboutMe} />
         <Updates />
         <LatestArticles />
         <Books books={bookData} />
@@ -59,25 +59,26 @@ export async function getStaticProps() {
 
   const formatted = JSON.stringify(infoAboutMe);
 
-  const prompt = `Write a creative, interesting and highly convincing "about me" with the informations provided below. 200 - 280 characters long. in markdown format. Hyperlinks. Filter out unneccessary information.
+  const prompt = `Write a short, creative, interesting and highly convincing "about me" with the informations provided below. maximum 200 characters. in markdown format. Hyperlinks. Filter out unneccessary information. headings not required1 g444wddddddddfhhhhhhh
+
   
   ${formatted}`;
 
-  let shortAbouMe = `I'm a ${calculateAge()} year old software and full-stack web developer, self-taught and passionate about the craft. I'm the Co-Founder and Head Engineer of [Amnuz Technologies](https://www.amnuz.com) and our goal is to build and manage tools that simplify business workflows. I'm always striving to make a positive impact and bring the best out of technology.`;
+  let shortAboutMe = `I'm a ${calculateAge()} year old software and full-stack web developer, self-taught and passionate about the craft. I'm the Co-Founder and Head Engineer of [Amnuz Technologies](https://www.amnuz.com) and our goal is to build and manage tools that simplify business workflows. I'm always striving to make a positive impact and bring the best out of technology.`;
 
   if (isdev) {
-    shortAbouMe = await openaiCompletions({ prompt })
+    shortAboutMe = await openaiCompletions({ prompt })
       .catch(() => {
         days = 1;
-        return shortAbouMe;
+        return shortAboutMe;
       });
   }
 
   return {
     props: {
       bookData: booksReading,
-      shortAbouMe: {
-        text: shortAbouMe,
+      shortAboutMe: {
+        text: shortAboutMe,
         generatedAt: Moment().format(),
         nextGeneration: Moment().add(days, "day").format(),
       },

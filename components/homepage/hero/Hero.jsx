@@ -12,7 +12,7 @@ const Markdown = dynamic(() => import("../../markdown/Markdown"), {
   ssr: false,
 });
 
-function Hero({ shortAbouMe }) {
+function Hero({ shortAboutMe }) {
   const router = useRouter();
 
   return (
@@ -20,11 +20,11 @@ function Hero({ shortAbouMe }) {
       <div className="w-full min-h-[50vh] flex py-[2%] xs:flex-col xs:mb-20">
         <div className="prose-p:text-sm text-justify px-[2%] w-1/2 flex flex-col justify-center xs:px-0 xs:w-full xs:mb-20">
           <h1 className="font-bold text-2xl mb-2">I'm Mohammed Farish.</h1>
-          <Markdown text={shortAbouMe.text} />
-          {shortAbouMe.text && (
+          <Markdown text={shortAboutMe.text} />
+          {shortAboutMe.text && (
             <GeneratedByOpenAI
-              date={shortAbouMe.generatedAt}
-              nextDate={shortAbouMe.nextGeneration}
+              date={shortAboutMe.generatedAt}
+              nextDate={shortAboutMe.nextGeneration}
             />
           )}
 

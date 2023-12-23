@@ -59,7 +59,7 @@ const formatted = JSON.stringify(AboutMeJSON);
 
 const prompt = `Write a creative, interesting and highly convincing "about me" with the informations provided below. in markdown format. Hyperlinks. Filter out unneccessary information.
   
-  ${formatted}`;
+${formatted}`;
 
 const aboutMe = await openaiCompletions({ prompt });
 ```
