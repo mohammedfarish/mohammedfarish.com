@@ -1,4 +1,4 @@
-export const siteURL = process.env.SITE_URL as NonNullable<string>;
+export const siteURL = ("https://" + process.env.DOMAIN) as NonNullable<string>;
 
 export const siteName = "Mohammed Farish";
 
