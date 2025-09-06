@@ -4,6 +4,9 @@ import { siteDescription, siteName, siteURL } from "@/utils/data";
 
 import "./globals.css";
 import Header from "@/components/common/Header";
+import { getDomain } from "@/utils/functions/host";
+import { redirect, RedirectType } from "next/navigation";
+import isdev from "@/utils/functions/isDev";
 
 export const metadata: Metadata = {
   title: {
@@ -54,11 +57,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteURL),
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (!isdev) {
+    const domain = await getDomain();
+    if (domain !== siteURL) {
+      redirect("https://" + siteURL, RedirectType.replace);
+    }
+  }
+
   return (
     <html lang="en">
       <body className="w-screen overflow-x-hidden min-h-screen flex flex-col">

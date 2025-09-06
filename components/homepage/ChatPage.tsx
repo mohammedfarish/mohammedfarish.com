@@ -3,9 +3,11 @@
 import { SendIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import moment from "moment-timezone";
+import { twMerge } from "tailwind-merge";
+import Markdown from "../common/Markdown";
+
 import { chanceObj } from "@/utils/functions/chance";
 import actionsDirectory from "@/utils/functions/actionsDirectory";
-import { twMerge } from "tailwind-merge";
 
 type Messages = {
   role: "user" | "assistant";
@@ -157,13 +159,15 @@ const ChatPage = ({ messages: initialMessages }: { messages: string[] }) => {
           {messages.map((message) => (
             <div
               key={chanceObj.guid()}
-              className={twMerge("p-3 flex items-center gap-2 border border-gray-200 rounded-lg justify-start", message.role === "assistant" && "bg-gray-100 ")}
+              className={twMerge(
+                "p-3 flex items-center gap-2 border border-gray-200 rounded-lg justify-start ",
+                message.role === "assistant" && "bg-gray-100 "
+              )}
             >
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 w-full">
                 <small className="text-gray-500 text-[10px] uppercase w-full">{message.role === "user" ? "You" : "Farish AI"}</small>
-                <div></div>
-
-                <span>{message.content}</span>
+                {/* <span className="">{message.content}</span> */}
+                <Markdown text={message.content} />
                 <small className="text-gray-500 text-[10px]">{moment(message.timestamp).format("DD MMM YYYY • HH:mm:ss")}</small>
               </div>
             </div>
