@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { redirect, RedirectType } from "next/navigation";
 
-import { siteDescription, siteName, siteURL } from "@/utils/data";
+import { siteDescription, siteDomain, siteName, siteURL, analyticsURL, analyticsAPIKey } from "@/utils/data";
 
 import "./globals.css";
-import Header from "@/components/common/Header";
+
 import { getDomain } from "@/utils/functions/host";
-import { redirect, RedirectType } from "next/navigation";
+import Header from "@/components/common/Header";
 import isdev from "@/utils/functions/isDev";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
@@ -64,8 +66,8 @@ export default async function RootLayout({
 }>) {
   if (!isdev) {
     const domain = await getDomain();
-    if (domain !== siteURL) {
-      redirect("https://" + siteURL, RedirectType.replace);
+    if (domain !== siteDomain) {
+      redirect("https://" + siteDomain, RedirectType.replace);
     }
   }
 
@@ -75,6 +77,12 @@ export default async function RootLayout({
         <Header />
         <div className="p-5 xs:p-5 font-brand">{children}</div>
       </body>
+
+      {!isdev && analyticsURL && analyticsAPIKey && (
+        <>
+          <Script defer src={analyticsURL} data-website-id={analyticsAPIKey} />
+        </>
+      )}
     </html>
   );
 }
