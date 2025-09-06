@@ -172,7 +172,7 @@ const ChatPage = ({ messages: initialMessages }: { messages: string[] }) => {
             >
               <div className="flex flex-col gap-1 w-full">
                 <small className="text-gray-500 text-[10px] w-full">
-                  {message.role === "user" ? "YOUR" : "FARISH AI"}{" "}
+                  {message.role === "user" ? "YOU" : "FARISH AI"}{" "}
                   {message.timeTaken && <span className="text-gray-500 text-[10px]">(Thought for {message.timeTaken})</span>}
                 </small>
                 {/* <span className="">{message.content}</span> */}
