@@ -5,10 +5,12 @@ import type { ActionResponse, DirectoryTypes, FunctionMap } from "@/utils/functi
 const actionsDirectory = async <ActionName extends DirectoryTypes>(
   action: ActionName,
   ...args: FunctionMap[ActionName]["args"]
-): Promise<ActionResponse<FunctionMap[ActionName]["returnType"]>> => {
+): Promise<ActionResponse<FunctionMap[ActionName]["returnType"]> & { timeTaken: string }> => {
   const req = [...args];
 
   const path = action.split("-").join("/");
+
+  const startTime = Date.now();
 
   const request = await axios
     .post("/api/" + path, req)
@@ -18,7 +20,20 @@ const actionsDirectory = async <ActionName extends DirectoryTypes>(
       error: err.message,
     }));
 
-  return request;
+  const timeTaken = Date.now() - startTime;
+
+  const timeTakenString = timeTaken > 1000 ? `${(timeTaken / 1000).toFixed(2)}s` : `${timeTaken}ms`;
+
+  console.log({
+    action,
+    timeTaken,
+    timeTakenString,
+  });
+
+  return {
+    ...request,
+    timeTaken: timeTakenString,
+  };
 };
 
 export default actionsDirectory;

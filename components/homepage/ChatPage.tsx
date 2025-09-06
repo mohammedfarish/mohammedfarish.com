@@ -1,11 +1,11 @@
 "use client";
 
-import { SendIcon } from "lucide-react";
+import { LoaderCircle, SendIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import moment from "moment-timezone";
 import { twMerge } from "tailwind-merge";
-import Markdown from "../common/Markdown";
 
+import Markdown from "../common/Markdown";
 import { chanceObj } from "@/utils/functions/chance";
 import actionsDirectory from "@/utils/functions/actionsDirectory";
 
@@ -13,6 +13,7 @@ type Messages = {
   role: "user" | "assistant";
   content: string;
   timestamp: string;
+  timeTaken?: string;
 }[];
 
 type Conversation = {
@@ -93,7 +94,12 @@ const ChatPage = ({ messages: initialMessages }: { messages: string[] }) => {
     const data = await actionsDirectory("chat", { message: newMessage, session_id: session });
 
     if (data.success) {
-      conversation.messages.push({ role: "assistant", content: data.data.response, timestamp: moment().format("YYYY-MM-DD HH:mm:ss") });
+      conversation.messages.push({
+        role: "assistant",
+        content: data.data.response,
+        timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
+        timeTaken: data.timeTaken,
+      });
       conversation.expires_at = data.data.expire;
       setMessages(conversation.messages);
       updateLocalConversation(conversation);
@@ -165,7 +171,10 @@ const ChatPage = ({ messages: initialMessages }: { messages: string[] }) => {
               )}
             >
               <div className="flex flex-col gap-1 w-full">
-                <small className="text-gray-500 text-[10px] uppercase w-full">{message.role === "user" ? "You" : "Farish AI"}</small>
+                <small className="text-gray-500 text-[10px] w-full">
+                  {message.role === "user" ? "YOUR" : "FARISH AI"}{" "}
+                  {message.timeTaken && <span className="text-gray-500 text-[10px]">(Thought for {message.timeTaken})</span>}
+                </small>
                 {/* <span className="">{message.content}</span> */}
                 <Markdown text={message.content} />
                 <small className="text-gray-500 text-[10px]">{moment(message.timestamp).format("DD MMM YYYY • HH:mm:ss")}</small>
@@ -173,6 +182,15 @@ const ChatPage = ({ messages: initialMessages }: { messages: string[] }) => {
             </div>
           ))}
         </div>
+
+        {awaitingResponse && (
+          <>
+            <div className="text-gray-500 text-[12px] animate-pulse w-full px-5 flex items-center gap-2">
+              <LoaderCircle size={16} className="animate-spin text-gray-500" />
+              <small>AI Farish is thinking </small>
+            </div>
+          </>
+        )}
 
         <form className="flex gap-2 items-center h-8" onSubmit={onSubmit}>
           <input
