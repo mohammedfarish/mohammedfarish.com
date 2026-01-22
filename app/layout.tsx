@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { redirect, RedirectType } from "next/navigation";
 
 import { siteDescription, siteDomain, siteName, siteURL, analyticsURL, analyticsAPIKey } from "@/utils/data";
@@ -6,9 +6,15 @@ import { siteDescription, siteDomain, siteName, siteURL, analyticsURL, analytics
 import "./globals.css";
 
 import { getDomain } from "@/utils/functions/host";
-import Header from "@/components/common/Header";
 import isdev from "@/utils/functions/isDev";
 import Script from "next/script";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: {
@@ -74,7 +80,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="w-screen overflow-x-hidden min-h-screen flex flex-col">
-        <Header />
         <div className="p-5 xs:p-5 font-brand">{children}</div>
       </body>
 

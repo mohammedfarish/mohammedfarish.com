@@ -24,12 +24,6 @@ const actionsDirectory = async <ActionName extends DirectoryTypes>(
 
   const timeTakenString = timeTaken > 1000 ? `${(timeTaken / 1000).toFixed(2)}s` : `${timeTaken}ms`;
 
-  console.log({
-    action,
-    timeTaken,
-    timeTakenString,
-  });
-
   return {
     ...request,
     timeTaken: timeTakenString,

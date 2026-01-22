@@ -8,3 +8,6 @@ export const newLLMWebhookAPIKey = process.env.NEW_LLM_WEBHOOK_API_KEY;
 // analytics
 export const analyticsURL = process.env.ANALYTICS_URL;
 export const analyticsAPIKey = process.env.ANALYTICS_API_KEY;
+
+// responder avatar image
+export const responderAvatarImage = "https://avatars.githubusercontent.com/u/62788088?v=4";
